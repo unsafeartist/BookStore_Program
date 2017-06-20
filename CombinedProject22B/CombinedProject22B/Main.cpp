@@ -17,56 +17,80 @@ Inventory bookData;
 
 int main()
 {
-	//Declare variables
-	string book; //  variable used for extracting book
-	int choice;
-	int counter = 0;
-	string search_value; //Used for Title of book or ISBN number when LOOK UP book
-	string input;
-	string bookName; //for deleting book (book name variable)
-	int search_input; //Used for edit a book
-	bool again = false; //for look up a book 
-	char do_again; //for look up a book
+	//Declare variables for main menu
+	int main_choice;
 
-	//Create inventory object
-	Inventory object;
+	//Main Menu
+	cout << "Boring Booksellers" << endl;
+	cout << "    Main Menu     " << endl;
+	cout << "1) Cashier Module" << endl;
+	cout << "2) Inventory Database Module" << endl;
+	cout << "3) Report Module" << endl;
+	cout << "4) Exit" << endl;
+	cout << endl << "Please enter your choice: ";
+	cin >> main_choice;
 
-	//Variables for add a book
-	string ISBN;
-	string title, author, publisher, date_added;
-	int quantity_onHand;
-	double wholesale_cost, retail_price;
+	//Validate main choice to be between 1-4 and numerical
 
-	//Create file object for ADD BOOK functionality
-	fstream fileObject;
-
-	//USER MENU CHOICE FOR INVENTORY MODULE
-	cout << "Boring Booksellers Inventory Database" << endl;
-	cout << "1. Look Up a Book" << endl;
-	cout << "2. Add a Book" << endl;
-	cout << "3. Edit a Book's Record" << endl;
-	cout << "4. Delete a Book" << endl;
-	cout << "5. Return to Main Menu" << endl;
-	cout << endl;
-	cout << "Enter Your Choice: ";
-	cin >> choice;
-
-	cin.ignore();
-
-	//VALIDATION Choice must be between 1-5
-	while (choice < 1 || choice > 5)
+	//If user chooses report module then execute following code
+	if (main_choice == 1)
 	{
-		cout << "Error! You must make a choice between 1-5. Please re-enter your choice: ";
-		cin >> choice;
+
 	}
 
-
-	//TESTING TESTING
-	string search_choice;
-
-	//Run choice through switch statement and do the appropriate function
-	switch (choice)
+	//If user chooses inventory database module... Execute this code
+	if (main_choice == 2)
 	{
+		//Declare variables
+		string book; //  variable used for extracting book
+		int choice;
+		int counter = 0;
+		string search_value; //Used for Title of book or ISBN number when LOOK UP book
+		string input;
+		string bookName; //for deleting book (book name variable)
+		int search_input; //Used for edit a book
+		bool again = false; //for look up a book 
+		char do_again; //for look up a book
+
+		//Create inventory object
+		Inventory object;
+
+		//Variables for add a book
+		string ISBN;
+		string title, author, publisher, date_added;
+		int quantity_onHand;
+		double wholesale_cost, retail_price;
+
+		//Create file object for ADD BOOK functionality
+		fstream fileObject;
+
+		//USER MENU CHOICE FOR INVENTORY MODULE
+		cout << "Boring Booksellers Inventory Database" << endl;
+		cout << "1. Look Up a Book" << endl;
+		cout << "2. Add a Book" << endl;
+		cout << "3. Edit a Book's Record" << endl;
+		cout << "4. Delete a Book" << endl;
+		cout << "5. Return to Main Menu" << endl;
+		cout << endl;
+		cout << "Enter Your Choice: ";
+		cin >> choice;
+
+		cin.ignore();
+
+		//VALIDATION Choice must be between 1-5
+		while (choice < 1 || choice > 5)
+		{
+			cout << "Error! You must make a choice between 1-5. Please re-enter your choice: ";
+			cin >> choice;
+		}
+
+
+		//TESTING TESTING
+		string search_choice;
+
+		//Run choice through switch statement and do the appropriate function
+		switch (choice)
+		{
 		case 1:
 			//LOOK UP A BOOK
 
@@ -96,79 +120,79 @@ int main()
 				//Run user search_choice variable through a switch statement and run appropriate code
 				switch (search_choice[0])
 				{
-					case '1':
-						//Declare variables
-						bool bookFound;
+				case '1':
+					//Declare variables
+					bool bookFound;
 
-						//SEARCH BY ISBN
-						cout << "Please enter the ISBN number of the book you're looking for: ";
-						cin.ignore();
-						getline(cin, search_value);
+					//SEARCH BY ISBN
+					cout << "Please enter the ISBN number of the book you're looking for: ";
+					cin.ignore();
+					getline(cin, search_value);
 
-						//Search for book using ISBN
-						//Last parameter is 1, because choice 1 = search by value
-						bookFound = getBook(search_value, "Inventory.txt", 1);
+					//Search for book using ISBN
+					//Last parameter is 1, because choice 1 = search by value
+					bookFound = getBook(search_value, "Inventory.txt", 1);
 
-						if (bookFound != false)
-						{
-							cout << "ISBN: " << bookData.getISBN() << endl;
-							cout << "Title: " << bookData.getTitle() << endl;
-							cout << "Author: " << bookData.getAuthor() << endl;
-							cout << "Publisher: " << bookData.getPublisher() << endl;
-							cout << "Date Added: " << bookData.getDate_added() << endl;
-							cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
-							cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
-							cout << "Retail Price: " << bookData.getRetail_price() << endl;
-							cout << endl;
-						}
-						else
-						{
-							cout << "Book not found!" << endl;
-						}
-						break;
-					case '2':
-						//SEARCH BY TITLE
-						cout << "Please enter the title of the book you're looking for: ";
-						cin.ignore();
-						getline(cin, search_value);
+					if (bookFound != false)
+					{
+						cout << "ISBN: " << bookData.getISBN() << endl;
+						cout << "Title: " << bookData.getTitle() << endl;
+						cout << "Author: " << bookData.getAuthor() << endl;
+						cout << "Publisher: " << bookData.getPublisher() << endl;
+						cout << "Date Added: " << bookData.getDate_added() << endl;
+						cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
+						cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
+						cout << "Retail Price: " << bookData.getRetail_price() << endl;
+						cout << endl;
+					}
+					else
+					{
+						cout << "Book not found!" << endl;
+					}
+					break;
+				case '2':
+					//SEARCH BY TITLE
+					cout << "Please enter the title of the book you're looking for: ";
+					cin.ignore();
+					getline(cin, search_value);
 
-						//Find book using "getBook" function
-						//A choice of 2(last parameter in function) allows for a search by Title of book
-						bookFound = getBook(search_value, "Inventory.txt", 2);
+					//Find book using "getBook" function
+					//A choice of 2(last parameter in function) allows for a search by Title of book
+					bookFound = getBook(search_value, "Inventory.txt", 2);
 
-						if (bookFound != false)
-						{
-							cout << "ISBN: " << bookData.getISBN() << endl;
-							cout << "Title: " << bookData.getTitle() << endl;
-							cout << "Author: " << bookData.getAuthor() << endl;
-							cout << "Publisher: " << bookData.getPublisher() << endl;
-							cout << "Date Added: " << bookData.getDate_added() << endl;
-							cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
-							cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
-							cout << "Retail Price: " << bookData.getRetail_price() << endl;
-							cout << endl;
-						}
-						else
-						{
-							cout << "Book not found!" << endl;
-						}
+					if (bookFound != false)
+					{
+						cout << "ISBN: " << bookData.getISBN() << endl;
+						cout << "Title: " << bookData.getTitle() << endl;
+						cout << "Author: " << bookData.getAuthor() << endl;
+						cout << "Publisher: " << bookData.getPublisher() << endl;
+						cout << "Date Added: " << bookData.getDate_added() << endl;
+						cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
+						cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
+						cout << "Retail Price: " << bookData.getRetail_price() << endl;
+						cout << endl;
+					}
+					else
+					{
+						cout << "Book not found!" << endl;
+					}
 
-						break;
-					default:
-						cout << "ERROR! Default case has been entered..." << endl;
-						break;
+					break;
+				default:
+					cout << "ERROR! Default case has been entered..." << endl;
+					break;
 				} //end inner "switch" statement for selection of ISBN or Title
 
-					//Ask user if they would like to search for another book
-					cout << "Would you like to look up another book?(y = yes, n = no) ?" << endl;
-					cin >> do_again;
-					
-					//If user elects to search for another book this loop will run again
-					if (do_again == 'y')
-						again = true;
+				//Ask user if they would like to search for another book
+				cout << "Would you like to look up another book?(y = yes, n = no) ?" << endl;
+				cin >> do_again;
+
+				//If user elects to search for another book this loop will run again
+				if (do_again == 'y')
+					again = true;
 
 			} while (again == true);
-		
+
 
 			break;
 		case 2:
@@ -293,10 +317,10 @@ int main()
 				cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
 				cin.ignore();
 				getline(cin, book);
-			
+
 				getBook(book, "Inventory.txt", 1);
 
-			
+
 			}
 			else
 			{
@@ -308,7 +332,7 @@ int main()
 
 			}
 
-		
+
 			break;
 		case 4:
 			//Delete a Book
@@ -342,13 +366,16 @@ int main()
 			cout << "Invalid choice!";
 			break;
 
-	} //END BIG OUTSIDE SWITCH STATEMENT
+		} //END BIG OUTSIDE SWITCH STATEMENT
 
-	//Print 
-	cout << endl;
+		//Print 
+		cout << endl;
 
-	//Close file 
-	/*fileObject.close();*/
+		//Close file 
+		/*fileObject.close();*/
+	}
+
+	
 
 	system("PAUSE");
 	return 0;
