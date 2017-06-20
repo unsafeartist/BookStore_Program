@@ -1,4 +1,4 @@
-//Authors Kamal and Leander
+//Authors Kamal, Leander, George, Jessie
 
 #include <iostream>
 #include <fstream>
@@ -26,30 +26,32 @@ Inventory bookData;
 
 int main()
 {
+	//NOTE: std::cout just because compiler complains about cout being ambigous
+
 	//Declare variables for main menu
 	int main_choice;
 
 	//Main Menu
-	cout << "Boring Booksellers" << endl;
-	cout << "    Main Menu     " << endl;
-	cout << "1) Cashier Module" << endl;
-	cout << "2) Inventory Database Module" << endl;
-	cout << "3) Report Module" << endl;
-	cout << "4) Exit" << endl;
-	cout << endl << "Please enter your choice: ";
+	std::cout << "Boring Booksellers" << endl;
+	std::cout << "    Main Menu     " << endl;
+	std::cout << "1) Cashier Module" << endl;
+	std::cout << "2) Inventory Database Module" << endl;
+	std::cout << "3) Report Module" << endl;
+	std::cout << "4) Exit" << endl;
+	std::cout << endl << "Please enter your choice: ";
 	cin >> main_choice;
 
 	//Validate main choice to be between 1-4 and numerical
-
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
+		//ALL CODE FOR REPORT MODULE BELOW
 		int total = totalBook();
 		Report testing[25];
 		getAllBook("Inventory.txt", total, testing);
 
 		int decide = 0;
-		cout << "enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+		std::cout << "enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 		cin >> decide;
 		while (decide != 7)
 		{
@@ -60,7 +62,7 @@ int main()
 					testing[x].getList(total, testing, x);
 				}
 				decide = 0;
-				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 				cin >> decide;
 			}
 			if (decide == 2){
@@ -71,7 +73,7 @@ int main()
 				}
 				std::cout << "the total wholesale value is $" << temp << std::endl;
 				decide = 0;
-				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 				cin >> decide;
 			}
 			if (decide == 3){
@@ -82,7 +84,7 @@ int main()
 				}
 				std::cout << "the total retail value is $" << temp << std::endl;
 				decide = 0;
-				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 				cin >> decide;
 			}
 			if (decide == 4){
@@ -91,7 +93,7 @@ int main()
 					testing[x].sortQuan(total, testing, x);
 				}
 				decide = 0;
-				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 				cin >> decide;
 			}
 			if (decide == 5){
@@ -100,7 +102,7 @@ int main()
 					testing[x].sortCost(total, testing, x);
 				}
 				decide = 0;
-				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 				cin >> decide;
 			}
 			if (decide == 6){
@@ -109,15 +111,18 @@ int main()
 					testing[x].sortAge(total, testing, x);
 				}
 				decide = 0;
-				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
 				cin >> decide;
 			}
 		}
-	}
+	} //End of if statement for report module
+
+
 
 	//If user chooses inventory database module... Execute this code
 	if (main_choice == 2)
 	{
+		//ALL CODE FOR INVENTORY MODULE BELOW
 		//Declare variables
 		string book; //  variable used for extracting book
 		int choice;
@@ -142,14 +147,14 @@ int main()
 		fstream fileObject;
 
 		//USER MENU CHOICE FOR INVENTORY MODULE
-		cout << "Boring Booksellers Inventory Database" << endl;
-		cout << "1. Look Up a Book" << endl;
-		cout << "2. Add a Book" << endl;
-		cout << "3. Edit a Book's Record" << endl;
-		cout << "4. Delete a Book" << endl;
-		cout << "5. Return to Main Menu" << endl;
-		cout << endl;
-		cout << "Enter Your Choice: ";
+		std::cout << "Boring Booksellers Inventory Database" << endl;
+		std::cout << "1. Look Up a Book" << endl;
+		std::cout << "2. Add a Book" << endl;
+		std::cout << "3. Edit a Book's Record" << endl;
+		std::cout << "4. Delete a Book" << endl;
+		std::cout << "5. Return to Main Menu" << endl;
+		std::cout << endl;
+		std::cout << "Enter Your Choice: ";
 		cin >> choice;
 
 		cin.ignore();
@@ -157,7 +162,7 @@ int main()
 		//VALIDATION Choice must be between 1-5
 		while (choice < 1 || choice > 5)
 		{
-			cout << "Error! You must make a choice between 1-5. Please re-enter your choice: ";
+			std::cout << "Error! You must make a choice between 1-5. Please re-enter your choice: ";
 			cin >> choice;
 		}
 
@@ -180,17 +185,17 @@ int main()
 				again = false;
 
 				//Display menu to user for looking up a book
-				cout << "How would you like to search for the book?" << endl;
-				cout << "    1)ISBN" << endl;
-				cout << "    2)Title" << endl;
-				cout << "Enter your choice: ";
+				std::cout << "How would you like to search for the book?" << endl;
+				std::cout << "    1)ISBN" << endl;
+				std::cout << "    2)Title" << endl;
+				std::cout << "Enter your choice: ";
 				cin >> search_choice;
 
 				//VALIDATION The choice to be numeric values of 1 or 2
 				//NOTE: If isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
 				while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
 				{
-					cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
+					std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
 					cin >> search_choice;
 				}
 
@@ -202,7 +207,7 @@ int main()
 					bool bookFound;
 
 					//SEARCH BY ISBN
-					cout << "Please enter the ISBN number of the book you're looking for: ";
+					std::cout << "Please enter the ISBN number of the book you're looking for: ";
 					cin.ignore();
 					getline(cin, search_value);
 
@@ -212,24 +217,24 @@ int main()
 
 					if (bookFound != false)
 					{
-						cout << "ISBN: " << bookData.getISBN() << endl;
-						cout << "Title: " << bookData.getTitle() << endl;
-						cout << "Author: " << bookData.getAuthor() << endl;
-						cout << "Publisher: " << bookData.getPublisher() << endl;
-						cout << "Date Added: " << bookData.getDate_added() << endl;
-						cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
-						cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
-						cout << "Retail Price: " << bookData.getRetail_price() << endl;
-						cout << endl;
+						std::cout << "ISBN: " << bookData.getISBN() << endl;
+						std::cout << "Title: " << bookData.getTitle() << endl;
+						std::cout << "Author: " << bookData.getAuthor() << endl;
+						std::cout << "Publisher: " << bookData.getPublisher() << endl;
+						std::cout << "Date Added: " << bookData.getDate_added() << endl;
+						std::cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
+						std::cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
+						std::cout << "Retail Price: " << bookData.getRetail_price() << endl;
+						std::cout << endl;
 					}
 					else
 					{
-						cout << "Book not found!" << endl;
+						std::cout << "Book not found!" << endl;
 					}
 					break;
 				case '2':
 					//SEARCH BY TITLE
-					cout << "Please enter the title of the book you're looking for: ";
+					std::cout << "Please enter the title of the book you're looking for: ";
 					cin.ignore();
 					getline(cin, search_value);
 
@@ -239,29 +244,29 @@ int main()
 
 					if (bookFound != false)
 					{
-						cout << "ISBN: " << bookData.getISBN() << endl;
-						cout << "Title: " << bookData.getTitle() << endl;
-						cout << "Author: " << bookData.getAuthor() << endl;
-						cout << "Publisher: " << bookData.getPublisher() << endl;
-						cout << "Date Added: " << bookData.getDate_added() << endl;
-						cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
-						cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
-						cout << "Retail Price: " << bookData.getRetail_price() << endl;
-						cout << endl;
+						std::cout << "ISBN: " << bookData.getISBN() << endl;
+						std::cout << "Title: " << bookData.getTitle() << endl;
+						std::cout << "Author: " << bookData.getAuthor() << endl;
+						std::cout << "Publisher: " << bookData.getPublisher() << endl;
+						std::cout << "Date Added: " << bookData.getDate_added() << endl;
+						std::cout << "Quantity on Hand: " << bookData.getQuantity_onHand() << endl;
+						std::cout << "Wholesale Cost: " << bookData.getWholesale_cost() << endl;
+						std::cout << "Retail Price: " << bookData.getRetail_price() << endl;
+						std::cout << endl;
 					}
 					else
 					{
-						cout << "Book not found!" << endl;
+						std::cout << "Book not found!" << endl;
 					}
 
 					break;
 				default:
-					cout << "ERROR! Default case has been entered..." << endl;
+					std::cout << "ERROR! Default case has been entered..." << endl;
 					break;
 				} //end inner "switch" statement for selection of ISBN or Title
 
 				//Ask user if they would like to search for another book
-				cout << "Would you like to look up another book?(y = yes, n = no) ?" << endl;
+				std::cout << "Would you like to look up another book?(y = yes, n = no) ?" << endl;
 				cin >> do_again;
 
 				//If user elects to search for another book this loop will run again
@@ -276,32 +281,32 @@ int main()
 			//ADD A BOOK
 
 			//User input "ISBN"
-			cout << "ISBN-10 or ISBN-13: ";
+			std::cout << "ISBN-10 or ISBN-13: ";
 			getline(cin, ISBN);
 
 			//VALIDATION ISBN
 			//Must be 13 digits long
 			while (ISBN.length() != 10 && ISBN.length() != 13)
 			{
-				cout << "ISBN must be 10 or 13 digits in length. Please re-enter ISBN: ";
+				std::cout << "ISBN must be 10 or 13 digits in length. Please re-enter ISBN: ";
 				getline(cin, ISBN);
 			}
 
 			//*******************************
 			//User input title, author, publisher
 			//No validation required for these 3 data entries
-			cout << "Title: ";
+			std::cout << "Title: ";
 			getline(cin, title);
 
-			cout << "Author: ";
+			std::cout << "Author: ";
 			getline(cin, author);
 
-			cout << "Publisher: ";
+			std::cout << "Publisher: ";
 			getline(cin, publisher);
 			//********************************
 
 			//User input
-			cout << "Date Added(mm/dd/yyyy): ";
+			std::cout << "Date Added(mm/dd/yyyy): ";
 			getline(cin, date_added);
 
 			//VALIDATION for date_added
@@ -313,50 +318,50 @@ int main()
 				!(isdigit(date_added[4])) || !(isdigit(date_added[6])) || !(isdigit(date_added[7])) || !(isdigit(date_added[8])) ||
 				!(isdigit(date_added[9]))) // if possible limit the numbers here to make sure date is correct
 			{
-				cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
+				std::cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
 				getline(cin, date_added);
 			}
 
 			while (((date_added[2] != '/') || (date_added[5] != '/')))
 			{
-				cout << "date_added[2] :" << date_added[2] << "|" << endl;
-				cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
+				std::cout << "date_added[2] :" << date_added[2] << "|" << endl;
+				std::cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
 				getline(cin, date_added);
 			}
 			//********************************
 
 			//User input
-			cout << "Quantity On Hand: ";
+			std::cout << "Quantity On Hand: ";
 			cin >> quantity_onHand;
 
 			//VALIDATION for quantity on hand
 			while (cin.fail() || quantity_onHand < 0)
 			{
 				cin.clear();
-				cout << "Error! Must be numerical value. Please Re-Enter: ";
+				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
 				cin.ignore(numeric_limits < streamsize > ::max(), '\n'); //figure out how this works
 				cin >> quantity_onHand;
 
 			}
 
 			//********************************
-			cout << "Wholesale Cost: ";
+			std::cout << "Wholesale Cost: ";
 			cin >> wholesale_cost;
 			while (cin.fail() || wholesale_cost < 0)
 			{
 				cin.clear();
-				cout << "Error! Must be numerical value. Please Re-Enter: ";
+				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
 				cin.ignore(numeric_limits < streamsize > ::max(), '\n'); //figure out how this works
 				cin >> wholesale_cost;
 			}
 
 			//********************************
-			cout << "Retail Price: ";
+			std::cout << "Retail Price: ";
 			cin >> retail_price;
 			while (cin.fail() || retail_price < 0)
 			{
 				cin.clear();
-				cout << "Error! Must be numerical value. Please Re-Enter: ";
+				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
 				cin.ignore(numeric_limits < streamsize > ::max(), '\n'); //figure out how this works
 				cin >> retail_price;
 
@@ -374,24 +379,24 @@ int main()
 			//EDIT A BOOK
 
 			//Display menu for user
-			cout << "How would you like to search for the book to edit?" << endl;
-			cout << "    1)ISBN" << endl;
-			cout << "    2)Title" << endl;
-			cout << "Enter your choice: ";
+			std::cout << "How would you like to search for the book to edit?" << endl;
+			std::cout << "    1)ISBN" << endl;
+			std::cout << "    2)Title" << endl;
+			std::cout << "Enter your choice: ";
 			cin >> search_choice;
 
 			//Validate the choice to be numeric values of 1 or 2
 			//NOTE: If isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
 			while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
 			{
-				cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
+				std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
 				cin >> search_choice;
 			}
 
 			//Convert string into integer
 			if (stoi(search_choice) == 1)
 			{
-				cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
+				std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
 				cin.ignore();
 				getline(cin, book);
 
@@ -401,7 +406,7 @@ int main()
 			}
 			else
 			{
-				cout << "Please enter the Title of the book you want to edit: ";
+				std::cout << "Please enter the Title of the book you want to edit: ";
 				cin.ignore();
 				getline(cin, book);
 
@@ -415,7 +420,7 @@ int main()
 			//Delete a Book
 
 			//Get ISBN number from user TESTING TESTING TESTING
-			cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
+			std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
 			getline(cin, book);
 
 
@@ -426,31 +431,32 @@ int main()
 			//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 			//Leander Delete A Book	
 			/*
-			//  cout << "Enter the name of the book you'd like to delete" << endl;
+			//  std::cout << "Enter the name of the book you'd like to delete" << endl;
 			//	cin.clear();
 			//	cin.ignore();
 			//  getline(cin, bookname);
 			bookName = "12654789632";  //this is isbn just using for testing -L
-			cout << " Deleting.... " << bookName << endl;
+			std::cout << " Deleting.... " << bookName << endl;
 			//deleteBook(bookName, "Inventory.txt");
-			cout << "Book successfully deleted" << endl;
+			std::cout << "Book successfully deleted" << endl;
 			*/
 			break;
 		case 5:
 			//Return to main menu
 			break;
 		default:
-			cout << "Invalid choice!";
+			std::cout << "Invalid choice!";
 			break;
 
 		} //END BIG OUTSIDE SWITCH STATEMENT
 
 		//Print 
-		cout << endl;
+		std::cout << endl;
 
 		//Close file 
 		/*fileObject.close();*/
-	}
+
+	}//End if statement for Inventory Module
 
 	
 
@@ -461,7 +467,7 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+//INVENTORY MODULE FUNCTIONS BELOW
 int search(string search_value, string file_name)
 {
 	//Author Kamal
@@ -579,7 +585,6 @@ bool getBook(string book, string file_name, int type)
 } //end function "getBook"
 
 
-//INVENTORY MODULE FUNCTIONS BELOW
 void deleteBookKamal(string file_name, string isbn_input)
 {
 	//Author Kamal
@@ -622,7 +627,7 @@ void deleteBookKamal(string file_name, string isbn_input)
 		if (line == isbn_input)
 		{
 			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
-			cout << "Book found" << endl;
+			std::cout << "Book found" << endl;
 
 			while (getline(origin_fileObject, line))
 			{
@@ -690,11 +695,12 @@ void deleteBook(string file_name, Inventory &bookData)
 }
 
 
+
 //REPORT MODULE FUNCTIONS
 int totalBook()
 {
 	ifstream test;
-	test.open("test.txt");
+	test.open("Inventory.txt");
 	int total = 0;
 	int counter = 0;
 	if (test.is_open())
