@@ -1,6 +1,4 @@
 //Authors Kamal, Leander, George, Jessie
-//Testing for Jessie
-//Testing for Leander
 
 #include <iostream>
 #include <fstream>
