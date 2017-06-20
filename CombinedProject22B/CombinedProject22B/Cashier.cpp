@@ -16,7 +16,7 @@ Cashier::Cashier()
 void Cashier::searchBuy(Report array[], std::string term, int total, int or, int quan)
 {
 	std::fstream fileObject;
-	fileObject.open("test.txt", std::ios::in); // opening file in input mode
+	fileObject.open("Inventory.txt", std::ios::in); // opening file in input mode
 	double cost = 0;
 	if (or == 1)
 	{
@@ -40,9 +40,9 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		cost = array[x].getRetail_price()*array[x].getQuantity_onHand() + (array[x].getRetail_price()*array[x].getQuantity_onHand()*0.0725);
 		std::cout << "You are buying " << array[x].getQuantity_onHand() << "copies of " << array[x].getTitle << "costing $" << cost << std::endl;
 	}
-	remove("test.txt");
+	remove("Inventory.txt");
 	std::fstream newFileObject;
-	newFileObject.open("test.txt", std::ios::out); // opening file in input mode
+	newFileObject.open("Inventory.txt", std::ios::out); // opening file in output mode
 	for (int y = 0; y < total; y++)
 	{
 		newFileObject << array[y].getISBN() << std::endl;
