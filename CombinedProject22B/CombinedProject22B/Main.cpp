@@ -46,7 +46,7 @@ int main()
 	{
 		int total = totalBook();
 		Report testing[25];
-		getAllBook("test.txt", total, testing);
+		getAllBook("Inventory.txt", total, testing);
 
 		int decide = 0;
 		cout << "enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
@@ -125,7 +125,7 @@ int main()
 		string search_value; //Used for Title of book or ISBN number when LOOK UP book
 		string input;
 		string bookName; //for deleting book (book name variable)
-		int search_input; //Used for edit a book
+		//int search_input; //Used for edit a book
 		bool again = false; //for look up a book 
 		char do_again; //for look up a book
 
@@ -172,7 +172,7 @@ int main()
 			//LOOK UP A BOOK
 
 			//Declare variables
-			int lineNumber;
+			//int lineNumber;
 
 			do
 			{
@@ -568,11 +568,13 @@ bool getBook(string book, string file_name, int type)
 			counter++; // incrementing counter
 		}
 	}
+	
+	if (lineNo > -1)
+		bookFound = true;
 	else
-	{
 		bookFound = false;
-		return bookFound;
-	}
+
+	return bookFound;
 	
 } //end function "getBook"
 
