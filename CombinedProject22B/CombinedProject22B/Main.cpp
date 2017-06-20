@@ -2,15 +2,24 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <cctype>
 #include <stdio.h> // to remove rename files
+#include "Report.h"
 #include "Inventory.h"
-
 using namespace std;
 
+//Inventory Module Prototypes
 int search(string search_value, string file_name);
 void deleteBook(string book_name, string file_name); // function for deleting books
 bool getBook(string book, string file_name, int type); // function for extracting book
 void deleteBookKamal(string file_name, string isbn_input);
+
+//Report Module Protoypes
+int totalBook();
+void getAllBook(std::string file_name, int total, Report object[]);
+void sortQuan(Report testing[]);
+void sortByQuan(Report array[], int max);
 
 //Create "Inventory" object for storing book data we extract from inventory.txt file
 Inventory bookData;
@@ -33,9 +42,77 @@ int main()
 	//Validate main choice to be between 1-4 and numerical
 
 	//If user chooses report module then execute following code
-	if (main_choice == 1)
+	if (main_choice == 3)
 	{
+		int total = totalBook();
+		Report testing[25];
+		getAllBook("test.txt", total, testing);
 
+		int decide = 0;
+		cout << "enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+		cin >> decide;
+		while (decide != 7)
+		{
+			if (decide == 1){
+				//std::cout << "ISBN\tTitle\tAuthor	Publisher	Date		Quantity	Whole Sale Cost	Retail Price" << std::endl;
+				for (int x = 0; x < total; x++)
+				{
+					testing[x].getList(total, testing, x);
+				}
+				decide = 0;
+				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				cin >> decide;
+			}
+			if (decide == 2){
+				double temp = 0.0;
+				for (int x = 0; x < total; x++)
+				{
+					temp += testing[x].getWholeSaleValue(total, testing, x);
+				}
+				std::cout << "the total wholesale value is $" << temp << std::endl;
+				decide = 0;
+				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				cin >> decide;
+			}
+			if (decide == 3){
+				double temp = 0.0;
+				for (int x = 0; x < total; x++)
+				{
+					temp += testing[x].getRetailValue(total, testing, x);
+				}
+				std::cout << "the total retail value is $" << temp << std::endl;
+				decide = 0;
+				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				cin >> decide;
+			}
+			if (decide == 4){
+				for (int x = 0; x < total; x++)
+				{
+					testing[x].sortQuan(total, testing, x);
+				}
+				decide = 0;
+				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				cin >> decide;
+			}
+			if (decide == 5){
+				for (int x = 0; x < total; x++)
+				{
+					testing[x].sortCost(total, testing, x);
+				}
+				decide = 0;
+				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				cin >> decide;
+			}
+			if (decide == 6){
+				for (int x = 0; x < total; x++)
+				{
+					testing[x].sortAge(total, testing, x);
+				}
+				decide = 0;
+				cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+				cin >> decide;
+			}
+		}
 	}
 
 	//If user chooses inventory database module... Execute this code
@@ -500,6 +577,7 @@ bool getBook(string book, string file_name, int type)
 } //end function "getBook"
 
 
+//INVENTORY MODULE FUNCTIONS BELOW
 void deleteBookKamal(string file_name, string isbn_input)
 {
 	//Author Kamal
@@ -609,3 +687,77 @@ void deleteBook(string file_name, Inventory &bookData)
 	rename("buffer.txt", file_name.c_str());
 }
 
+
+//REPORT MODULE FUNCTIONS
+int totalBook()
+{
+	ifstream test;
+	test.open("test.txt");
+	int total = 0;
+	int counter = 0;
+	if (test.is_open())
+	{
+		int length;
+		string temp;
+		while (test >> temp)
+		{
+			temp.c_str();
+			length = temp.length();
+			int x = 0;
+			if (length > 9 && length < 14)
+			{
+				while (x < length)
+				{
+					if (isdigit(temp[x]) != 0)
+					{
+						x++;
+						counter++;
+						if (x == (length - 1))	total++;
+					}
+					else break;
+				}
+			}
+		}
+	}
+	test.close();
+	const int temp = total;
+	return temp;
+}
+
+void getAllBook(std::string file_name, int total, Report object[])
+{
+	std::fstream fileObject;
+	fileObject.open(file_name, std::ios::in); // opening file in input mode
+	std::string holder;
+
+	for (int x = 0; x < total; x++)
+	{
+		getline(fileObject, holder);      //set ISBN
+		object[x].setISBN(holder);
+
+		getline(fileObject, holder);         //set Title
+		object[x].setTitle(holder);
+
+		getline(fileObject, holder);        //setAuthor
+		object[x].setAuthor(holder);
+
+		getline(fileObject, holder);     //set Publisher
+		object[x].setPublisher(holder);
+
+		getline(fileObject, holder);    //set Date
+		object[x].setDate_added(holder);
+
+		std::string temp;
+		getline(fileObject, temp);    //set quantity_onHand after converting string to int 
+		int quantity_onHand = stoi(temp);
+		object[x].setQuatity_onHand(quantity_onHand);
+
+		getline(fileObject, holder);			//set wholesale cost
+		object[x].setWholesale_cost(stod(holder));
+
+		getline(fileObject, holder);
+		object[x].setRetail_price(stod(holder));				//set retail price
+
+		fileObject >> holder;						//last line
+	}
+}
