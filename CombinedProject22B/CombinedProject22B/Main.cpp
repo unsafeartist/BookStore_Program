@@ -201,6 +201,9 @@ int main()
 		//Create file object for ADD BOOK functionality
 		fstream fileObject;
 
+		//Open the file
+		fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
+
 		//USER MENU CHOICE FOR INVENTORY MODULE
 		std::cout << "Boring Booksellers Inventory Database" << endl;
 		std::cout << "1. Look Up a Book" << endl;
