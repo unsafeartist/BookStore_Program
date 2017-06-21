@@ -97,11 +97,12 @@ Penguin Young Readers Group
 4.65
 11.24
 
-1234567890
-Testing
-Testing
-lalalaalla
-06/20/2017
-5
-4
-3
+9948753681458
+Dynamically allocated book
+Dynamic
+Dynamic books
+20/06/2017
+8
+15.36
+20.48
+
