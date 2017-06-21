@@ -55,6 +55,8 @@ int main()
 		std::cin >> main_choice;
 	} 
 	
+	
+
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
@@ -170,11 +172,11 @@ int main()
 			{
 				//This will break loop if user elects not to re-run report module
 				break;
-		}
+			}
 				
 		}//end outer-while loop
 
-	} //End of if statement for report module
+} //End of if statement for report module
 
 
 
@@ -504,6 +506,75 @@ int main()
 		//fileObject.close();
 
 	}//End if statement for Inventory Module
+
+	//If user chooses cashier module execute following code
+	if (main_choice == 1)
+	{
+		int total = totalBook();
+		Report testing[25];
+		getAllBook("Inventory.txt", total, testing);
+		string titleISBN;
+		int sortBy = 0;	int quan;
+		Cashier sample;
+		
+		cout << "Search book by 1.Title 2.ISBN  3.Exit\n";
+		cin >> sortBy;
+
+		while (std::cin.fail() || (sortBy < 1) || (sortBy > 3))
+		{
+			std::cout << "Invalid input! Please make sure your choice is a number 1, 2, or 3" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+			std::cin >> sortBy;
+		}
+		
+		while (sortBy != 3)
+		{
+			if (sortBy == 1)	cout << "Input the title \n";
+			if (sortBy == 2)	cout << "Input the ISBN \n";
+			//cin >> titleISBN;
+			getline(cin, titleISBN);
+			getline(cin, titleISBN);
+			//cout << titleISBN;
+			cout << "How many of the book would you like to buy? \n";
+			cin >> quan;
+
+			sample.searchBuy(testing, titleISBN, total, sortBy, quan);
+		
+			//Skip lines for aesthetics
+			cout << endl << endl;
+
+			//Ask user if they would like to run the Report Module again
+			string reportAgain_choice;
+			cout << "Would you like to run the report module again? ('y' = yes, 'n' = no)" << endl;
+			cout << "Please enter your choice: " << endl;
+			cin >> reportAgain_choice;
+
+			//Validate user choice
+			while (reportAgain_choice != "y" && reportAgain_choice != "n")
+			{
+				cout << "Error! Invalid entry. Your choice can either be a lowercase 'y' for yes, or 'n' for no" << endl;
+				cout << "Please re-enter your choice: ";
+				cin >> reportAgain_choice;
+			}
+
+			if (reportAgain_choice == "y")
+			{
+				//Re-Display Report menu to user if they elect to re-run report
+				cout << "Search book by 1.Title 2.ISBN  3.Exit\n";
+				cin >> sortBy;
+
+				//Exit if user chooses to exit
+				if (sortBy == 3)
+					break;
+			}
+			else
+			{
+				//This will break loop if user elects not to re-run report module
+				break;
+			}
+		}
+	}
 
 	//Display terminating program message
 	cout << "Terminating program..." << endl;
@@ -836,7 +907,7 @@ void getAllBook(std::string file_name, int total, Report object[])
 		getline(fileObject, holder);
 		object[x].setRetail_price(stod(holder));				//set retail price
 
-		fileObject >> holder;						//last line
+		getline(fileObject, holder);					//last line
 	}
 }
 

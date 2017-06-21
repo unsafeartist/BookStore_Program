@@ -35,9 +35,14 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);
 		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725);
 		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;
-
-		std::cout << "BELOW TESTING TESTING" << std::endl;
-		std::cout << array[index];
+		if (array[index].getQuantity_onHand() == 0)
+		{
+			while (index != total)
+			{
+				array[index] = array[index + 1];
+				index++;
+			}
+		}
 	}
 	if (or == 2)
 	{
@@ -49,11 +54,17 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);
 		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725);
 		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;
-
-		std::cout << "BELOW TESTING TESTING" << std::endl;
-		std::cout << array[index];
+		if (array[index].getQuantity_onHand() == 0)
+		{
+			while (index != total)
+			{
+				array[index] = array[index + 1];
+				index++;
+			}
+		}
 
 	}
+	//close
 	/*remove("test.txt");	//coudlnt get the print out to another file working
 	std::fstream newFileObject;
 	newFileObject.open("test.txt", std::ios::out); // opening file in input mode
