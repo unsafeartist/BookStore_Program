@@ -1,4 +1,5 @@
 //Authors Kamal, Leander, George, Jessie
+//*****GEORGE AND JESSIE CASHIER BRANCH******
 
 #include <iostream>
 #include <fstream>
