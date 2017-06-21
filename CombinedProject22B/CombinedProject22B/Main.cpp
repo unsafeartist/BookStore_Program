@@ -858,6 +858,12 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 void editABook(string file_name, string term2replace, string with) // a function that replaces a certain parameter 
 {
+	//This function works with two files
+	//It reads input from original file and if
+	//a string is matched to replace with, it replaces it with the "with" parameter passed to this function
+	//And output to 
+
+	//Authors Leander and Kamal
 	ifstream inventoryfile;			//open original file
 	inventoryfile.open(file_name); 
 	ofstream temp;					//open temp file
@@ -867,7 +873,7 @@ void editABook(string file_name, string term2replace, string with) // a function
 
 	while (getline(inventoryfile, input)) //while eof is not reached
 	{
-		//cout << "WHILE LOOP RUNS!";
+		
 		if (input == term2replace)
 		{
 			temp << with <<endl; //if input from file matches the term to be replaced write the new term to the temporary file
