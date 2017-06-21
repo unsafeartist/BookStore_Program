@@ -8,6 +8,7 @@
 #include <stdio.h> // to remove rename files
 #include "Report.h"
 #include "Inventory.h"
+#include "Cashier.h"
 using namespace std;
 
 //Inventory Module Prototypes
