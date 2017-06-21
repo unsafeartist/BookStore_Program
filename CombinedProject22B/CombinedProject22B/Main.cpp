@@ -53,14 +53,24 @@ int main()
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
+		//REPORT MODULE CODE BELOW
 		//ALL CODE FOR REPORT MODULE BELOW
 		int total = totalBook();
 		Report testing[25];
 		getAllBook("Inventory.txt", total, testing);
 
+		//Display main Report menu to user and get their decision
 		int decide = 0;
-		std::cout << "Enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-		cin >> decide; 
+		std::cout << "Report Module" << endl;
+		std::cout << "	1.List of All Books" << endl;
+		std::cout << "	2.Report Whole Sale" << endl;
+		std::cout << "	3.Report Retail Value" << endl;
+		std::cout << "	4.List by Quantity" << endl;
+		std::cout << "	5.List by Cost" << endl;
+		std::cout << "	6.List by Age" << endl;
+		std::cout << "	7.to exit" << endl;
+		std::cout << "Please enter your decision: ";
+		cin >> decide;
 
 		// validation for decide ( checking to see if decision is between 0 and 7 )
 		while (std::cin.fail() || (decide < 1) || (decide > 7))
@@ -79,9 +89,6 @@ int main()
 				{
 					testing[x].getList(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 2){
 				double temp = 0.0;
@@ -90,9 +97,6 @@ int main()
 					temp += testing[x].getWholeSaleValue(total, testing, x);
 				}
 				std::cout << "the total wholesale value is $" << temp << std::endl;
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 3){
 				double temp = 0.0;
@@ -101,38 +105,70 @@ int main()
 					temp += testing[x].getRetailValue(total, testing, x);
 				}
 				std::cout << "the total retail value is $" << temp << std::endl;
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 4){
 				for (int x = 0; x < total; x++)
 				{
 					testing[x].sortQuan(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 5){
 				for (int x = 0; x < total; x++)
 				{
 					testing[x].sortCost(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 6){
 				for (int x = 0; x < total; x++)
 				{
 					testing[x].sortAge(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
+
+
+			//Skip lines for aesthetics
+			cout << endl << endl;
+
+			//Ask user if they would like to run the Report Module again
+			string reportAgain_choice;
+			cout << "Would you like to run the report module again? ('y' = yes, 'n' = no)" << endl;
+			cout << "Please enter your choice: " << endl;
+			cin >> reportAgain_choice;
+
+			//Validate user choice
+			while (reportAgain_choice != "y" && reportAgain_choice != "n")
+			{
+				cout << "Error! Invalid entry. Your choice can either be a lowercase 'y' for yes, or 'n' for no" << endl;
+				cout << "Please re-enter your choice: ";
+				cin >> reportAgain_choice;
+			}
+
+			if (reportAgain_choice == "y")
+			{
+				//Re-Display Report menu to user if they elect to re-run report
+				std::cout << "Report Module" << endl;
+				std::cout << "	1.List of All Books" << endl;
+				std::cout << "	2.Report Whole Sale" << endl;
+				std::cout << "	3.Report Retail Value" << endl;
+				std::cout << "	4.List by Quantity" << endl;
+				std::cout << "	5.List by Cost" << endl;
+				std::cout << "	6.List by Age" << endl;
+				std::cout << "	7.to exit" << endl;
+				std::cout << "Please enter your decision: ";
+				cin >> decide;
+
+				//Exit if user chooses to exit
+				if (decide == 7)
+					break;
+			}
+			else
+			{
+				//This will break loop if user elects not to re-run report module
+				break;
 		}
+				
+		}//end outer-while loop
+
 	} //End of if statement for report module
 
 
@@ -140,6 +176,7 @@ int main()
 	//If user chooses inventory database module... Execute this code
 	if (main_choice == 2)
 	{
+		//INVENTORY MODULE CODE BELOW
 		//ALL CODE FOR INVENTORY MODULE BELOW
 		//Declare variables
 		string book; //  variable used for extracting book
@@ -476,7 +513,8 @@ int main()
 
 	}//End if statement for Inventory Module
 
-	
+	//Display terminating program message
+	cout << "Terminating program..." << endl;
 
 	system("PAUSE");
 	return 0;
@@ -749,6 +787,7 @@ int totalBook()
 	const int temp = total;
 	return temp;
 }
+
 
 void getAllBook(std::string file_name, int total, Report object[])
 {
