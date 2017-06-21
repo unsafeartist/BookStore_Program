@@ -42,9 +42,13 @@ int main()
 	cin >> main_choice;
 
 	//Validate main choice to be between 1-4 and numerical
+
+
+
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
+		//REPORT MODULE CODE BELOW
 		//ALL CODE FOR REPORT MODULE BELOW
 		int total = totalBook();
 		Report testing[25];
@@ -115,6 +119,7 @@ int main()
 				cin >> decide;
 			}
 		}
+
 	} //End of if statement for report module
 
 
@@ -122,6 +127,7 @@ int main()
 	//If user chooses inventory database module... Execute this code
 	if (main_choice == 2)
 	{
+		//INVENTORY MODULE CODE BELOW
 		//ALL CODE FOR INVENTORY MODULE BELOW
 		//Declare variables
 		string book; //  variable used for extracting book
@@ -458,7 +464,6 @@ int main()
 
 	}//End if statement for Inventory Module
 
-	
 
 	system("PAUSE");
 	return 0;
@@ -731,6 +736,7 @@ int totalBook()
 	const int temp = total;
 	return temp;
 }
+
 
 void getAllBook(std::string file_name, int total, Report object[])
 {
