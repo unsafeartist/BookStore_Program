@@ -13,7 +13,7 @@ using namespace std;
 int search(string search_value, string file_name);
 void deleteBook(string book_name, string file_name); // function for deleting books
 bool getBook(string book, string file_name, int type); // function for extracting book
-void deleteBookKamal(string file_name, string isbn_input);
+//void deleteBookKamal(string file_name, string isbn_input);
 
 //Report Module Protoypes
 int totalBook();
@@ -480,7 +480,7 @@ int main()
 
 
 			//Testing if Kamal delete book function works TESTING TESTING TESTING
-			deleteBookKamal("Inventory.txt", book);
+			//deleteBookKamal("Inventory.txt", book);
 
 
 			//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

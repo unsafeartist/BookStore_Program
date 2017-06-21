@@ -53,9 +53,11 @@ std::istream& operator>> (std::istream &stream, Inventory &object1)
 	return stream;
 }
 
-bool operator== (Inventory &object1, )
+bool operator== (Inventory &object1, Inventory &object2)
 {
-
+	return (object1.ISBN == object2.ISBN && object1.title == object2.title && object1.author == object2.author && 
+		object1.publisher == object2.publisher && object1.date_added == object2.date_added && object1.quantity_onHand == object2.quantity_onHand 
+		&& object1.wholesale_cost == object2.wholesale_cost && object1.retail_price == object2.retail_price);
 }
 
 
