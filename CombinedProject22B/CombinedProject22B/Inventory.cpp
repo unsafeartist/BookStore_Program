@@ -53,10 +53,6 @@ std::istream& operator>> (std::istream &stream, Inventory &object1)
 	return stream;
 }
 
-bool operator== (Inventory &object1, )
-{
-
-}
 
 
 void Inventory::setISBN(std::string input)

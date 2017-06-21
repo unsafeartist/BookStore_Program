@@ -13,7 +13,9 @@ using namespace std;
 int search(string search_value, string file_name);
 void deleteBook(string book_name, string file_name); // function for deleting books
 bool getBook(string book, string file_name, int type); // function for extracting book
-void deleteBookKamal(string file_name, string isbn_input);
+//void deleteBookKamal(string file_name, string isbn_input);
+void deleteBookLK(string fileName, string book, int by);
+void editABook(string file_name, string term2replace, string with);// edit a book function
 
 //Report Module Protoypes
 int totalBook();
@@ -433,42 +435,43 @@ int main()
 		case 3:
 			//EDIT A BOOK
 
-			//Display menu for user
-			std::cout << "How would you like to search for the book to edit?" << endl;
-			std::cout << "    1)ISBN" << endl;
-			std::cout << "    2)Title" << endl;
-			std::cout << "Enter your choice: ";
-			cin >> search_choice;
+			////Display menu for user
+			//std::cout << "How would you like to search for the book to edit?" << endl;
+			//std::cout << "    1)ISBN" << endl;
+			//std::cout << "    2)Title" << endl;
+			//std::cout << "Enter your choice: ";
+			//cin >> search_choice;
 
-			//Validate the choice to be numeric values of 1 or 2
-			//NOTE: If isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
-			while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
-			{
-				std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
-				cin >> search_choice;
-			}
+			////Validate the choice to be numeric values of 1 or 2
+			////NOTE: If isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
+			//while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
+			//{
+			//	std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
+			//	cin >> search_choice;
+			//}
 
-			//Convert string into integer
-			if (stoi(search_choice) == 1)
-			{
-				std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
-				cin.ignore();
-				getline(cin, book);
+			////Convert string into integer
+			//if (stoi(search_choice) == 1)
+			//{
+			//	std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
+			//	cin.ignore();
+			//	getline(cin, book);
 
-				getBook(book, "Inventory.txt", 1);
+			//	getBook(book, "Inventory.txt", 1);
 
 
-			}
-			else
-			{
-				std::cout << "Please enter the Title of the book you want to edit: ";
-				cin.ignore();
-				getline(cin, book);
+			//}
+			//else
+			//{
+			//	std::cout << "Please enter the Title of the book you want to edit: ";
+			//	cin.ignore();
+			//	getline(cin, book);
 
-				getBook(book, "Inventory.txt", 2);
+			//	getBook(book, "Inventory.txt", 2);
 
-			}
+			//}
 
+			editABook("Inventory.txt", "Camino Island", "TEST TEST TEST Camino Island");
 
 			break;
 		case 4:
@@ -477,10 +480,11 @@ int main()
 			//Get ISBN number from user TESTING TESTING TESTING
 			std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
 			getline(cin, book);
+			//deleteBookLK("Inventory.txt", book, 1);
 
 
 			//Testing if Kamal delete book function works TESTING TESTING TESTING
-			deleteBookKamal("Inventory.txt", book);
+		//	deleteBookKamal("Inventory.txt", book);
 
 
 			//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -509,7 +513,7 @@ int main()
 		std::cout << endl;
 
 		//Close file 
-		/*fileObject.close();*/
+		fileObject.close();
 
 	}//End if statement for Inventory Module
 
@@ -757,13 +761,16 @@ void deleteBookLK(string fileName, string book, int by)
 {
 	Inventory *bookptr = new Inventory;
 	getBook(book,fileName, by);
+	ifstream originalFile;
+	originalFile.open(fileName);
 	ifstream bufferfile;
 	bufferfile.open("buffer.txt");
 	
-	//while ( >> getBook)
-	//{
-	//	if (getBook != bookptr)
-	//}
+	while (!originalFile.eof())
+	{
+		cin >> bookData;
+		cout << bookData;
+	}
 
 
 	delete bookptr;
@@ -842,4 +849,31 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 		fileObject >> holder;						//last line
 	}
+}
+
+void editABook(string file_name, string term2replace, string with) // a function that replaces a certain parameter 
+{
+	fstream inventoryfile(file_name, ios::in | ios::out);
+	if (inventoryfile.fail())
+	{
+		cout << "File didnt open!!!";
+	}
+	string input;
+	while (getline(inventoryfile, input))
+	{
+		//cout << "WHILE LOOP RUNS!";
+
+		if (input == term2replace)
+		{
+			cout << "IF LOOP RAN!";
+			inventoryfile << with;
+		}
+		else
+		{
+			inventoryfile << input;
+
+		}
+	}
+	cout << "IT RAN, IT RAN, IT RAN!";
+	inventoryfile.close();
 }
