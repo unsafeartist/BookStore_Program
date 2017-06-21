@@ -641,116 +641,130 @@ bool getBook(string book, string file_name, int type)
 } //end function "getBook"
 
 
-void deleteBookKamal(string file_name, string isbn_input)
+//void deleteBookKamal(string file_name, string isbn_input)
+//{
+//	//Author Kamal
+//
+//	//What I'm Trying to do in this function
+//	// This function accepts an ISBN number as input
+//	// I am using two file Objects... 1 for the original file and one for 
+//	//the buffer file
+//	//While each line of text is input from original file into the object,
+//	//if the program matches the ISBN number then skip over that entire section
+//	//of text and pick up from the next spot after a blank line
+//	//In essence it will kind of jump over an entire book, meaning it won't be
+//	//copied into the buffer file. 
+//	//I am trying to achieve this somehow using counters... Like if
+//	//at line 10 ISBN matches, then skip to line 19 and continue input of text
+//
+//	//Declare local variables
+//	string line;
+//	int counter = 0;
+//	bool book_erased = false;
+//
+//	//Create ifstream and ofstream objects
+//	fstream origin_fileObject;
+//	ofstream destination_fileObject;
+//
+//	//Open origin file
+//	//NOTE: Opened for both input and output to preserve data in the original file
+//	origin_fileObject.open(file_name, ios::in);
+//
+//	//Open the destination file that the origin file will be copied into
+//	destination_fileObject.open("buffer.txt");
+//
+//	//Read in origin file line by line and overwrite book 
+//	//with blank strings if found
+//	while (getline(origin_fileObject, line))
+//	{
+//		//Increments letting us know what line we are on
+//		destination_fileObject << line << endl;
+//
+//		if (line == isbn_input)
+//		{
+//			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
+//			std::cout << "Book found" << endl;
+//
+//			while (getline(origin_fileObject, line))
+//			{
+//				if (line != "")
+//				{ 
+//					counter++;
+//				}
+//				else
+//				{
+//					counter++;
+//					break;
+//				}
+//					
+//					
+//			} //end inner while-loop
+//
+//		} //end if statement
+//
+//	} //End while loop
+//
+//	//Output data to second buffer/destination file TESTING TESTING TESTING
+//
+//	origin_fileObject.close();
+//	destination_fileObject.close();
+//
+//} //End function "deleteBookKamal"
+
+//
+//void deleteBook(string file_name, Inventory &bookData)
+//{
+//	string read;
+//	ifstream origin;
+//	ofstream buffer;
+//	buffer.open("buffer.txt");
+//	
+//	origin.open(file_name);
+//	//getBook(book_name, file_name, );
+//	
+//	int counter = 0;
+//	//	string title = bookData.getTitle; delete -L
+//
+//	/*
+//	while (getline(origin, read))
+//	{
+//		if (read == bookData.getTitle || read == bookData.getISBN &&
+//			getline(origin, read) == bookData.getAuthor && getline(origin, read) && bookData.getPublisher &&
+//			getline(origin, read) == bookData.getDate_added && getline(origin, read) && bookData.getRetail_price &&
+//		getline(origin, read) == bookData.getWholesale_cost )
+//		{
+//		buffer << read <<endl;
+//		}             /////////////NEEDS FIXING////////////////////////////
+//		else
+//		{
+//		origin.clear();
+//		origin.ignore();
+//		}
+//		//	counter++;
+//	}
+//	*/
+//
+//	buffer.close();
+//	origin.close();
+//	remove(file_name.c_str());
+//	rename("buffer.txt", file_name.c_str());
+//}
+
+void deleteBookLK(string fileName, string book, int by)
 {
-	//Author Kamal
-
-	//What I'm Trying to do in this function
-	// This function accepts an ISBN number as input
-	// I am using two file Objects... 1 for the original file and one for 
-	//the buffer file
-	//While each line of text is input from original file into the object,
-	//if the program matches the ISBN number then skip over that entire section
-	//of text and pick up from the next spot after a blank line
-	//In essence it will kind of jump over an entire book, meaning it won't be
-	//copied into the buffer file. 
-	//I am trying to achieve this somehow using counters... Like if
-	//at line 10 ISBN matches, then skip to line 19 and continue input of text
-
-	//Declare local variables
-	string line;
-	int counter = 0;
-	bool book_erased = false;
-
-	//Create ifstream and ofstream objects
-	fstream origin_fileObject;
-	ofstream destination_fileObject;
-
-	//Open origin file
-	//NOTE: Opened for both input and output to preserve data in the original file
-	origin_fileObject.open(file_name, ios::in);
-
-	//Open the destination file that the origin file will be copied into
-	destination_fileObject.open("buffer.txt");
-
-	//Read in origin file line by line and overwrite book 
-	//with blank strings if found
-	while (getline(origin_fileObject, line))
-	{
-		//Increments letting us know what line we are on
-		destination_fileObject << line << endl;
-
-		if (line == isbn_input)
-		{
-			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
-			std::cout << "Book found" << endl;
-
-			while (getline(origin_fileObject, line))
-			{
-				if (line != "")
-				{ 
-					counter++;
-				}
-				else
-				{
-					counter++;
-					break;
-				}
-					
-					
-			} //end inner while-loop
-
-		} //end if statement
-
-	} //End while loop
-
-	//Output data to second buffer/destination file TESTING TESTING TESTING
-
-	origin_fileObject.close();
-	destination_fileObject.close();
-
-} //End function "deleteBookKamal"
-
-
-void deleteBook(string file_name, Inventory &bookData)
-{
-	string read;
-	ifstream origin;
-	ofstream buffer;
-	buffer.open("buffer.txt");
+	Inventory *bookptr = new Inventory;
+	getBook(book,fileName, by);
+	ifstream bufferfile;
+	bufferfile.open("buffer.txt");
 	
-	origin.open(file_name);
-	//getBook(book_name, file_name, );
+	//while ( >> getBook)
+	//{
+	//	if (getBook != bookptr)
+	//}
 	
-	int counter = 0;
-	//	string title = bookData.getTitle; delete -L
-
-	/*
-	while (getline(origin, read))
-	{
-		if (getline(origin, read) == bookData.getTitle && getline(origin, read) && bookData.getISBN &&
-			getline(origin, read) == bookData.getAuthor && getline(origin, read) && bookData.getPublisher &&
-			getline(origin, read) == bookData.getDate_added && getline(origin, read) && bookData.getRetail_price &&
-		getline(origin, read) == bookData.getWholesale_cost )
-		{
-		buffer << read <<endl;
-		}             /////////////NEEDS FIXING////////////////////////////
-		else
-		{
-		origin.clear();
-		origin.ignore();
-		}
-		//	counter++;
-	}
-	*/
-
-	buffer.close();
-	origin.close();
-	remove(file_name.c_str());
-	rename("buffer.txt", file_name.c_str());
+	
+	delete bookptr;
 }
-
-
 
 //REPORT MODULE FUNCTIONS
 int totalBook()
