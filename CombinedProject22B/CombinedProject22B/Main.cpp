@@ -856,7 +856,10 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 void editABook(string file_name, string term2replace, string with) // a function that replaces a certain parameter 
 {
-	fstream inventoryfile(file_name, ios::in | ios::out);
+	ifstream inventoryfile;
+	inventoryfile.open("Inventory.txt");
+	ofstream temp;
+	temp.open("temp.txt");
 	if (inventoryfile.fail())
 	{
 		cout << "File didnt open!!!";
@@ -869,14 +872,17 @@ void editABook(string file_name, string term2replace, string with) // a function
 		if (input == term2replace)
 		{
 			cout << "IF LOOP RAN!";
-			inventoryfile << with;
+			temp << with <<endl;
 		}
 		else
 		{
-			inventoryfile << input;
+			temp << input<<endl;
 
 		}
 	}
 	cout << "IT RAN, IT RAN, IT RAN!";
-	inventoryfile.close();
+	inventoryfile.close(); 
+	temp.close();
+	remove("Inventory.txt");
+	rename("temp.txt", "Inventory.txt");
 }
