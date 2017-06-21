@@ -1,5 +1,5 @@
 //Authors Kamal, Leander, George, Jessie
-//******MASTER*********
+//******MASTER**********
 
 #include <iostream>
 #include <fstream>
