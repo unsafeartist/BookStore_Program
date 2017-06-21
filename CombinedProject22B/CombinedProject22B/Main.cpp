@@ -835,7 +835,7 @@ void getAllBook(std::string file_name, int total, Report object[])
 		getline(fileObject, holder);
 		object[x].setRetail_price(stod(holder));				//set retail price
 
-		fileObject >> holder;						//last line
+		getline(fileObject, holder);						//last line
 	}
 }
 
@@ -848,31 +848,40 @@ void editABook(string file_name, string term2replace, string replace_with) // a 
 	//a string is matched to replace with, it replaces it with the "with" parameter passed to this function
 	//And output to 
 
-	//Authors Leander and Kamal
-	ifstream inventoryfile;			//open original file
+	//Open original file
+	ifstream inventoryfile;			
 	inventoryfile.open(file_name); 
-	ofstream temp;					//open temp file
+	
+	//Open temp file
+	ofstream temp;					
 	temp.open("temp.txt");
 
-	string input;					//variable for storing input
+	//Variable for storing input
+	string input;					
 
-	while (getline(inventoryfile, input)) //while eof is not reached
+	//Read the file line by line
+	while (getline(inventoryfile, input)) 
 	{
-
+		//If "input" is equal to the term2replace
+		//then replace it with user entered parameter("replace_with")
 		if (input == term2replace)
 		{
 			temp << replace_with <<endl;
 		}
 		else
 		{
-			temp << input <<endl; // write data from original file as it is
+			//Else write data from original file as it is
+			temp << input <<endl; 
 
 		}
 	}
-	inventoryfile.close(); 
-	temp.close();				//close both temp and source files
 
-	remove(file_name.c_str());	
+	//Close both temp and source files
+	inventoryfile.close(); 
+	temp.close();				
+
+	//Remove the original file and rename it to 
+	remove(file_name.c_str());
 	rename("temp.txt", file_name.c_str());
 } // needs work... get delete book to work first.... // needs work... get delete book to work first
 //needs.. work get delete book to work first
