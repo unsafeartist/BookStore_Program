@@ -711,7 +711,6 @@ void deleteBookKamal(string file_name, string isbn_input)
 
 } //End function "deleteBookKamal"
 
-
 void deleteBook(string file_name, Inventory &bookData)
 {
 	string read;
