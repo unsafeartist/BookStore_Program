@@ -16,6 +16,7 @@ bool getBook(string book, string file_name, int type); // function for extractin
 //void deleteBookKamal(string file_name, string isbn_input);
 void deleteBookLK(string fileName, string book, int by);
 void editABook(string file_name, string term2replace, string with);// edit a book function
+void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
 
 //Report Module Protoypes
 int totalBook();
@@ -192,7 +193,7 @@ int main()
 		char do_again; //for look up a book
 
 		//Create inventory object
-		Inventory object;
+		Inventory object; // delete once add book works
 
 		//Variables for add a book
 		string ISBN;
@@ -201,10 +202,10 @@ int main()
 		double wholesale_cost, retail_price;
 
 		//Create file object for ADD BOOK functionality
-		fstream fileObject;
+		//fstream fileObject;
 
 		//Open the file
-		fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
+		//fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
 
 		//USER MENU CHOICE FOR INVENTORY MODULE
 		std::cout << "Boring Booksellers Inventory Database" << endl;
@@ -340,6 +341,7 @@ int main()
 		case 2:
 			//ADD A BOOK
 
+			//bound checking
 			//User input "ISBN"
 			std::cout << "ISBN-10 or ISBN-13: ";
 			getline(cin, ISBN);
@@ -428,11 +430,11 @@ int main()
 			}
 
 			//Store information into object
-			object = { ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price };
-
+			/*object = { ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price };*/ //delete once add book works
+			addBook("Inventory.txt", ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price);//this will write the book to file
 			//Output the entire object(book) into file
-			fileObject << endl; //add space between books
-			fileObject << object; //Operator overloading allows us to ouput entire object
+			//fileObject << endl; //add space between books
+			//fileObject << object; //Operator overloading allows us to ouput entire object
 
 			break;
 		case 3:
@@ -516,7 +518,7 @@ int main()
 		std::cout << endl;
 
 		//Close file 
-		fileObject.close();
+		//fileObject.close();
 
 	}//End if statement for Inventory Module
 
@@ -883,6 +885,31 @@ void editABook(string file_name, string term2replace, string with) // a function
 	cout << "IT RAN, IT RAN, IT RAN!";
 	inventoryfile.close(); 
 	temp.close();
-	remove("Inventory.txt");
-	rename("temp.txt", "Inventory.txt");
+	if (!remove("Inventory.txt"))
+	{
+		cout << "file deleted successfully" << endl;
+		//cout << remove("Inventory.txt");
+	}
+	else
+	{
+		cout << "FAILED TO DELETE FILE!!!!" << endl;
+		//cout << remove("Inventory.txt");
+	}
+	if (rename("temp.txt", "Tinventory.txt") == 0)
+	{
+		cout << "success in renaming: " << endl;
+	}
+	else
+	{
+		cout << "failed to rename: " << endl;
+	}
+}
+
+void addBook(string fileName,string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice)
+{
+	fstream write(fileName, ios::out | ios::app); //open file for writing with pointer at the end
+	Inventory *newBook = new Inventory(isbn, title, author, publisher, date_added, quantity, wholesaleCost, retailPrice); // dynamicaly creating book
+	write << *newBook <<endl; //write book to file 
+	write.close(); //close fstream object
+	delete newBook; //free up memory
 }
