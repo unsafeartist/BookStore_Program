@@ -43,6 +43,11 @@ class Inventory
 
 		//Operator overload for istream operator
 		friend std::istream& operator>> (std::istream &stream, Inventory &object1);
+
+		//Operator overload for ==
+		friend std::istream& operator== (std::istream &stream, Inventory &object1);
+
+
 };
 
 #endif

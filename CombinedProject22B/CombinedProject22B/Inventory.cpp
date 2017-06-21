@@ -41,7 +41,6 @@ std::ostream& operator<< (std::ostream &stream, Inventory &object1)
 
 std::istream& operator>> (std::istream &stream, Inventory &object1)
 {
-
 	stream >> object1.ISBN;
 	stream >> object1.title;
 	stream >> object1.author;
@@ -51,9 +50,14 @@ std::istream& operator>> (std::istream &stream, Inventory &object1)
 	stream >> object1.wholesale_cost;
 	stream >> object1.retail_price;
 
-
 	return stream;
 }
+
+bool operator== (Inventory &object1, )
+{
+
+}
+
 
 void Inventory::setISBN(std::string input)
 {
