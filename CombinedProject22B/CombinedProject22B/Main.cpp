@@ -847,28 +847,16 @@ void editABook(string file_name, string term2replace, string replace_with) // a 
 	//a string is matched to replace with, it replaces it with the "with" parameter passed to this function
 	//And output to 
 
-	//Open file for input
-	ifstream inventoryfile;
-	inventoryfile.open("Inventory.txt");
-
-	//Open temporary file for output
-	ofstream temp;
+	//Authors Leander and Kamal
+	ifstream inventoryfile;			//open original file
+	inventoryfile.open(file_name); 
+	ofstream temp;					//open temp file
 	temp.open("temp.txt");
 
-	//Check if original inventory file opens
-	if (inventoryfile.fail())
-	{
-		cout << "File didnt open!!!";
-	}
+	string input;					//variable for storing input
 
-	//Declare variable for input
-	string input;
-
-	//Keep running through loop
-	//If input string is matched 
-	while (getline(inventoryfile, input))
+	while (getline(inventoryfile, input)) //while eof is not reached
 	{
-		//cout << "WHILE LOOP RUNS!";
 
 		if (input == term2replace)
 		{
@@ -877,33 +865,33 @@ void editABook(string file_name, string term2replace, string replace_with) // a 
 		}
 		else
 		{
-			temp << input<<endl;
+			temp << input<<endl; // write data from original file as it is
 
 		}
 	}
-	cout << "IT RAN, IT RAN, IT RAN!";
 	inventoryfile.close(); 
-	temp.close();
-	
-	//TESTING TESTING
-	if (!remove("Inventory.txt"))
-	{
-		cout << "file deleted successfully" << endl;
-		//cout << remove("Inventory.txt");
-	}
-	else
-	{
-		cout << "FAILED TO DELETE FILE!!!!" << endl;
-		//cout << remove("Inventory.txt");
-	}
-	if (rename("temp.txt", "Tinventory.txt") == 0)
-	{
-		cout << "success in renaming: " << endl;
-	}
-	else
-	{
-		cout << "failed to rename: " << endl;
-	}
+	temp.close();				//close both temp and source files
+	//if (!remove("Inventory.txt"))
+	//{
+	//	cout << "file deleted successfully" << endl;
+	//	//cout << remove("Inventory.txt");
+	//}
+	//else
+	//{
+	//	cout << "FAILED TO DELETE FILE!!!!" << endl;
+	//	//cout << remove("Inventory.txt");
+	//}
+	//if (rename("temp.txt", "Tinventory.txt") == 0)
+	//{
+	//	cout << "success in renaming: " << endl;
+	//}
+	//else
+	//{
+	//	cout << "failed to rename: " << endl;
+	//}
+
+	remove(file_name.c_str());
+	rename("temp.txt", file_name.c_str());
 }
 
 void addBook(string fileName,string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice)
