@@ -711,6 +711,73 @@ bool getBook(string book, string file_name, int type)
 //
 //} //End function "deleteBookKamal"
 
+	//What I'm Trying to do in this function
+	// This function accepts an ISBN number as input
+	// I am using two file Objects... 1 for the original file and one for 
+	//the buffer file
+	//While each line of text is input from original file into the object,
+	//if the program matches the ISBN number then skip over that entire section
+	//of text and pick up from the next spot after a blank line
+	//In essence it will kind of jump over an entire book, meaning it won't be
+	//copied into the buffer file. 
+	//I am trying to achieve this somehow using counters... Like if
+	//at line 10 ISBN matches, then skip to line 19 and continue input of text
+
+	//Declare local variables
+	string line;
+	int counter = 0;
+	bool book_erased = false;
+
+	//Create ifstream and ofstream objects
+	fstream origin_fileObject;
+	ofstream destination_fileObject;
+
+	//Open origin file
+	//NOTE: Opened for both input and output to preserve data in the original file
+	origin_fileObject.open(file_name, ios::in);
+
+	//Open the destination file that the origin file will be copied into
+	destination_fileObject.open("buffer.txt");
+
+	//Read in origin file line by line and overwrite book 
+	//with blank strings if found
+	while (getline(origin_fileObject, line))
+	{
+		//Increments letting us know what line we are on
+		destination_fileObject << line << endl;
+
+		if (line == isbn_input)
+		{
+			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
+			std::cout << "Book found" << endl;
+
+			while (getline(origin_fileObject, line))
+			{
+				if (line != "")
+				{ 
+					counter++;
+				}
+				else
+				{
+					counter++;
+					break;
+				}
+					
+					
+			} //end inner while-loop
+
+		} //end if statement
+
+	} //End while loop
+
+	//Output data to second buffer/destination file TESTING TESTING TESTING
+
+	origin_fileObject.close();
+	destination_fileObject.close();
+
+} //End function "deleteBookKamal"
+
+void deleteBook(string file_name, Inventory &bookData)
 //
 //void deleteBook(string file_name, Inventory &bookData)
 //{
@@ -761,8 +828,8 @@ void deleteBookLK(string fileName, string book, int by)
 	//{
 	//	if (getBook != bookptr)
 	//}
-	
-	
+
+
 	delete bookptr;
 }
 
