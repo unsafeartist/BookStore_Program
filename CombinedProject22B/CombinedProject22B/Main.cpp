@@ -835,7 +835,7 @@ void getAllBook(std::string file_name, int total, Report object[])
 		getline(fileObject, holder);
 		object[x].setRetail_price(stod(holder));				//set retail price
 
-		fileObject >> holder;						//last line
+		getline(fileObject, holder);						//last line
 	}
 }
 

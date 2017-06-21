@@ -33,6 +33,7 @@ void Report::getList(int total, Report array[], int counter)		//returns the full
 	std::cout << array[counter].getQuantity_onHand() << std::endl;
 	std::cout << array[counter].getWholesale_cost() << std::endl;
 	std::cout << array[counter].getRetail_price() << std::endl;
+	std::cout << std::endl;
 }
 void Report::setWholeSaleValue(int total, Report array[], int counter)		//adds the value of all the whole sale costs added together
 {
