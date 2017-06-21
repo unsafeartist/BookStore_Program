@@ -84,7 +84,7 @@ int main()
 			std::cin >> decide;
 		}
 		
-		while ((decide != 7)) //if the exit case is not true
+		while (decide != 7) //if the exit case is not true
 		{
 			if (decide == 1){
 				//std::cout << "ISBN\tTitle\tAuthor	Publisher	Date		Quantity	Whole Sale Cost	Retail Price" << std::endl;
@@ -808,6 +808,7 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 	for (int x = 0; x < total; x++)
 	{
+		
 		getline(fileObject, holder);      //set ISBN
 		object[x].setISBN(holder);
 
@@ -860,12 +861,11 @@ void editABook(string file_name, string term2replace, string replace_with) // a 
 
 		if (input == term2replace)
 		{
-			cout << "IF LOOP RAN!";
 			temp << replace_with <<endl;
 		}
 		else
 		{
-			temp << input<<endl; // write data from original file as it is
+			temp << input <<endl; // write data from original file as it is
 
 		}
 	}
