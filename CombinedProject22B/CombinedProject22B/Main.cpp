@@ -12,7 +12,7 @@ using namespace std;
 //Inventory Module Prototypes
 int search(string search_value, string file_name);
 void deleteBook(string book_name, string file_name); // function for deleting books
-bool getBook(string book, string file_name, int type); // function for extracting book
+bool getBook(Inventory &obj, string book, string file_name, int type); // function for extracting book
 //void deleteBookKamal(string file_name, string isbn_input);
 void deleteBookLK(string fileName, string book, int by);
 void editABook(string file_name, string term2replace, string with);// edit a book function
@@ -274,7 +274,7 @@ int main()
 
 					//Search for book using ISBN
 					//Last parameter is 1, because choice 1 = search by value
-					bookFound = getBook(search_value, "Inventory.txt", 1);
+					bookFound = getBook(bookData, search_value, "Inventory.txt", 1);
 
 					if (bookFound != false)
 					{
@@ -301,7 +301,7 @@ int main()
 
 					//Find book using "getBook" function
 					//A choice of 2(last parameter in function) allows for a search by Title of book
-					bookFound = getBook(search_value, "Inventory.txt", 2);
+					bookFound = getBook(bookData, search_value, "Inventory.txt", 2);
 
 					if (bookFound != false)
 					{
@@ -557,7 +557,7 @@ int search(string search_value, string file_name)
 }
 
 
-bool getBook(string book, string file_name, int type)
+bool getBook(Inventory &obj, string book, string file_name, int type)
 {
 	//Author Leander
 	//This Function extracts book data from a file 
@@ -584,38 +584,38 @@ bool getBook(string book, string file_name, int type)
 		{
 			if (lineNo == counter)
 			{
-				bookData.setISBN(holder);         //set ISBN
+				obj.setISBN(holder);         //set ISBN
 			}
 			if (lineNo + 1 == counter)
 			{
-				bookData.setTitle(holder);        //set Title
+				obj.setTitle(holder);        //set Title
 			}
 			if (lineNo + 2 == counter)
 			{
-				bookData.setAuthor(holder);       //setAuthor
+				obj.setAuthor(holder);       //setAuthor
 			}
 			if (lineNo + 3 == counter)
 			{
-				bookData.setPublisher(holder);    //set Publisher
+				obj.setPublisher(holder);    //set Publisher
 			}
 			if (lineNo + 4 == counter)
 			{
-				bookData.setDate_added(holder);   //set Date
+				obj.setDate_added(holder);   //set Date
 			}
 			if (lineNo + 5 == counter)
 			{
 				int quant = stoi(holder);
-				bookData.setQuatity_onHand(quant);   //set quantity after converting string to int 
+				obj.setQuatity_onHand(quant);   //set quantity after converting string to int 
 			}
 			if (lineNo + 6 == counter)
 			{
 				double Wcost = atof(holder.c_str());
-				bookData.setWholesale_cost(Wcost);   //set wholesail cost after converting string to char array and then double
+				obj.setWholesale_cost(Wcost);   //set wholesail cost after converting string to char array and then double
 			}
 			if (lineNo + 7 == counter)
 			{
 				double price = atof(holder.c_str());
-				bookData.setRetail_price(price);     //set retail price after converting string to int
+				obj.setRetail_price(price);     //set retail price after converting string to int
 			}
 			counter++; // incrementing counter
 		}
@@ -628,7 +628,7 @@ bool getBook(string book, string file_name, int type)
 
 	return bookFound;
 	
-} //end function "getBook"
+} //end function "getBook" // have get book accept and object or return Inventory class object
 
 
 //void deleteBookKamal(string file_name, string isbn_input)
@@ -746,7 +746,7 @@ bool getBook(string book, string file_name, int type)
 void deleteBookLK(string fileName, string book, int by)
 {
 	Inventory *bookptr = new Inventory;
-	getBook(book,fileName, by);
+	getBook(bookData, book,fileName, by);
 	 
 	ifstream originalFile;
 	originalFile.open(fileName);
@@ -871,29 +871,11 @@ void editABook(string file_name, string term2replace, string replace_with) // a 
 	}
 	inventoryfile.close(); 
 	temp.close();				//close both temp and source files
-	//if (!remove("Inventory.txt"))
-	//{
-	//	cout << "file deleted successfully" << endl;
-	//	//cout << remove("Inventory.txt");
-	//}
-	//else
-	//{
-	//	cout << "FAILED TO DELETE FILE!!!!" << endl;
-	//	//cout << remove("Inventory.txt");
-	//}
-	//if (rename("temp.txt", "Tinventory.txt") == 0)
-	//{
-	//	cout << "success in renaming: " << endl;
-	//}
-	//else
-	//{
-	//	cout << "failed to rename: " << endl;
-	//}
 
-	remove(file_name.c_str());
+	remove(file_name.c_str());	
 	rename("temp.txt", file_name.c_str());
-}
-
+} // needs work... get delete book to work first.... // needs work... get delete book to work first
+//needs.. work get delete book to work first
 void addBook(string fileName,string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice)
 {
 	fstream write(fileName, ios::out | ios::app); //open file for writing with pointer at the end
