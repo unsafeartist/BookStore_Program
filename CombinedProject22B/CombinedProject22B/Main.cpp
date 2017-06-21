@@ -858,51 +858,49 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 void editABook(string file_name, string term2replace, string with) // a function that replaces a certain parameter 
 {
-	ifstream inventoryfile;
-	inventoryfile.open("Inventory.txt");
-	ofstream temp;
+	ifstream inventoryfile;			//open original file
+	inventoryfile.open(file_name); 
+	ofstream temp;					//open temp file
 	temp.open("temp.txt");
-	if (inventoryfile.fail())
-	{
-		cout << "File didnt open!!!";
-	}
-	string input;
-	while (getline(inventoryfile, input))
+	
+	string input;					//variable for storing input
+
+	while (getline(inventoryfile, input)) //while eof is not reached
 	{
 		//cout << "WHILE LOOP RUNS!";
-
 		if (input == term2replace)
 		{
-			cout << "IF LOOP RAN!";
-			temp << with <<endl;
+			temp << with <<endl; //if input from file matches the term to be replaced write the new term to the temporary file
 		}
 		else
 		{
-			temp << input<<endl;
+			temp << input<<endl; // write data from original file as it is
 
 		}
 	}
-	cout << "IT RAN, IT RAN, IT RAN!";
 	inventoryfile.close(); 
-	temp.close();
-	if (!remove("Inventory.txt"))
-	{
-		cout << "file deleted successfully" << endl;
-		//cout << remove("Inventory.txt");
-	}
-	else
-	{
-		cout << "FAILED TO DELETE FILE!!!!" << endl;
-		//cout << remove("Inventory.txt");
-	}
-	if (rename("temp.txt", "Tinventory.txt") == 0)
-	{
-		cout << "success in renaming: " << endl;
-	}
-	else
-	{
-		cout << "failed to rename: " << endl;
-	}
+	temp.close();				//close both temp and source files
+	//if (!remove("Inventory.txt"))
+	//{
+	//	cout << "file deleted successfully" << endl;
+	//	//cout << remove("Inventory.txt");
+	//}
+	//else
+	//{
+	//	cout << "FAILED TO DELETE FILE!!!!" << endl;
+	//	//cout << remove("Inventory.txt");
+	//}
+	//if (rename("temp.txt", "Tinventory.txt") == 0)
+	//{
+	//	cout << "success in renaming: " << endl;
+	//}
+	//else
+	//{
+	//	cout << "failed to rename: " << endl;
+	//}
+
+	remove(file_name.c_str());
+	rename("temp.txt", file_name.c_str());
 }
 
 void addBook(string fileName,string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice)
