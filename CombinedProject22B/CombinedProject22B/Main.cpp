@@ -39,9 +39,17 @@ int main()
 	std::cout << "3) Report Module" << endl;
 	std::cout << "4) Exit" << endl;
 	std::cout << endl << "Please enter your choice: ";
-	cin >> main_choice;
+	std::cin >> main_choice;
 
 	//Validate main choice to be between 1-4 and numerical
+	while (std::cin.fail() || (main_choice < 1) || (main_choice > 4))
+	{
+		std::cout<<"Invalid input! Please enter a number between 1 and 4" << endl;
+		std::cin.clear();
+		std::cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+		std::cin >> main_choice;
+	} 
+	
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
@@ -51,9 +59,19 @@ int main()
 		getAllBook("Inventory.txt", total, testing);
 
 		int decide = 0;
-		std::cout << "enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-		cin >> decide;
-		while (decide != 7)
+		std::cout << "Enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+		cin >> decide; 
+
+		// validation for decide ( checking to see if decision is between 0 and 7 )
+		while (std::cin.fail() || (decide < 1) || (decide > 7))
+		{
+			std::cout << "Invalid input! Please make sure your choice is a number between 1 and 7" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+			std::cin >> decide;
+		}
+		
+		while ((decide != 7)) //if the exit case is not true
 		{
 			if (decide == 1){
 				//std::cout << "ISBN\tTitle\tAuthor	Publisher	Date		Quantity	Whole Sale Cost	Retail Price" << std::endl;
@@ -208,8 +226,8 @@ int main()
 
 					//SEARCH BY ISBN
 					std::cout << "Please enter the ISBN number of the book you're looking for: ";
-					cin.ignore();
-					getline(cin, search_value);
+					std::cin.ignore();
+					getline(std::cin, search_value);
 
 					//Search for book using ISBN
 					//Last parameter is 1, because choice 1 = search by value
