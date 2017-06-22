@@ -43,5 +43,8 @@
     <Text Include="Inventory.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="buffer.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
