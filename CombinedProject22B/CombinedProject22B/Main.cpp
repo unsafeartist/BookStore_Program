@@ -777,19 +777,31 @@ void DeleteBook(string file_name, string isbn_title, int which)
 {
 	ifstream source;
 	source.open(file_name);
+	
 	ofstream buffer;
 	buffer.open("buffer.txt");
+	
 	Inventory* Book2delete = new Inventory;
 	getBook(*Book2delete, isbn_title, file_name, which); // check bool return from getBook
+	
 	cout << "Entered loop: " << endl << "Printing Book2delete: " <<endl<< *Book2delete << endl;
 	string holder;
+	
 	//string title = Book2delete->getTitle();
 	string wholesale;
 	wholesale = to_string(Book2delete->getWholesale_cost());
+
+	//Edit wholesale values so they can be matched as strings
+
+	string modified_wholesale;
+	
 	for (int index = 0; index < wholesale.length(); index++)
 	{
-		wholesale[]
+		if (wholesale[index] != '0')
+			modified_wholesale += wholesale[index];
 	}
+
+	cout << "wholesale after for loop: " << wholesale;
 		//cout << to_string(Book2delete->getWholesale_cost()) << "|" << to_string(Book2delete->getRetail_price()) << endl;
 	while (getline(source, holder))
 	{
