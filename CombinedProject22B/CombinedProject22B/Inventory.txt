@@ -3,7 +3,7 @@ Hunger Games
 Suzanne Collins
 Scholastic Press
 07/03/2010
-25
+17
 3.5
 7.49
 
@@ -147,7 +147,7 @@ Jane Eyre
 Charlotte Bronte
 West Coast LLC.
 05/12/2013
-22
+15
 4.56
 15.99
 
@@ -202,7 +202,7 @@ Jack London
 South America LLC.
 01/01/2001
 16
-5.50
+5.5
 12.49
 
 8520643191378
