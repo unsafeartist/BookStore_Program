@@ -34,10 +34,11 @@ Inventory bookData;
 
 int main()
 {
+	system("color f0");
 	//NOTE: std::cout just because compiler complains about cout being ambigous
 
 	//Variable for if they want to run the entire program again
-	char main_again;
+	char main_again = 'n';
 	
 	//Declare variables for main menu
 	int main_choice;
@@ -222,7 +223,7 @@ int main()
 		string Book2Edit;
 		//int search_input; //Used for edit a book
 		bool again = false; //for look up a book 
-		char do_again; //for look up a book
+		//char do_again = 'n'; //for look up a book
 		int search_choice;// for edit a book
 		int whichBook2edit; // variable to choose book for editing
 		//Create inventory object
@@ -233,16 +234,14 @@ int main()
 		string title, author, publisher, date_added;
 		int quantity_onHand;
 		double wholesale_cost, retail_price;
-			char inventory_again;
+		char inventory_again = 'y';
 
-		//Create file object for ADD BOOK functionality
-		//fstream fileObject;
-
-		//Open the file
-		//fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
-
-			do
-			{
+	
+	
+while (inventory_again == 'y' || inventory_again == 'Y')
+{
+	inventory_again = 'n';
+				
 		//USER MENU CHOICE FOR INVENTORY MODULE
 				std::cout << "------INVENTORY DATABASE-----" << endl;
 		std::cout << "1. Look Up a Book" << endl;
@@ -252,6 +251,7 @@ int main()
 		std::cout << "5. Return to Main Menu" << endl;
 		std::cout << endl;
 		std::cout << "Enter Your Choice: ";
+		cin.ignore();
 		cin >> choice;
 
 		//VALIDATION Choice must be between 1-5
@@ -290,7 +290,7 @@ int main()
 				{
 					std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
 					cin.clear();
-					cin.ignore(numeric_limits <streamsize> :: max(), '\n');
+					cin.ignore(numeric_limits <streamsize> ::max(), '\n');
 					cin >> search_choice;
 				}
 
@@ -310,7 +310,7 @@ int main()
 
 					//Search for book using ISBN
 					//Last parameter is 1, because choice 1 = search by value
-							bookFound = getBook(bookData, search_value, "Inventory.txt", 1);
+					bookFound = getBook(bookData, search_value, "Inventory.txt", 1);
 
 					if (bookFound != false)
 					{
@@ -337,7 +337,7 @@ int main()
 
 					//Find book using "getBook" function
 					//A choice of 2(last parameter in function) allows for a search by Title of book
-							bookFound = getBook(bookData, search_value, "Inventory.txt", 2);
+					bookFound = getBook(bookData, search_value, "Inventory.txt", 2);
 
 					if (bookFound != false)
 					{
@@ -362,13 +362,17 @@ int main()
 					break;
 				} //end inner "switch" statement for selection of ISBN or Title
 
+				/*
 				//Ask user if they would like to search for another book
 				std::cout << "Would you like to look up another book?(y = yes, n = no) ?" << endl;
+				cin.ignore();
 				cin >> do_again;
+
 
 				//If user elects to search for another book this loop will run again
 				if (do_again == 'y')
-					again = true;
+				again = true;
+				*/
 
 			} while (again == true);
 
@@ -380,9 +384,10 @@ int main()
 			//bound checking
 			//User input "ISBN"
 			std::cout << "ISBN-10 or ISBN-13: ";
+			cin.ignore();
 			getline(cin, ISBN);
 
-				
+
 			//VALIDATION ISBN
 			//Must be 13 digits long
 			while (ISBN.length() != 10 && ISBN.length() != 13)
@@ -396,27 +401,27 @@ int main()
 			//No validation required for these 3 data entries
 			std::cout << "Title: ";
 			getline(cin, title);
-					while (title.length() < 1)
-					{
-						std::cout << "Error Please enter a valid Title: ";
-						getline(cin, title);
-					}
+			while (title.length() < 1)
+			{
+				std::cout << "Error Please enter a valid Title: ";
+				getline(cin, title);
+			}
 
 			std::cout << "Author: ";
 			getline(cin, author);
-					while (author.length() < 1)
-					{
-						std::cout << "Error Please enter a valid Author: ";
-						getline(cin, author);
-					}
+			while (author.length() < 1)
+			{
+				std::cout << "Error Please enter a valid Author: ";
+				getline(cin, author);
+			}
 
 			std::cout << "Publisher: ";
 			getline(cin, publisher);
-					while(publisher.length() < 1)
-					{
-						std::cout << "Error Please enter a valid Publisher: ";
-						getline(cin, publisher);
-					}
+			while (publisher.length() < 1)
+			{
+				std::cout << "Error Please enter a valid Publisher: ";
+				getline(cin, publisher);
+			}
 			//********************************
 
 			//User input
@@ -443,7 +448,7 @@ int main()
 				getline(cin, date_added);
 			}
 			//********************************
-			
+
 			//noskipws skips white space
 			std::cout << "Quantity On Hand: ";
 			cin >> noskipws >> quantity_onHand;
@@ -497,9 +502,9 @@ int main()
 		case 3:
 			//EDIT A BOOK
 			//Display menu for user
-					std::cout << "How would you like to search for a book to edit?" << endl;
-					std::cout << "	1)ISBN" << endl;
-					std::cout << "	2)Title" << endl;
+			std::cout << "How would you like to search for a book to edit?" << endl;
+			std::cout << "	1)ISBN" << endl;
+			std::cout << "	2)Title" << endl;
 			std::cout << "Enter your choice: ";
 			cin >> search_choice;
 
@@ -523,7 +528,7 @@ int main()
 				cout << "Error! Book could not be found, Please re-enter the search term: " << endl;
 				cin.clear();
 				cin.ignore();
-				getline(cin,Book2Edit);
+				getline(cin, Book2Edit);
 			}
 
 			cout << "Book Information: " << endl << bookData << endl;
@@ -550,11 +555,11 @@ int main()
 					cin.ignore();
 					getline(cin, ISBN);
 				}
-				
+
 				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
 				//bookData.setISBN(ISBN);
-				addBook("Inventory.txt", ISBN,bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
-			//	addBook()
+				addBook("Inventory.txt", ISBN, bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+				//	addBook()
 
 			}
 			//----------------------------------------------------------
@@ -565,7 +570,7 @@ int main()
 				getline(cin, title);
 				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
 				//bookData.setISBN(ISBN);
-				addBook("Inventory.txt",bookData.getISBN(),title, bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+				addBook("Inventory.txt", bookData.getISBN(), title, bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
 			}
 			//----------------------------------------------------------
 			if (whichBook2edit == 3)
@@ -585,7 +590,7 @@ int main()
 				getline(cin, publisher);
 				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
 				//bookData.setISBN(ISBN);
-				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(),publisher, bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), publisher, bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
 			}
 			//-----------------------------------------------------------
 			if (whichBook2edit == 5)
@@ -664,7 +669,8 @@ int main()
 			//write the new book data to the inventory file(update it)
 			/*DeleteBook("Inventory.txt", bookData.getISBN(), 1);
 			addBook("Inventory.txt", ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price);
-*/
+			*/
+		
 
 			//
 			break;
@@ -733,25 +739,28 @@ int main()
 		} //END BIG OUTSIDE SWITCH STATEMENT
 
 
-				if (main_again != 'y')
-				{
-					cout << "Would you like to re-run the INVENTORY DATABASE MODULE? ('y' for yes, 'n' for no)" << endl;
-					cout << "Please enter choice: ";
-					cin.ignore();
-					cin >> inventory_again;
-
+		if (inventory_again != 'y')
+		{
+			cout << "Would you like to re-run the INVENTORY DATABASE MODULE? ('y' for yes, 'n' for no)" << endl;
+			cout << "Please enter choice: ";
+		/*	cin.clear();
+			cin.ignore();*/
+			cin>>inventory_again;
+			//cout << "They entered: " << endl<<inventory_again;
+		}
 					//Validate user chocie to re-run data
 					while (inventory_again != 'y' && inventory_again != 'Y' && inventory_again != 'n' && inventory_again != 'N')
 					{
 						cout << "Invalid entry! ('y' for yes, or 'n' for no)" << endl;
 						cout << "Please re-enter your choice: ";
-						cin.ignore();
+						/*cin.clear();
+						cin.ignore();*/
 						cin >> inventory_again;
 						cout << endl; //for aesthetics
 					}
-				}
+				//}
 
-			} while (inventory_again == 'y' || inventory_again == 'Y');
+} 
 
 		//Print 
 		std::cout << endl;
@@ -855,7 +864,9 @@ int main()
 			{
 			cout << endl << "Would you like to run the MAIN program again? ('y' = yes, 'n' = no)" << endl;
 			cout << "Please enter your choice: ";
+			cin.ignore();
 			cin >> main_again;
+			
 	}
 
 	} while (main_again == 'y' || main_again == 'Y');
