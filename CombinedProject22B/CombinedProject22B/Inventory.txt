@@ -98,11 +98,137 @@ Penguin Young Readers Group
 11.24
 
 9948753681458
-Dynamically allocated book
-Dynamic
-Dynamic books
-20/06/2017
+Made Up Book 12
+Programmers
+De Anza
+12/06/2017
 8
 15.36
 20.48
+
+5486987258
+Robinson Crusoe
+Daniel Defoe
+Yosemite Publishers Inc.
+06/17/2016
+17
+4.65
+14.99
+
+8794561230521
+Gulliver's Travels
+Jonathan Swift
+San Francisco Publishers LLC.
+05/21/1999
+20
+8.63
+16.75
+
+7893546210
+Tom Jones
+Henry Fielding
+Cupertino Publishers
+04/26/2014
+2
+15.99
+25.65
+
+8523694107532
+Frankenstein 
+Mary Shelly
+East Bay Group
+03/19/2006
+5
+1.25
+6.52
+
+4563892176
+The Count of Monte Cristo 
+Alexandre Dumas
+Mountain View Distributors
+09/25/2004
+17
+6.69
+11.99
+
+8546971320582
+Jane Eyre
+Charlotte Bronte
+West Coast LLC.
+05/12/2013
+22
+4.56
+15.99
+
+7986425318
+The Way We Live Now
+Anthony Trollope
+Texas Distribution
+04/15/2016
+9
+9.56
+19.99
+
+8463795106454
+The Portrait of a Lady
+Henry James
+Foothill Distribution Inc.
+08/15/2005
+15
+15.99
+45.25
+
+8956231245780
+The Diary of a Nobody
+George Grossmith
+East Coast Distribution
+06/07/2014
+2
+30.99
+65.49
+
+7845123598620
+Jude the Obscure
+Thomas Hardy
+Norhtern Publishing Group
+04/02/2010
+22
+8.45
+14.56
+
+9137648250
+The Riddle of the Sands
+Erskine Childers
+Mid America Group
+03/05/2007
+15
+9.63
+14.99
+
+9764318520963
+The Call of the Wild
+Jack London
+South America LLC.
+01/01/2001
+16
+5.50
+12.49
+
+8520643191378
+Nostromo
+Joseph Conrad
+Salt Lake Distribution
+02/04/2015
+4
+8.56
+12.99
+
+7861324598
+The Wind in the Willows
+Kenneth Grahame
+New York Sellers
+05/06/2015
+9
+15.25
+21.99
 
