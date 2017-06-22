@@ -17,7 +17,7 @@ Univeristy of New Mexico Press
 10.78
 
 0385543026
-TEST TEST TEST Camino Island
+Camino Island
 John Grisham
 Doubleday
 06/06/2017
@@ -42,6 +42,15 @@ Crown
 16
 11.63
 16.76
+
+9781449474256
+Milk and Honey
+Rupi Kaur
+Andrews McMeel Publishing
+10/06/2015
+24
+4.48
+9.46
 
 9780735221109
 The Couple Next Door
@@ -78,4 +87,5 @@ Penguin Young Readers Group
 12
 4.65
 11.24
+
 

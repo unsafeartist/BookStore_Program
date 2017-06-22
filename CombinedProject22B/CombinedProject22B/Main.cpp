@@ -191,7 +191,7 @@ int main()
 		int counter = 0;
 		string search_value; //Used for Title of book or ISBN number when LOOK UP book
 		string input;
-		string bookName; //for deleting book (book name variable)
+		string Book2Delete; //for deleting book (book name variable)
 		//int search_input; //Used for edit a book
 		bool again = false; //for look up a book 
 		char do_again; //for look up a book
@@ -445,9 +445,9 @@ int main()
 			//EDIT A BOOK
 
 			//Display menu for user
-			std::cout << "How would you like to search for the book to edit?" << endl;
-			std::cout << "    1)ISBN" << endl;
-			std::cout << "    2)Title" << endl;
+			std::cout << "How would you like to search for a book to edit?" << endl;
+			std::cout << "	1)ISBN" << endl;
+			std::cout << "	2)Title" << endl;
 			std::cout << "Enter your choice: ";
 			cin >> search_choice;
 
@@ -467,7 +467,6 @@ int main()
 		case 4:
 			//DELETE A BOOK
 			int user_choiceDeleteBook;
-
 			//Display menu for user
 			std::cout << "How would you like to search for a book to delete?" << endl;
 			std::cout << "    1)ISBN" << endl;
@@ -484,10 +483,14 @@ int main()
 				cin >> user_choiceDeleteBook;
 			}
 
+			//User input for title or isbn
+			cout << "Please enter it: ";
+			cin.ignore();
+			getline(cin, Book2Delete);
 
 			//If delete book was succesful, then print success message
 			//otherwise output error message
-			if (DeleteBook("Inventory.txt", book, user_choiceDeleteBook)){
+			if (DeleteBook("Inventory.txt", Book2Delete, user_choiceDeleteBook)){
 				cout << "Book Successfully Deleted!" << endl;
 			}
 			else
@@ -689,17 +692,23 @@ bool DeleteBook(string file_name, string isbn_title, int which)
 	//That stores original source file without delted book
 	ofstream buffer;
 	buffer.open("buffer.txt");
-
-	//get line number of the book
-	int lineNo = (search(isbn_title, "Inventory.txt"));
-
-	//If user elects to search_by Title then subtract 1 from the line number to account for 
-
-	//if line number = -1 that means the search function could not find the book and so we return false
-	if (lineNo == -1)
+	int lineNo;
+	//get line number of the book and modify it according to search by title ot isbn
+	if ((search(isbn_title, "Inventory.txt")) != -1)
+	{
+		lineNo = (search(isbn_title, "Inventory.txt")) + 1 - which;
+	}
+	else
 	{
 		return false;
 	}
+	//If user elects to search_by Title then subtract 1 from the line number to account for 
+
+	//if line number = -1 that means the search function could not find the book and so we return false
+	//if (lineNo == -1)
+	//{
+	//	return false;
+	//}
 
 
 	//iterate through the file line by line and increment the counter 
