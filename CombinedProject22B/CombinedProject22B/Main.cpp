@@ -35,30 +35,43 @@ int main()
 {
 	//NOTE: std::cout just because compiler complains about cout being ambigous
 
+	//Variable for if they want to run the entire program again
+	char main_again;
+	
 	//Declare variables for main menu
 	int main_choice;
 
+	do
+	{
+		//Reset main_again option
+		main_again == 'n';
+
 	//Main Menu
 	std::cout << "Boring Booksellers" << endl;
-	std::cout << "    Main Menu     " << endl;
+		std::cout << "    Main Menu    " << endl;
 	std::cout << "1) Cashier Module" << endl;
 	std::cout << "2) Inventory Database Module" << endl;
 	std::cout << "3) Report Module" << endl;
 	std::cout << "4) Exit" << endl;
 	std::cout << endl << "Please enter your choice: ";
 	std::cin >> main_choice;
+		cout << endl; //For aesthetics
 
 	//Validate main choice to be between 1-4 and numerical
 	while (std::cin.fail() || (main_choice < 1) || (main_choice > 4))
 	{
-		std::cout<<"Invalid input! Please enter a number between 1 and 4" << endl;
+			std::cout << "Invalid input! Please enter a number between 1 and 4" << endl;
 		std::cin.clear();
 		std::cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 		std::cin >> main_choice;
 	} 
 	
+		//This should be first, to be more efficient
+		if (main_choice == 4)
+		{
+			break;
+		}
 	
-
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
@@ -70,16 +83,17 @@ int main()
 
 		//Display main Report menu to user and get their decision
 		int decide = 0;
-		std::cout << "Report Module" << endl;
+			std::cout << "-------REPORT MODULE-------" << endl;
 		std::cout << "	1.List of All Books" << endl;
 		std::cout << "	2.Report Whole Sale" << endl;
 		std::cout << "	3.Report Retail Value" << endl;
 		std::cout << "	4.List by Quantity" << endl;
 		std::cout << "	5.List by Cost" << endl;
 		std::cout << "	6.List by Age" << endl;
-		std::cout << "	7.to exit" << endl;
+			std::cout << "	7.Return to Main Menu" << endl;
 		std::cout << "Please enter your decision: ";
 		cin >> decide;
+			cout << endl; //for aesthetics
 
 		// validation for decide ( checking to see if decision is between 0 and 7 )
 		while (std::cin.fail() || (decide < 1) || (decide > 7))
@@ -90,6 +104,11 @@ int main()
 			std::cin >> decide;
 		}
 		
+			if (decide == 7)
+			{
+				main_again = 'y'; //This will return to MAIN PROGRAM MENU
+			}
+
 		while (decide != 7) //if the exit case is not true
 		{
 			if (decide == 1){
@@ -155,21 +174,26 @@ int main()
 			if (reportAgain_choice == "y")
 			{
 				//Re-Display Report menu to user if they elect to re-run report
-				std::cout << "Report Module" << endl;
+					std::cout << "-------REPORT MODULE-------" << endl;
 				std::cout << "	1.List of All Books" << endl;
 				std::cout << "	2.Report Whole Sale" << endl;
 				std::cout << "	3.Report Retail Value" << endl;
 				std::cout << "	4.List by Quantity" << endl;
 				std::cout << "	5.List by Cost" << endl;
 				std::cout << "	6.List by Age" << endl;
-				std::cout << "	7.to exit" << endl;
+					std::cout << "	7.Return to Main menu" << endl;
 				std::cout << "Please enter your decision: ";
 				cin >> decide;
+					cout << endl; //for aesthetics
 
-				//Exit if user chooses to exit
+					//Exit if user chooses to return to main menu
 				if (decide == 7)
+					{
+						main_again = 'y'; //This will return to MAIN PROGRAM MENU
 					break;
 			}
+						
+				}
 			else
 			{
 				//This will break loop if user elects not to re-run report module
@@ -208,6 +232,7 @@ int main()
 		string title, author, publisher, date_added;
 		int quantity_onHand;
 		double wholesale_cost, retail_price;
+			char inventory_again;
 
 		//Create file object for ADD BOOK functionality
 		//fstream fileObject;
@@ -215,8 +240,10 @@ int main()
 		//Open the file
 		//fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
 
+			do
+			{
 		//USER MENU CHOICE FOR INVENTORY MODULE
-		std::cout << "Boring Booksellers Inventory Database" << endl;
+				std::cout << "------INVENTORY DATABASE-----" << endl;
 		std::cout << "1. Look Up a Book" << endl;
 		std::cout << "2. Add a Book" << endl;
 		std::cout << "3. Edit a Book's Record" << endl;
@@ -674,12 +701,32 @@ int main()
 			break;
 		case 5:
 			//Return to main menu
+					main_again = 'y';
 			break;
 		default:
 			std::cout << "Invalid choice!";
 			break;
 
 		} //END BIG OUTSIDE SWITCH STATEMENT
+
+
+				if (main_again != 'y')
+				{
+					cout << "Would you like to re-run the INVENTORY DATABASE MODULE? ('y' for yes, 'n' for no)" << endl;
+					cout << "Please enter choice: ";
+					cin >> inventory_again;
+
+					//Validate user chocie to re-run data
+					while (inventory_again != 'y' && inventory_again != 'Y' && inventory_again != 'n' && inventory_again != 'N')
+					{
+						cout << "Invalid entry! ('y' for yes, or 'n' for no)" << endl;
+						cout << "Please re-enter your choice: ";
+						cin >> inventory_again;
+						cout << endl; //for aesthetics
+					}
+				}
+
+			} while (inventory_again == 'y' || inventory_again == 'Y');
 
 		//Print 
 		std::cout << endl;
@@ -689,7 +736,7 @@ int main()
 
 	}//End if statement for Inventory Module
 
-	//If user chooses cashier module execute following code
+		//If user chooses CASHIER MODULE execute following code
 	if (main_choice == 1)
 	{
 		int total = totalBook();  // find how many books are in the file
@@ -698,10 +745,18 @@ int main()
 		string titleISBN;
 		int sortBy = 0;	int quan;  //makes variables that user will input
 		Cashier sample;  //makes a cashier object
+			string reportAgain_choice; //For if user wants to re-run 
 		
-		cout << "Search book by 1.Title 2.ISBN  3.Exit\n";
+			//Run entire CASHIER MODULE in do-while loop if user wants to keep looping in it
+			do
+			{
+				cout << "-----------CASHIER MODULE---------------" << endl;
+				cout << "    1.Purchase by searching for Title " << endl;
+				cout << "    2.Purchase by searching for ISBN  " << endl;
+				cout << "    3.Return to Main Menu " << endl;
+				cout << "Please enter your choice: ";
 		cin >> sortBy;
-		cout << endl;
+				cout << endl; //skip line for aesthetics
 
 		while (std::cin.fail() || (sortBy < 1) || (sortBy > 3))  //makes sure user entered a valid input if not they get an error message to enter a valid input
 		{
@@ -711,8 +766,12 @@ int main()
 			std::cin >> sortBy;
 		}
 		
-		while (sortBy != 3)
+				if (sortBy == 3)
 		{
+					main_again = 'y'; // Will return to Main Meu
+					break;
+				}
+
 			if (sortBy == 1)
 			{ 
 				cout << "Input the title: \n";
@@ -746,38 +805,36 @@ int main()
 			//cout << endl << endl;  //Skip lines for aesthetics
 
 			//Ask user if they would like to run the Report Module again
-			string reportAgain_choice;
 			cout << "Would you like to run the Cashier module again? ('y' = yes, 'n' = no)" << endl;
 			cout << "Please enter your choice: " << endl;
 			cin >> reportAgain_choice;
 			cout << endl;
 
 			//Validate user choice
-			while (reportAgain_choice != "y" && reportAgain_choice != "n")
+				while (reportAgain_choice != "y" && reportAgain_choice != "Y" && reportAgain_choice != "n" && reportAgain_choice != "N")
 			{
 				cout << "Error! Invalid entry. Your choice can either be a lowercase 'y' for yes, or 'n' for no" << endl;
 				cout << "Please re-enter your choice: ";
 				cin >> reportAgain_choice;
 			}
 
-			if (reportAgain_choice == "y")
-			{
-				//Re-Display Report menu to user if they elect to re-run report
-				cout << "Search book by 1.Title 2.ISBN  3.Exit\n";
-				cin >> sortBy;
-				cout << endl;
+			} while (reportAgain_choice == "y" || reportAgain_choice == "Y");
 
-				//Exit if user chooses to exit
-				if (sortBy == 3)
-					break;
+
 			}
-			else
+
+
+		//Ask user if they would like to re-run the entire program again
+		//main_again is set to 'y' when users want to return to main menu from individual modules
+		if (main_again != 'y')
 			{
-				//This will break loop if user elects not to re-run report module
-				break;
-			}
-		}
+			cout << endl << "Would you like to run the MAIN program again? ('y' = yes, 'n' = no)" << endl;
+			cout << "Please enter your choice: ";
+			cin >> main_again;
 	}
+
+	} while (main_again == 'y' || main_again == 'Y');
+	
 
 	//Display terminating program message
 	cout << "Terminating program..." << endl;
