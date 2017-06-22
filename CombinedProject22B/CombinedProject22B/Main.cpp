@@ -8,6 +8,7 @@
 #include <stdio.h> // to remove rename files
 #include "Report.h"
 #include "Inventory.h"
+#include "Cashier.h"
 using namespace std;
 
 //Inventory Module Prototypes
@@ -36,28 +37,43 @@ int main()
 {
 	//NOTE: std::cout just because compiler complains about cout being ambigous
 
+	//Variable for if they want to run the entire program again
+	char main_again;
+	
 	//Declare variables for main menu
 	int main_choice;
 
+	do
+	{
+		//Reset main_again option
+		main_again == 'n';
+
 	//Main Menu
 	std::cout << "Boring Booksellers" << endl;
-	std::cout << "    Main Menu     " << endl;
+		std::cout << "    Main Menu    " << endl;
 	std::cout << "1) Cashier Module" << endl;
 	std::cout << "2) Inventory Database Module" << endl;
 	std::cout << "3) Report Module" << endl;
 	std::cout << "4) Exit" << endl;
 	std::cout << endl << "Please enter your choice: ";
 	std::cin >> main_choice;
+		cout << endl; //For aesthetics
 
 	//Validate main choice to be between 1-4 and numerical
 	while (std::cin.fail() || (main_choice < 1) || (main_choice > 4))
 	{
-		std::cout<<"Invalid input! Please enter a number between 1 and 4" << endl;
+			std::cout << "Invalid input! Please enter a number between 1 and 4" << endl;
 		std::cin.clear();
 		std::cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 		std::cin >> main_choice;
 	} 
 	
+		//This should be first, to be more efficient
+		if (main_choice == 4)
+		{
+			break;
+		}
+
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
@@ -69,16 +85,17 @@ int main()
 
 		//Display main Report menu to user and get their decision
 		int decide = 0;
-		std::cout << "Report Module" << endl;
+			std::cout << "-------REPORT MODULE-------" << endl;
 		std::cout << "	1.List of All Books" << endl;
 		std::cout << "	2.Report Whole Sale" << endl;
 		std::cout << "	3.Report Retail Value" << endl;
 		std::cout << "	4.List by Quantity" << endl;
 		std::cout << "	5.List by Cost" << endl;
 		std::cout << "	6.List by Age" << endl;
-		std::cout << "	7.to exit" << endl;
+			std::cout << "	7.Return to Main Menu" << endl;
 		std::cout << "Please enter your decision: ";
 		cin >> decide;
+			cout << endl; //for aesthetics
 
 		// validation for decide ( checking to see if decision is between 0 and 7 )
 		while (std::cin.fail() || (decide < 1) || (decide > 7))
@@ -89,6 +106,11 @@ int main()
 			std::cin >> decide;
 		}
 		
+			if (decide == 7)
+			{
+				main_again = 'y'; //This will return to MAIN PROGRAM MENU
+			}
+
 		while (decide != 7) //if the exit case is not true
 		{
 			if (decide == 1){
@@ -154,21 +176,26 @@ int main()
 			if (reportAgain_choice == "y")
 			{
 				//Re-Display Report menu to user if they elect to re-run report
-				std::cout << "Report Module" << endl;
+					std::cout << "-------REPORT MODULE-------" << endl;
 				std::cout << "	1.List of All Books" << endl;
 				std::cout << "	2.Report Whole Sale" << endl;
 				std::cout << "	3.Report Retail Value" << endl;
 				std::cout << "	4.List by Quantity" << endl;
 				std::cout << "	5.List by Cost" << endl;
 				std::cout << "	6.List by Age" << endl;
-				std::cout << "	7.to exit" << endl;
+					std::cout << "	7.Return to Main menu" << endl;
 				std::cout << "Please enter your decision: ";
 				cin >> decide;
+					cout << endl; //for aesthetics
 
-				//Exit if user chooses to exit
+					//Exit if user chooses to return to main menu
 				if (decide == 7)
+					{
+						main_again = 'y'; //This will return to MAIN PROGRAM MENU
 					break;
 			}
+						
+				}
 			else
 			{
 				//This will break loop if user elects not to re-run report module
@@ -205,6 +232,7 @@ int main()
 		string title, author, publisher, date_added;
 		int quantity_onHand;
 		double wholesale_cost, retail_price;
+			char inventory_again;
 
 		//Create file object for ADD BOOK functionality
 		//fstream fileObject;
@@ -212,8 +240,10 @@ int main()
 		//Open the file
 		//fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
 
+			do
+			{
 		//USER MENU CHOICE FOR INVENTORY MODULE
-		std::cout << "Boring Booksellers Inventory Database" << endl;
+				std::cout << "------INVENTORY DATABASE-----" << endl;
 		std::cout << "1. Look Up a Book" << endl;
 		std::cout << "2. Add a Book" << endl;
 		std::cout << "3. Edit a Book's Record" << endl;
@@ -521,12 +551,32 @@ int main()
 			break;
 		case 5:
 			//Return to main menu
+					main_again = 'y';
 			break;
 		default:
 			std::cout << "Invalid choice!";
 			break;
 
 		} //END BIG OUTSIDE SWITCH STATEMENT
+
+
+				if (main_again != 'y')
+				{
+					cout << "Would you like to re-run the INVENTORY DATABASE MODULE? ('y' for yes, 'n' for no)" << endl;
+					cout << "Please enter choice: ";
+					cin >> inventory_again;
+
+					//Validate user chocie to re-run data
+					while (inventory_again != 'y' && inventory_again != 'Y' && inventory_again != 'n' && inventory_again != 'N')
+					{
+						cout << "Invalid entry! ('y' for yes, or 'n' for no)" << endl;
+						cout << "Please re-enter your choice: ";
+						cin >> inventory_again;
+						cout << endl; //for aesthetics
+					}
+				}
+
+			} while (inventory_again == 'y' || inventory_again == 'Y');
 
 		//Print 
 		std::cout << endl;
@@ -535,6 +585,106 @@ int main()
 		//fileObject.close();
 
 	}//End if statement for Inventory Module
+
+		//If user chooses CASHIER MODULE execute following code
+		if (main_choice == 1)
+		{
+			int total = totalBook();  // find how many books are in the file
+			Report testing[25];
+			getAllBook("Inventory.txt", total, testing);  // fills the object array with all the book information
+			string titleISBN;
+			int sortBy = 0;	int quan;  //makes variables that user will input
+			Cashier sample;  //makes a cashier object
+			string reportAgain_choice; //For if user wants to re-run 
+
+			//Run entire CASHIER MODULE in do-while loop if user wants to keep looping in it
+			do
+			{
+				cout << "-----------CASHIER MODULE---------------" << endl;
+				cout << "    1.Purchase by searching for Title " << endl;
+				cout << "    2.Purchase by searching for ISBN  " << endl;
+				cout << "    3.Return to Main Menu " << endl;
+				cout << "Please enter your choice: ";
+				cin >> sortBy;
+				cout << endl; //skip line for aesthetics
+
+				while (std::cin.fail() || (sortBy < 1) || (sortBy > 3))  //makes sure user entered a valid input if not they get an error message to enter a valid input
+				{
+					std::cout << "Invalid input! Please make sure your choice is a number 1, 2, or 3:" << endl;
+					cin.clear();
+					cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+					std::cin >> sortBy;
+				}
+
+				if (sortBy == 3)
+				{
+					main_again = 'y'; // Will return to Main Meu
+					break;
+				}
+
+				if (sortBy == 1)
+				{
+					cout << "Input the title: \n";
+					getline(cin, titleISBN); // need 2 because just 1 doesnt work
+					getline(cin, titleISBN);
+					cout << endl;
+					cout << "How many of the book would you like to buy? \n";
+					cin >> quan;
+					cout << endl;
+					cout << "*****************************************************************" << endl;
+					sample.searchBuy(testing, titleISBN, total, sortBy, quan); // substracts the quantity user bought from the quantity on hand
+					cout << endl << endl;  //Skip lines for aesthetics
+				}
+				if (sortBy == 2)
+				{
+					cout << "Input the ISBN: \n";
+					getline(cin, titleISBN); // need 2 because just 1 doesnt work
+					getline(cin, titleISBN);
+					cout << endl;
+					cout << "How many of the book would you like to buy? \n";
+					cin >> quan;
+					cout << endl;
+					cout << "*****************************************************************" << endl;
+					sample.searchBuy(testing, titleISBN, total, sortBy, quan); // substracts the quantity user bought from the quantity on hand
+					cout << endl << endl;  //Skip lines for aesthetics
+				}
+
+				//sample.searchBuy(testing, titleISBN, total, sortBy, quan); // substracts the quantity user bought from the quantity on hand
+
+				//
+				//cout << endl << endl;  //Skip lines for aesthetics
+
+				//Ask user if they would like to run the Report Module again
+				cout << "Would you like to run the Cashier module again? ('y' = yes, 'n' = no)" << endl;
+				cout << "Please enter your choice: " << endl;
+				cin >> reportAgain_choice;
+				cout << endl;
+
+				//Validate user choice
+				while (reportAgain_choice != "y" && reportAgain_choice != "Y" && reportAgain_choice != "n" && reportAgain_choice != "N")
+				{
+					cout << "Error! Invalid entry. Your choice can either be a lowercase 'y' for yes, or 'n' for no" << endl;
+					cout << "Please re-enter your choice: ";
+					cin >> reportAgain_choice;
+				}
+
+			} while (reportAgain_choice == "y" || reportAgain_choice == "Y");
+
+
+		} 
+
+
+		//Ask user if they would like to re-run the entire program again
+		//main_again is set to 'y' when users want to return to main menu from individual modules
+		if (main_again != 'y')
+		{
+			cout << endl << "Would you like to run the MAIN program again? ('y' = yes, 'n' = no)" << endl;
+			cout << "Please enter your choice: ";
+			cin >> main_again;
+		}
+		
+	} while (main_again == 'y' || main_again == 'Y');
+	
 
 	//Display terminating program message
 	cout << "Terminating program..." << endl;
@@ -944,38 +1094,38 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	*/
 
 //REPORT MODULE FUNCTIONS
-int totalBook()
+int totalBook()   //this function counts how many books there are in the file for use on report functions
 {
 	ifstream test;
 	test.open("Inventory.txt");
 	int total = 0;
 	int counter = 0;
-	if (test.is_open())
+	if (test.is_open())      //searches for how many ISBNs there are in the file to count how many books there are
 	{
 		int length;
 		string temp;
-		while (test >> temp)
+		while (test >> temp) //reads in strings in file to a temp variable
 		{
 			temp.c_str();
 			length = temp.length();
 			int x = 0;
-			if (length > 9 && length < 14)
+			if (length > 9 && length < 14)  //checks if the string stored in temp is an isbn
 			{
 				while (x < length)
 				{
-					if (isdigit(temp[x]) != 0)
+					if (isdigit(temp[x]) != 0)   //makes sure it is all digits to confirm it is an ISBN
 					{
 						x++;
 						counter++;
-						if (x == (length - 1))	total++;
+						if (x == (length - 1))	total++;  //if it is an ISBN adds to the total counter of books
 					}
-					else break;
+					else break;  // if it is not an ISBN breaks and does not contribute to the total counter of books
 				}
 			}
 		}
 	}
 	test.close();
-	const int temp = total;
+	const int temp = total;   // makes the total a constant because it should remain unchanged throughout the program after this
 	return temp;
 }
 
@@ -985,6 +1135,8 @@ void getAllBook(std::string file_name, int total, Report object[])
 	fileObject.open(file_name, std::ios::in); // opening file in input mode
 	std::string holder;
 
+	try // used this to exception handle. Used to be a bug here that was fixed
+	{
 	for (int x = 0; x < total; x++)
 	{
 		
@@ -1014,7 +1166,13 @@ void getAllBook(std::string file_name, int total, Report object[])
 		getline(fileObject, holder);
 		object[x].setRetail_price(stod(holder));				//set retail price
 
-		getline(fileObject, holder);						//last line
+			getline(fileObject, holder);					//last line
+		}
+	}
+	catch (exception e) //catches exception so it does not crash
+	{
+		cout << e.what() << endl; //tells what the exception is so it can be fixed
+		return;
 	}
 }
 
