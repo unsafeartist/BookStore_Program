@@ -272,8 +272,7 @@ int main()
 			//Declare variables
 			//int lineNumber;
 
-			do
-			{
+			
 				//Reset "again" variable
 				again = false;
 
@@ -380,6 +379,7 @@ int main()
 			//bound checking
 			//User input "ISBN"
 			std::cout << "ISBN-10 or ISBN-13: ";
+
 			getline(cin, ISBN);
 
 				
@@ -751,7 +751,6 @@ int main()
 					}
 				}
 
-			} while (inventory_again == 'y' || inventory_again == 'Y');
 
 		//Print 
 		std::cout << endl;
