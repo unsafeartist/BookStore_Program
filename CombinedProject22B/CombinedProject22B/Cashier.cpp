@@ -20,21 +20,22 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 {
 	std::cout << std::setprecision(4);
 	std::fstream fileObject;
-	fileObject.open("test.txt", std::ios::in); // opening file in input mode
+	fileObject.open("Inventory.txt", std::ios::in); // opening file in input mode
 	double cost = 0;
 	if (or == 1)
 	{
 		int index;
-		for (index = 0; index < total; index++)
+		for (index = 0; index < total; index++)// matches the user entered title or isbn to the corresponding object holding it's information
 		{
-			if (array[index].getTitle() == term) break;
+			if (array[index].getTitle() == term)
+			{
+				break;
+			}
 		}
-		//else{
-		//std::cout << "book doesnt exist \n" << endl;
-		//}
-		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);
-		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725);
-		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;
+
+		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);// subtracts the quantity the user wants to buy from the quantity on hand and sets that as new quantity
+		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725); // calculates the cost of the books user is buying
+		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;// displays to user how many copies they bought and for how much
 		if (array[index].getQuantity_onHand() == 0)
 		{
 			while (index != total)
@@ -44,6 +45,8 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 			}
 		}
 	}
+
+
 	if (or == 2)
 	{
 		int index;
@@ -51,7 +54,7 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		{
 			if (array[index].getISBN() == term) break;
 		}
-		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);
+		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);                                     //does same things as the previous logic if they chose to search by book
 		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725);
 		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;
 		if (array[index].getQuantity_onHand() == 0)
@@ -64,11 +67,12 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		}
 
 	}
-	//close
-	/*remove("test.txt");	//coudlnt get the print out to another file working
+	fileObject.close();     //closing the file before it is removed
+	remove("Inventory.txt");	//removes file
 	std::fstream newFileObject;
-	newFileObject.open("test.txt", std::ios::out); // opening file in input mode
-	for (int y = 0; y < total; y++)
+	newFileObject.open("Inventory.txt", std::ios::out); // opening file in input mode
+	
+	for (int y = 0; y < total; y++) //makes the new file have all updated information about books being bought
 	{
 	newFileObject << array[y].getISBN() << std::endl;
 	newFileObject << array[y].getTitle() << std::endl;
@@ -78,7 +82,8 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 	newFileObject << array[y].getQuantity_onHand() << std::endl;
 	newFileObject << array[y].getWholesale_cost() << std::endl;
 	newFileObject << array[y].getRetail_price() << std::endl;
-	}*/
+	newFileObject << "" << std::endl; // puts the whitespace inbetween each book for the new file
+	}
 }
 
 Cashier::~Cashier()
