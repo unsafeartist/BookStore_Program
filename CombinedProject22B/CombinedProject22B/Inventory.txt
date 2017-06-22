@@ -7,15 +7,6 @@ Scholastic Press
 3.5
 7.49
 
-9780385737951
-The Maze Runner
-James Dashner
-Delacorte Press
-08/24/2010
-12
-2.39
-6.49
-
 9780826328090
 The Education of Little Tree
 Forrest Carter
@@ -26,7 +17,7 @@ Univeristy of New Mexico Press
 10.78
 
 0385543026
-TEST TEST TEST Camino Island
+Camino Island
 John Grisham
 Doubleday
 06/06/2017
@@ -97,12 +88,4 @@ Penguin Young Readers Group
 4.65
 11.24
 
-9948753681458
-Dynamically allocated book
-Dynamic
-Dynamic books
-20/06/2017
-8
-15.36
-20.48
 

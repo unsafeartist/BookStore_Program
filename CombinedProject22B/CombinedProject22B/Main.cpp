@@ -19,7 +19,7 @@ void editABook(string file_name, string term2replace, string with);// edit a boo
 void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
 bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne);
 
-void DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
+bool DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
 
 
 //Report Module Protoypes
@@ -191,7 +191,7 @@ int main()
 		int counter = 0;
 		string search_value; //Used for Title of book or ISBN number when LOOK UP book
 		string input;
-		string bookName; //for deleting book (book name variable)
+		string Book2Delete; //for deleting book (book name variable)
 		//int search_input; //Used for edit a book
 		bool again = false; //for look up a book 
 		char do_again; //for look up a book
@@ -445,9 +445,9 @@ int main()
 			//EDIT A BOOK
 
 			//Display menu for user
-			std::cout << "How would you like to search for the book to edit?" << endl;
-			std::cout << "    1)ISBN" << endl;
-			std::cout << "    2)Title" << endl;
+			std::cout << "How would you like to search for a book to edit?" << endl;
+			std::cout << "	1)ISBN" << endl;
+			std::cout << "	2)Title" << endl;
 			std::cout << "Enter your choice: ";
 			cin >> search_choice;
 
@@ -466,12 +466,38 @@ int main()
 			break;
 		case 4:
 			//DELETE A BOOK
+			int user_choiceDeleteBook;
+			//Display menu for user
+			std::cout << "How would you like to search for a book to delete?" << endl;
+			std::cout << "    1)ISBN" << endl;
+			std::cout << "    2)Title" << endl;
+			std::cout << "Enter your choice: ";
+			cin >> user_choiceDeleteBook;
 
-			//Get ISBN number from user TESTING TESTING TESTING
-			//std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
-			//getline(cin, book);
-			//deleteBookLK("Inventory.txt", book, 1);
-			DeleteBook("Inventory.txt", "9780385737951", 1);
+			//Validation for user input
+			while (cin.fail() || (user_choiceDeleteBook < 1) || (user_choiceDeleteBook > 2))
+			{
+				cout << "Error! Invalid Choice. Choice must be either 1 or 2. Please re-enter: ";
+				cin.clear(); // clears the fail state for cin.fail()
+				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+				cin >> user_choiceDeleteBook;
+			}
+
+			//User input for title or isbn
+			cout << "Please enter it: ";
+			cin.ignore();
+			getline(cin, Book2Delete);
+
+			//If delete book was succesful, then print success message
+			//otherwise output error message
+			if (DeleteBook("Inventory.txt", Book2Delete, user_choiceDeleteBook)){
+				cout << "Book Successfully Deleted!" << endl;
+			}
+			else
+			{
+				cout << "Error! The Book Could Not Be Deleted." << endl;
+			}
+			
 
 			//deleteBookJune21("Inventory.txt", book, 1); // this was commented 
 
@@ -636,7 +662,86 @@ bool getBook(Inventory &obj, string book, string file_name, int type)
 	
 } //end function "getBook" // have get book accept and object or return Inventory class object
 
+bool DeleteBook(string file_name, string isbn_title, int which)
+{
+	//Leander and Kamal
 
+	//This function accepts 3 parameters file_name of file to be read,
+	//isbn or title of book as string input, "which" = user selection to 
+	//delete by title or isbn
+	//This function will return false if: input file is unable to open & 
+	//if book is not found
+	//Function is reliant on "search" function, because it needs the line number
+	//of book object in source file
+
+	//Declare local variables
+	string holder;
+	int counter = 1; //counter = 1 because we start counting at 1
+
+	//Open file for input
+	ifstream source;
+	source.open(file_name);
+
+	//if file fails to open return false
+	if (source.fail())
+	{
+		return false;
+	}
+
+	//create temporary buffer file
+	//That stores original source file without delted book
+	ofstream buffer;
+	buffer.open("buffer.txt");
+	int lineNo;
+	//get line number of the book and modify it according to search by title ot isbn
+	if ((search(isbn_title, "Inventory.txt")) != -1)
+	{
+		lineNo = (search(isbn_title, "Inventory.txt")) + 1 - which;
+	}
+	else
+	{
+		return false;
+	}
+	//If user elects to search_by Title then subtract 1 from the line number to account for 
+
+	//if line number = -1 that means the search function could not find the book and so we return false
+	//if (lineNo == -1)
+	//{
+	//	return false;
+	//}
+
+
+	//iterate through the file line by line and increment the counter 
+	//if counter value is not equal to the line number of the book
+	//write the value of the line (read into holder) to the output (buffer file)
+	while (getline(source, holder))
+	{
+		if (counter != lineNo	  &&
+			counter != lineNo + 1 &&
+			counter != lineNo + 2 &&
+			counter != lineNo + 3 &&
+			counter != lineNo + 4 &&
+			counter != lineNo + 5 &&
+			counter != lineNo + 6 &&
+			counter != lineNo + 7 &&
+			counter != lineNo + 8)
+		{
+			buffer << holder << endl;
+		}
+		counter++;
+	}
+
+	//close both source and buffer files
+	source.close();
+	buffer.close();
+
+	//remove the source file and rename the buffer file
+	remove(file_name.c_str());
+	rename("buffer.txt", file_name.c_str());
+
+	//If all goes according to plan then return true
+	return true;
+}
 //void deleteBookKamal(string file_name, string isbn_input)
 //{
 //	//Author Kamal
@@ -836,8 +941,6 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	}
 
 
-	delete Book2delete;
-}
 //REPORT MODULE FUNCTIONS
 int totalBook()
 {
