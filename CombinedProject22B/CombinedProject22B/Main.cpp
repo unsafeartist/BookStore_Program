@@ -878,6 +878,7 @@ bool DeleteBook(string file_name, string isbn_title, int which)
 	
 // working delete book function
 
+/*
 void DeleteBook(string file_name, string isbn_title, int which)
 {
 	ifstream source;
@@ -924,13 +925,13 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	//		cout << "getWholesale_cost is FOUND" << endl;
 	//	}
 	//	
-	//	if (/* holder != Book2delete->getTitle()		 
+	//	if ( holder != Book2delete->getTitle()		 
 	//		&& holder != Book2delete->getISBN()       
 	//		&& holder != Book2delete->getAuthor()
 	//		&& holder != Book2delete->getPublisher() 
 	//		&& holder != Book2delete->getDate_added() 
 	//		&& holder != to_string(Book2delete->getQuantity_onHand()) 
-	//		&&*/ holder != to_string(Book2delete->getWholesale_cost())
+	//		&& holder != to_string(Book2delete->getWholesale_cost())
 	//		&& holder != to_string(Book2delete->getRetail_price()) )
 	//	{
 	//		buffer << holder <<endl;
@@ -938,8 +939,8 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	//	
 	//	
 	//
-	}
-
+	//}
+	*/
 
 //REPORT MODULE FUNCTIONS
 int totalBook()
