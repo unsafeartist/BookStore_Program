@@ -45,7 +45,7 @@ int main()
 	do
 	{
 		//Reset main_again option
-		main_again == 'n';
+		main_again = 'n';
 
 	//Main Menu
 	std::cout << "Boring Booksellers" << endl;
@@ -79,22 +79,22 @@ int main()
 		//REPORT MODULE CODE BELOW
 		//ALL CODE FOR REPORT MODULE BELOW
 		int total = totalBook();
-			Report testing[50];
+		Report testing[50];
 		getAllBook("Inventory.txt", total, testing);
 
 		//Display main Report menu to user and get their decision
 		int decide = 0;
-			std::cout << "-------REPORT MODULE-------" << endl;
+		std::cout << "-------REPORT MODULE-------" << endl;
 		std::cout << "	1.List of All Books" << endl;
 		std::cout << "	2.Report Whole Sale" << endl;
 		std::cout << "	3.Report Retail Value" << endl;
 		std::cout << "	4.List by Quantity" << endl;
 		std::cout << "	5.List by Cost" << endl;
 		std::cout << "	6.List by Age" << endl;
-			std::cout << "	7.Return to Main Menu" << endl;
+		std::cout << "	7.Return to Main Menu" << endl;
 		std::cout << "Please enter your decision: ";
 		cin >> decide;
-			cout << endl; //for aesthetics
+		cout << endl; //for aesthetics
 
 		// validation for decide ( checking to see if decision is between 0 and 7 )
 		while (std::cin.fail() || (decide < 1) || (decide > 7))
@@ -107,11 +107,6 @@ int main()
 		
 			if (decide == 7)
 			{
-				main_again = 'y'; //This will return to MAIN PROGRAM MENU
-			}
-
-			while (decide != 7) //if the exit case is not true
-		{
 				main_again = 'y'; //This will return to MAIN PROGRAM MENU
 			}
 
@@ -259,12 +254,11 @@ int main()
 		std::cout << "Enter Your Choice: ";
 		cin >> choice;
 
-		cin.ignore();
-
 		//VALIDATION Choice must be between 1-5
 		while (choice < 1 || choice > 5)
 		{
 			std::cout << "Error! You must make a choice between 1-5. Please re-enter your choice: ";
+			cin.ignore();
 			cin >> choice;
 		}
 
@@ -304,6 +298,8 @@ int main()
 				switch (search_choice)
 				{
 				case 1:
+					//LOOK UP BOOK
+
 					//Declare variables
 					bool bookFound;
 
@@ -447,16 +443,16 @@ int main()
 				getline(cin, date_added);
 			}
 			//********************************
-
-			//User input
+			
+			//noskipws skips white space
 			std::cout << "Quantity On Hand: ";
-			cin >> quantity_onHand;
+			cin >> noskipws >> quantity_onHand;
 
 			//VALIDATION for quantity on hand
 			while (cin.fail() || quantity_onHand < 0)
 			{
 				cin.clear();
-				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
+				std::cout << "Error! Must be numerical value > 0. Please Re-Enter: ";
 				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 				cin >> quantity_onHand;
 
@@ -464,17 +460,20 @@ int main()
 
 			//********************************
 			std::cout << "Wholesale Cost: ";
+			cin.ignore();
 			cin >> wholesale_cost;
+
 			while (cin.fail() || wholesale_cost < 0)
 			{
 				cin.clear();
-				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
+				std::cout << "Error! Must be decimal value > 0 (i.e 5.50). Please Re-Enter: ";
 				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 				cin >> wholesale_cost;
 			}
 
 			//********************************
 			std::cout << "Retail Price: ";
+			cin.ignore();
 			cin >> retail_price;
 			while (cin.fail() || retail_price < 0)
 			{
@@ -491,6 +490,8 @@ int main()
 			//Output the entire object(book) into file
 			//fileObject << endl; //add space between books
 			//fileObject << object; //Operator overloading allows us to ouput entire object
+
+			cout << endl; //for aesthetics
 
 			break;
 		case 3:
@@ -736,6 +737,7 @@ int main()
 				{
 					cout << "Would you like to re-run the INVENTORY DATABASE MODULE? ('y' for yes, 'n' for no)" << endl;
 					cout << "Please enter choice: ";
+					cin.ignore();
 					cin >> inventory_again;
 
 					//Validate user chocie to re-run data
@@ -743,6 +745,7 @@ int main()
 					{
 						cout << "Invalid entry! ('y' for yes, or 'n' for no)" << endl;
 						cout << "Please re-enter your choice: ";
+						cin.ignore();
 						cin >> inventory_again;
 						cout << endl; //for aesthetics
 					}
