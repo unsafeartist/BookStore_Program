@@ -900,6 +900,8 @@ bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
 {
 	//Declare variables
 	bool success = true;
+	string fileLine_input;
+	int counter = 0;
 
 	//Open 2 files
 	//Source file, and one temporary output file
@@ -915,6 +917,8 @@ bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
 
 	if (fileSource.is_open())
 	{
+		cout << "TESTING file is open" << endl;
+
 		//Create buffer file
 		buffer.open("buffer.txt");
 
@@ -924,11 +928,14 @@ bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
 		//Use getbook function to store book values into "copyObject"
 		if (true == getBook(*copyObject, inputISBN_Title, file_name, whichOne))
 		{
-			//Execute code if book was successfully found
+			cout << "TESTING getbook = true" << endl;
+			cout << *copyObject;
+
+			//cout << "*runnerObject BELOW: " << endl << *runnerObject;
+			//While loop to read data goes BELOW
 			while (!fileSource.eof())
 			{
-				cin >> *runnerObject;
-				buffer << *copyObject;
+				fileSource >> *runnerObject;
 			}
 
 		}
@@ -945,7 +952,11 @@ bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
 		success = false;
 	}
 
+	delete copyObject;
+	delete runnerObject;
+	
 	//Return wether the function was able to successfully 
 	//execute or not
 	return success;
+
 }
