@@ -1012,9 +1012,11 @@ bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
 	ifstream fileSource;
 	ofstream buffer;
 
+
 	//Create 2 objects of Inventory Class
 	Inventory* copyObject = new Inventory;
 	Inventory* runnerObject = new Inventory;
+
 
 	//Open fileSource for input
 	fileSource.open(file_name);
@@ -1037,9 +1039,9 @@ bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
 
 			//cout << "*runnerObject BELOW: " << endl << *runnerObject;
 			//While loop to read data goes BELOW
-			while (!fileSource.eof())
+			while (getline(fileSource, fileLine_input))
 			{
-				fileSource >> *runnerObject;
+				
 			}
 
 		}
