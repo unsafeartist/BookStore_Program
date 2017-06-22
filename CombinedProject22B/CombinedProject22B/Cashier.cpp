@@ -22,6 +22,7 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 	std::fstream fileObject;
 	fileObject.open("Inventory.txt", std::ios::in);    // opening file in input mode
 	double cost = 0;
+	int valid = 0;
 	if (or == 1)
 	{
 		int index;
@@ -31,25 +32,35 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 			{
 				break;
 			}
+			valid++;
 		}
-		if (array[index].getQuantity_onHand() < quan)         //Makes sure that user does not try to buy more books than are in stock  
+		if (valid == total)   //makes sure the book exists before calculating
 		{
-			std::cout << "You are trying to buy more books than are in stock!" << std::endl;
+			std::cout << "This book does not exist" << std::endl;
 		}
 		else
 		{
 
-			array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);// subtracts the quantity the user wants to buy from the quantity on hand and sets that as new quantity
-			cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725); // calculates the cost of the books user is buying
-			std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;// displays to user how many copies they bought and for how much
-			if (array[index].getQuantity_onHand() == 0)
+
+			if (array[index].getQuantity_onHand() < quan)         //Makes sure that user does not try to buy more books than are in stock  
 			{
-				while (index != total)
-				{
-					array[index] = array[index + 1];       //shifts the array elements up one so that when new file is written the book is deleted
-					index++;
-				}
+				std::cout << "You are trying to buy more books than are in stock!" << std::endl;
+		}
+			else
+			{
+
+		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);// subtracts the quantity the user wants to buy from the quantity on hand and sets that as new quantity
+		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725); // calculates the cost of the books user is buying
+		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;// displays to user how many copies they bought and for how much
+		if (array[index].getQuantity_onHand() == 0)
+		{
+			while (index != total)
+			{
+						array[index] = array[index + 1];       //shifts the array elements up one so that when new file is written the book is deleted
+				index++;
 			}
+		}
+	}
 		}
 	}
 
@@ -59,7 +70,21 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		int index;
 		for (index = 0; index < total; index++)
 		{
-			if (array[index].getISBN() == term) break;
+		if (array[index].getISBN() == term)
+			{
+				break;
+			}
+			valid++;
+		}
+		if (valid == total)   //makes sure the book exists before calculating
+			{
+			std::cout << "This book does not exist" << std::endl;
+			}
+		else
+			{
+			if (array[index].getQuantity_onHand() < quan)  //Makes sure that user does not try to buy more books than are in stock  
+			{
+				std::cout << "You are trying to buy more books than are in stock!" << std::endl;
 		}
 
 		if (array[index].getQuantity_onHand() < quan)  //Makes sure that user does not try to buy more books than are in stock  
@@ -69,17 +94,17 @@ void Cashier::searchBuy(Report array[], std::string term, int total, int or, int
 		else
 		{
 
-			array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);                                     //does same things as the previous logic if they chose to search by book
-			cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725);
-			std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;
-			if (array[index].getQuantity_onHand() == 0)
+		array[index].setQuatity_onHand(array[index].getQuantity_onHand() - quan);                                     //does same things as the previous logic if they chose to search by book
+		cost = array[index].getRetail_price()*quan + (array[index].getRetail_price()*quan*0.0725);
+		std::cout << "You are buying " << quan << " copies of " << array[index].getTitle() << " costing $" << cost << std::endl;
+		if (array[index].getQuantity_onHand() == 0)
+		{
+			while (index != total)
 			{
-				while (index != total)
-				{
-					array[index] = array[index + 1];    //shifts the array elements up one so that when new file is written the book is deleted
-					index++;
-				}
+						array[index] = array[index + 1];    //shifts the array elements up one so that when new file is written the book is deleted
+				index++;
 			}
+		}
 		}
 
 	}

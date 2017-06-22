@@ -18,6 +18,7 @@ bool getBook(Inventory &obj, string book, string file_name, int type); // functi
 
 void editABook(string file_name, string term2replace, string with);// edit a book function
 void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
+bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne);
 
 bool DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
 
@@ -78,7 +79,7 @@ int main()
 		//REPORT MODULE CODE BELOW
 		//ALL CODE FOR REPORT MODULE BELOW
 		int total = totalBook();
-		Report testing[25];
+			Report testing[50];
 		getAllBook("Inventory.txt", total, testing);
 
 		//Display main Report menu to user and get their decision
@@ -106,6 +107,11 @@ int main()
 		
 			if (decide == 7)
 			{
+				main_again = 'y'; //This will return to MAIN PROGRAM MENU
+			}
+
+			while (decide != 7) //if the exit case is not true
+		{
 				main_again = 'y'; //This will return to MAIN PROGRAM MENU
 			}
 
@@ -198,11 +204,11 @@ int main()
 			{
 				//This will break loop if user elects not to re-run report module
 				break;
-		}
+			}
 				
 		}//end outer-while loop
 
-	} //End of if statement for report module
+} //End of if statement for report module
 
 
 
@@ -308,7 +314,7 @@ int main()
 
 					//Search for book using ISBN
 					//Last parameter is 1, because choice 1 = search by value
-					bookFound = getBook(bookData, search_value, "Inventory.txt", 1);
+							bookFound = getBook(bookData, search_value, "Inventory.txt", 1);
 
 					if (bookFound != false)
 					{
@@ -335,7 +341,7 @@ int main()
 
 					//Find book using "getBook" function
 					//A choice of 2(last parameter in function) allows for a search by Title of book
-					bookFound = getBook(bookData, search_value, "Inventory.txt", 2);
+							bookFound = getBook(bookData, search_value, "Inventory.txt", 2);
 
 					if (bookFound != false)
 					{
@@ -380,6 +386,7 @@ int main()
 			std::cout << "ISBN-10 or ISBN-13: ";
 			getline(cin, ISBN);
 
+				
 			//VALIDATION ISBN
 			//Must be 13 digits long
 			while (ISBN.length() != 10 && ISBN.length() != 13)
@@ -393,12 +400,27 @@ int main()
 			//No validation required for these 3 data entries
 			std::cout << "Title: ";
 			getline(cin, title);
+					while (title.length() < 1)
+					{
+						std::cout << "Error Please enter a valid Title: ";
+						getline(cin, title);
+					}
 
 			std::cout << "Author: ";
 			getline(cin, author);
+					while (author.length() < 1)
+					{
+						std::cout << "Error Please enter a valid Author: ";
+						getline(cin, author);
+					}
 
 			std::cout << "Publisher: ";
 			getline(cin, publisher);
+					while(publisher.length() < 1)
+					{
+						std::cout << "Error Please enter a valid Publisher: ";
+						getline(cin, publisher);
+					}
 			//********************************
 
 			//User input
@@ -474,9 +496,9 @@ int main()
 		case 3:
 			//EDIT A BOOK
 			//Display menu for user
-			std::cout << "How would you like to search for a book to edit?" << endl;
-			std::cout << "	1)ISBN" << endl;
-			std::cout << "	2)Title" << endl;
+					std::cout << "How would you like to search for a book to edit?" << endl;
+					std::cout << "	1)ISBN" << endl;
+					std::cout << "	2)Title" << endl;
 			std::cout << "Enter your choice: ";
 			cin >> search_choice;
 
@@ -490,7 +512,7 @@ int main()
 				cin >> search_choice;
 			}
 			cout << "What is it: ";
-			
+
 			cin.ignore();
 			getline(cin, Book2Edit);
 			cout << endl;
@@ -740,7 +762,7 @@ int main()
 	if (main_choice == 1)
 	{
 		int total = totalBook();  // find how many books are in the file
-		Report testing[25];
+			Report testing[50];
 		getAllBook("Inventory.txt", total, testing);  // fills the object array with all the book information
 		string titleISBN;
 		int sortBy = 0;	int quan;  //makes variables that user will input
@@ -1001,18 +1023,18 @@ bool DeleteBook(string file_name, string isbn_title, int which)
 		lineNo = (search(isbn_title, "Inventory.txt")) + 1 - which;
 	}
 	else
-	{
+{
 		return false;
 	}
 	//If user elects to search_by Title then subtract 1 from the line number to account for 
-
+	 
 	//if line number = -1 that means the search function could not find the book and so we return false
 	//if (lineNo == -1)
 	//{
 	//	return false;
 	//}
-
-
+	
+	
 	//iterate through the file line by line and increment the counter 
 	//if counter value is not equal to the line number of the book
 	//write the value of the line (read into holder) to the output (buffer file)
@@ -1027,7 +1049,7 @@ bool DeleteBook(string file_name, string isbn_title, int which)
 			counter != lineNo + 6 &&
 			counter != lineNo + 7 &&
 			counter != lineNo + 8)
-		{
+	{
 			buffer << holder << endl;
 		}
 		counter++;
@@ -1088,34 +1110,34 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 	try // used this to exception handle. Used to be a bug here that was fixed
 	{
-	for (int x = 0; x < total; x++)
-	{
+		for (int x = 0; x < total; x++)
+		{
 		
-		getline(fileObject, holder);      //set ISBN
-		object[x].setISBN(holder);
+			getline(fileObject, holder);      //set ISBN
+			object[x].setISBN(holder);
 
-		getline(fileObject, holder);         //set Title
-		object[x].setTitle(holder);
+			getline(fileObject, holder);         //set Title
+			object[x].setTitle(holder);
 
-		getline(fileObject, holder);        //setAuthor
-		object[x].setAuthor(holder);
+			getline(fileObject, holder);        //setAuthor
+			object[x].setAuthor(holder);
 
-		getline(fileObject, holder);     //set Publisher
-		object[x].setPublisher(holder);
+			getline(fileObject, holder);     //set Publisher
+			object[x].setPublisher(holder);
 
-		getline(fileObject, holder);    //set Date
-		object[x].setDate_added(holder);
+			getline(fileObject, holder);    //set Date
+			object[x].setDate_added(holder);
 
-		std::string temp;
-		getline(fileObject, temp);    //set quantity_onHand after converting string to int 
-		int quantity_onHand = stoi(temp);
-		object[x].setQuatity_onHand(quantity_onHand);
+			std::string temp;
+			getline(fileObject, temp);    //set quantity_onHand after converting string to int 
+			int quantity_onHand = stoi(temp);
+			object[x].setQuatity_onHand(quantity_onHand);
 
-		getline(fileObject, holder);			//set wholesale cost
-		object[x].setWholesale_cost(stod(holder));
+			getline(fileObject, holder);			//set wholesale cost
+			object[x].setWholesale_cost(stod(holder));
 
-		getline(fileObject, holder);
-		object[x].setRetail_price(stod(holder));				//set retail price
+			getline(fileObject, holder);
+			object[x].setRetail_price(stod(holder));				//set retail price
 
 			getline(fileObject, holder);					//last line
 		}
