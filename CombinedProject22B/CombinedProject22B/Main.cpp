@@ -17,6 +17,7 @@ bool getBook(Inventory &obj, string book, string file_name, int type); // functi
 void deleteBookLK(string fileName, string book, int by);
 void editABook(string file_name, string term2replace, string with);// edit a book function
 void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
+bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne);
 
 void DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
 
@@ -472,6 +473,8 @@ int main()
 			//deleteBookLK("Inventory.txt", book, 1);
 			DeleteBook("Inventory.txt", "9780385737951", 1);
 
+			//deleteBookJune21("Inventory.txt", book, 1); // this was commented 
+
 			//Testing if Kamal delete book function works TESTING TESTING TESTING
 		//	deleteBookKamal("Inventory.txt", book);
 
@@ -766,8 +769,8 @@ bool getBook(Inventory &obj, string book, string file_name, int type)
 //
 //	delete bookptr;
 //}
-
-
+	 
+	
 // working delete book function
 
 void DeleteBook(string file_name, string isbn_title, int which)
@@ -790,9 +793,9 @@ void DeleteBook(string file_name, string isbn_title, int which)
 		//cout << to_string(Book2delete->getWholesale_cost()) << "|" << to_string(Book2delete->getRetail_price()) << endl;
 	while (getline(source, holder))
 	{
-
+	
 		if (holder == wholesale)
-		{
+	{
 			cout << "HOLDER == WHOLESALE" << endl;
 		}
 		//cout << to_string(Book2delete->getWholesale_cost()) << endl;
@@ -818,7 +821,7 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	//	
 	//	
 	//
-	 }
+	}
 
 
 	delete Book2delete;
@@ -951,4 +954,69 @@ void addBook(string fileName,string isbn, string title, string author, string pu
 	write << *newBook <<endl; //write book to file 
 	write.close(); //close fstream object
 	delete newBook; //free up memory
+}
+
+bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
+{
+	//Declare variables
+	bool success = true;
+	string fileLine_input;
+	int counter = 0;
+
+	//Open 2 files
+	//Source file, and one temporary output file
+	ifstream fileSource;
+	ofstream buffer;
+
+	//Create 2 objects of Inventory Class
+	Inventory* copyObject = new Inventory;
+	Inventory* runnerObject = new Inventory;
+
+	//Open fileSource for input
+	fileSource.open(file_name);
+
+	if (fileSource.is_open())
+	{
+		cout << "TESTING file is open" << endl;
+
+		//Create buffer file
+		buffer.open("buffer.txt");
+
+		//If the file successfully opened for input(fileSource)
+		//Execute code in here
+
+		//Use getbook function to store book values into "copyObject"
+		if (true == getBook(*copyObject, inputISBN_Title, file_name, whichOne))
+		{
+			cout << "TESTING getbook = true" << endl;
+			cout << *copyObject;
+
+			//cout << "*runnerObject BELOW: " << endl << *runnerObject;
+			//While loop to read data goes BELOW
+			while (!fileSource.eof())
+			{
+				fileSource >> *runnerObject;
+			}
+
+		}
+		else
+		{
+			//Have delete function return false
+			success = false;
+		}
+		
+	}
+	else
+	{
+		//Unable to execute delete function properly
+		success = false;
+	}
+
+	delete copyObject;
+	delete runnerObject;
+	
+	//Return wether the function was able to successfully 
+	//execute or not
+	return success;
+
 }
