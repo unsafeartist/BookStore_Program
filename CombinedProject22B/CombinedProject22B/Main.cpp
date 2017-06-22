@@ -1,4 +1,5 @@
 //Authors Kamal, Leander, George, Jessie
+//*****GEORGE AND JESSIE CASHIER BRANCH******
 
 #include <iostream>
 #include <fstream>
@@ -7,6 +8,7 @@
 #include <stdio.h> // to remove rename files
 #include "Report.h"
 #include "Inventory.h"
+#include "Cashier.h"
 using namespace std;
 
 //Inventory Module Prototypes
@@ -57,6 +59,8 @@ int main()
 		std::cin >> main_choice;
 	} 
 	
+	
+
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
@@ -535,6 +539,96 @@ int main()
 
 	}//End if statement for Inventory Module
 
+	//If user chooses cashier module execute following code
+	if (main_choice == 1)
+	{
+		int total = totalBook();  // find how many books are in the file
+		Report testing[25];
+		getAllBook("Inventory.txt", total, testing);  // fills the object array with all the book information
+		string titleISBN;
+		int sortBy = 0;	int quan;  //makes variables that user will input
+		Cashier sample;  //makes a cashier object
+		
+		cout << "Search book by 1.Title 2.ISBN  3.Exit\n";
+		cin >> sortBy;
+		cout << endl;
+
+		while (std::cin.fail() || (sortBy < 1) || (sortBy > 3))  //makes sure user entered a valid input if not they get an error message to enter a valid input
+		{
+			std::cout << "Invalid input! Please make sure your choice is a number 1, 2, or 3:" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+			std::cin >> sortBy;
+		}
+		
+		while (sortBy != 3)
+		{
+			if (sortBy == 1)
+			{ 
+				cout << "Input the title: \n";
+				getline(cin, titleISBN); // need 2 because just 1 doesnt work
+				getline(cin, titleISBN);
+				cout << endl;
+				cout << "How many of the book would you like to buy? \n";
+				cin >> quan;
+				cout << endl;
+				cout << "*****************************************************************" << endl;
+				sample.searchBuy(testing, titleISBN, total, sortBy, quan); // substracts the quantity user bought from the quantity on hand
+				cout << endl << endl;  //Skip lines for aesthetics
+			}
+			if (sortBy == 2)	
+			{
+				cout << "Input the ISBN: \n";
+				getline(cin, titleISBN); // need 2 because just 1 doesnt work
+				getline(cin, titleISBN);
+				cout << endl;
+				cout << "How many of the book would you like to buy? \n";
+				cin >> quan;
+				cout << endl;
+				cout << "*****************************************************************" << endl;
+				sample.searchBuy(testing, titleISBN, total, sortBy, quan); // substracts the quantity user bought from the quantity on hand
+				cout << endl << endl;  //Skip lines for aesthetics
+			}
+
+			//sample.searchBuy(testing, titleISBN, total, sortBy, quan); // substracts the quantity user bought from the quantity on hand
+		
+			//
+			//cout << endl << endl;  //Skip lines for aesthetics
+
+			//Ask user if they would like to run the Report Module again
+			string reportAgain_choice;
+			cout << "Would you like to run the Cashier module again? ('y' = yes, 'n' = no)" << endl;
+			cout << "Please enter your choice: " << endl;
+			cin >> reportAgain_choice;
+			cout << endl;
+
+			//Validate user choice
+			while (reportAgain_choice != "y" && reportAgain_choice != "n")
+			{
+				cout << "Error! Invalid entry. Your choice can either be a lowercase 'y' for yes, or 'n' for no" << endl;
+				cout << "Please re-enter your choice: ";
+				cin >> reportAgain_choice;
+			}
+
+			if (reportAgain_choice == "y")
+			{
+				//Re-Display Report menu to user if they elect to re-run report
+				cout << "Search book by 1.Title 2.ISBN  3.Exit\n";
+				cin >> sortBy;
+				cout << endl;
+
+				//Exit if user chooses to exit
+				if (sortBy == 3)
+					break;
+			}
+			else
+			{
+				//This will break loop if user elects not to re-run report module
+				break;
+			}
+		}
+	}
+
 	//Display terminating program message
 	cout << "Terminating program..." << endl;
 
@@ -896,9 +990,9 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	//string title = Book2delete->getTitle();
 	string wholesale;
 	wholesale = to_string(Book2delete->getWholesale_cost());
-
+	 
 	//Edit wholesale values so they can be matched as strings
-
+	
 	string modified_wholesale;
 	
 	for (int index = 0; index < wholesale.length(); index++)
@@ -911,11 +1005,11 @@ void DeleteBook(string file_name, string isbn_title, int which)
 		//cout << to_string(Book2delete->getWholesale_cost()) << "|" << to_string(Book2delete->getRetail_price()) << endl;
 	while (getline(source, holder))
 	{
-	
+
 		if (holder == wholesale)
 	{
 			cout << "HOLDER == WHOLESALE" << endl;
-		}
+}
 		//cout << to_string(Book2delete->getWholesale_cost()) << endl;
 		//cout << "toString(WholesaleCost): " << to_string(Book2delete->getWholesale_cost()) << endl;
 		//cout << "|" << holder << "|" <<endl;
@@ -943,38 +1037,38 @@ void DeleteBook(string file_name, string isbn_title, int which)
 	*/
 
 //REPORT MODULE FUNCTIONS
-int totalBook()
+int totalBook()   //this function counts how many books there are in the file for use on report functions
 {
 	ifstream test;
 	test.open("Inventory.txt");
 	int total = 0;
 	int counter = 0;
-	if (test.is_open())
+	if (test.is_open())      //searches for how many ISBNs there are in the file to count how many books there are
 	{
 		int length;
 		string temp;
-		while (test >> temp)
+		while (test >> temp) //reads in strings in file to a temp variable
 		{
 			temp.c_str();
 			length = temp.length();
 			int x = 0;
-			if (length > 9 && length < 14)
+			if (length > 9 && length < 14)  //checks if the string stored in temp is an isbn
 			{
 				while (x < length)
 				{
-					if (isdigit(temp[x]) != 0)
+					if (isdigit(temp[x]) != 0)   //makes sure it is all digits to confirm it is an ISBN
 					{
 						x++;
 						counter++;
-						if (x == (length - 1))	total++;
+						if (x == (length - 1))	total++;  //if it is an ISBN adds to the total counter of books
 					}
-					else break;
+					else break;  // if it is not an ISBN breaks and does not contribute to the total counter of books
 				}
 			}
 		}
 	}
 	test.close();
-	const int temp = total;
+	const int temp = total;   // makes the total a constant because it should remain unchanged throughout the program after this
 	return temp;
 }
 
@@ -984,6 +1078,8 @@ void getAllBook(std::string file_name, int total, Report object[])
 	fileObject.open(file_name, std::ios::in); // opening file in input mode
 	std::string holder;
 
+	try // used this to exception handle. Used to be a bug here that was fixed
+	{
 	for (int x = 0; x < total; x++)
 	{
 		
@@ -1013,7 +1109,13 @@ void getAllBook(std::string file_name, int total, Report object[])
 		getline(fileObject, holder);
 		object[x].setRetail_price(stod(holder));				//set retail price
 
-		getline(fileObject, holder);						//last line
+			getline(fileObject, holder);					//last line
+		}
+	}
+	catch (exception e) //catches exception so it does not crash
+	{
+		cout << e.what() << endl; //tells what the exception is so it can be fixed
+		return;
 	}
 }
 
