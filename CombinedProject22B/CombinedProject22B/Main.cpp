@@ -15,11 +15,9 @@ using namespace std;
 int search(string search_value, string file_name);
 void deleteBook(string book_name, string file_name); // function for deleting books
 bool getBook(Inventory &obj, string book, string file_name, int type); // function for extracting book
-//void deleteBookKamal(string file_name, string isbn_input);
-void deleteBookLK(string fileName, string book, int by);
+
 void editABook(string file_name, string term2replace, string with);// edit a book function
 void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
-bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne);
 
 bool DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
 
@@ -196,12 +194,14 @@ int main()
 		string search_value; //Used for Title of book or ISBN number when LOOK UP book
 		string input;
 		string Book2Delete; //for deleting book (book name variable)
+		string Book2Edit;
 		//int search_input; //Used for edit a book
 		bool again = false; //for look up a book 
 		char do_again; //for look up a book
-
+		int search_choice;// for edit a book
+		int whichBook2edit; // variable to choose book for editing
 		//Create inventory object
-		Inventory object; // delete once add book works
+		//Inventory object; // delete once add book works
 
 		//Variables for add a book
 		string ISBN;
@@ -236,9 +236,6 @@ int main()
 		}
 
 
-		//TESTING TESTING
-		string search_choice;
-
 		//Run choice through switch statement and do the appropriate function
 		switch (choice)
 		{
@@ -262,16 +259,18 @@ int main()
 
 				//VALIDATION The choice to be numeric values of 1 or 2
 				//NOTE: If isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
-				while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
+				while (cin.fail() || (search_choice < 1) || (search_choice > 2))
 				{
 					std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
+					cin.clear();
+					cin.ignore(numeric_limits <streamsize> :: max(), '\n');
 					cin >> search_choice;
 				}
 
 				//Run user search_choice variable through a switch statement and run appropriate code
-				switch (search_choice[0])
+				switch (search_choice)
 				{
-				case '1':
+				case 1:
 					//Declare variables
 					bool bookFound;
 
@@ -301,7 +300,7 @@ int main()
 						std::cout << "Book not found!" << endl;
 					}
 					break;
-				case '2':
+				case 2:
 					//SEARCH BY TITLE
 					std::cout << "Please enter the title of the book you're looking for: ";
 					cin.ignore();
@@ -409,7 +408,7 @@ int main()
 			{
 				cin.clear();
 				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
-				cin.ignore(numeric_limits < streamsize > ::max(), '\n'); //figure out how this works
+				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 				cin >> quantity_onHand;
 
 			}
@@ -421,7 +420,7 @@ int main()
 			{
 				cin.clear();
 				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
-				cin.ignore(numeric_limits < streamsize > ::max(), '\n'); //figure out how this works
+				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 				cin >> wholesale_cost;
 			}
 
@@ -432,7 +431,7 @@ int main()
 			{
 				cin.clear();
 				std::cout << "Error! Must be numerical value. Please Re-Enter: ";
-				cin.ignore(numeric_limits < streamsize > ::max(), '\n'); //figure out how this works
+				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
 				cin >> retail_price;
 
 			}
@@ -447,7 +446,6 @@ int main()
 			break;
 		case 3:
 			//EDIT A BOOK
-
 			//Display menu for user
 			std::cout << "How would you like to search for a book to edit?" << endl;
 			std::cout << "	1)ISBN" << endl;
@@ -457,16 +455,168 @@ int main()
 
 			//Validate the choice to be numeric values of 1 or 2
 			//Note: if isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
-			while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
+			while (cin.fail() || (search_choice < 1) || (search_choice > 2))
 			{
 				std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max());
 				cin >> search_choice;
 			}
+			cout << "What is it: ";
+			
+			cin.ignore();
+			getline(cin, Book2Edit);
+			cout << endl;
 
+			while ((getBook(bookData, Book2Edit, "Inventory.txt", search_choice)) == false)
+			{
+				cout << "Error! Book could not be found, Please re-enter the search term: " << endl;
+				cin.clear();
+				cin.ignore();
+				getline(cin,Book2Edit);
+			}
 
+			cout << "Book Information: " << endl << bookData << endl;
 
-			editABook("Inventory.txt", "Camino Island", "TEST TEST TEST Camino Island");
+			cout << "Which parameter would you like to edit?" << endl << "1.Isbn     2.Title     3.Author     4.Publisher     \n5.Date Added     6.Quantity     7.Wholesale Price     8.Retail Price" << endl;
+			cin >> whichBook2edit;
 
+			while (cin.fail() || whichBook2edit < 1 || whichBook2edit > 8)
+			{
+				cout << "Error! Invalid Input, Please Make Sure Your Input Is An Integer Between 1 And 8" << endl;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin >> whichBook2edit;
+			}
+			//-----------------------------------------------------------
+			if (whichBook2edit == 1)
+			{
+				cout << "The current Isbn No. for this book is: " << bookData.getISBN() << endl << "Please enter the new Isbn No. :";
+				cin.ignore();
+				getline(cin, ISBN);
+				while (ISBN.length() != 10 && ISBN.length() != 13)
+				{
+					std::cout << "ISBN must be 10 or 13 digits in length. Please re-enter ISBN: ";
+					cin.ignore();
+					getline(cin, ISBN);
+				}
+				
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", ISBN,bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+			//	addBook()
+
+			}
+			//----------------------------------------------------------
+			if (whichBook2edit == 2)
+			{
+				cout << "The current tite of the book is: " << bookData.getTitle() << endl << "Please enter the new Title: ";
+				cin.ignore();
+				getline(cin, title);
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt",bookData.getISBN(),title, bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+			}
+			//----------------------------------------------------------
+			if (whichBook2edit == 3)
+			{
+				cout << "The current Author of the book is: " << bookData.getAuthor() << endl << "Please enter the new Author's name: ";
+				cin.ignore();
+				getline(cin, author);
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), author, bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+			}
+			//----------------------------------------------------------
+			if (whichBook2edit == 4)
+			{
+				cout << "The current Publisher of the book is: " << bookData.getPublisher() << endl << "Please enter the new Publishers name: ";
+				cin.ignore();
+				getline(cin, publisher);
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(),publisher, bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+			}
+			//-----------------------------------------------------------
+			if (whichBook2edit == 5)
+			{
+				cout << "The current Date added is: " << bookData.getDate_added() << endl << "Please enter the new date: ";
+				cin.ignore();
+				getline(cin, date_added);
+
+				while (date_added.length() != 10 || !(isdigit(date_added[0])) || !(isdigit(date_added[1])) || !(isdigit(date_added[3])) ||
+					!(isdigit(date_added[4])) || !(isdigit(date_added[6])) || !(isdigit(date_added[7])) || !(isdigit(date_added[8])) ||
+					!(isdigit(date_added[9]))) // if possible limit the numbers here to make sure date is correct
+				{
+					std::cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
+					cin.ignore();
+					getline(cin, date_added);
+				}
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), date_added, bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
+			}
+			//-----------------------------------------------------------
+			if (whichBook2edit == 6)
+			{
+				cout << "The current quantity is: " << bookData.getQuantity_onHand() << endl << "Please enter the new quantity: ";
+				cin.ignore();
+				cin >> quantity_onHand;
+				while (cin.fail() || quantity_onHand < 0)
+				{
+					cin.clear();
+					std::cout << "Error! Must be numerical value. Please Re-Enter: ";
+					cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+					cin >> quantity_onHand;
+
+				}
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), quantity_onHand, bookData.getWholesale_cost(), bookData.getRetail_price());
+			}
+			//-----------------------------------------------------------
+			if (whichBook2edit == 7)
+			{
+				cout << "The current WholeSale Price is: " << bookData.getWholesale_cost() << endl << "Please enter the new Wholesale price:  ";
+				cin.ignore();
+				cin >> wholesale_cost;
+				while (cin.fail() || wholesale_cost < 0)
+				{
+					cin.clear();
+					std::cout << "Error! Must be integer value. Please Re-Enter: ";
+					cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+					cin >> wholesale_cost;
+				}
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), wholesale_cost, bookData.getRetail_price());
+			}
+
+			//-----------------------------------------------------------
+			if (whichBook2edit == 8)
+			{
+				cout << "The current RetailPrice of the book is: " << bookData.getRetail_price() << endl << "Please Enter the New Retail Price: ";
+				cin.ignore();
+				cin >> retail_price;
+				while (cin.fail() || retail_price < 0)
+				{
+					cin.clear();
+					std::cout << "Error! Must be numerical value. Please Re-Enter: ";
+					cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+					cin >> retail_price;
+
+				}
+				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+				//bookData.setISBN(ISBN);
+				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), bookData.getQuantity_onHand(), bookData.getWholesale_cost(), retail_price);
+			}
+			//-----------------------------------------------------------
+			//write the new book data to the inventory file(update it)
+			/*DeleteBook("Inventory.txt", bookData.getISBN(), 1);
+			addBook("Inventory.txt", ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price);
+*/
+
+			//
 			break;
 		case 4:
 			//DELETE A BOOK
@@ -696,7 +846,8 @@ bool getBook(Inventory &obj, string book, string file_name, int type)
 	string holder; // variable to hold line input from file
 	int counter = 1; // variable to keep track of lines                      
 	int lineNo; //int to indicate start point of Book data (ISBN)
-	lineNo = search(book, file_name);    //lineNo will be x-1 if searched by title // need to implement that 
+		lineNo = (search(book, file_name));
+	  //lineNo will be x-1 if searched by title // need to implement that 
 	bool bookFound = true;
 	
 	//To account for search by "TITLE"
@@ -830,212 +981,12 @@ bool DeleteBook(string file_name, string isbn_title, int which)
 	buffer.close();
 
 	//remove the source file and rename the buffer file
-	remove(file_name.c_str());
-	rename("buffer.txt", file_name.c_str());
+	std::remove(file_name.c_str());
+	std::rename("buffer.txt", file_name.c_str());
 
 	//If all goes according to plan then return true
 	return true;
 }
-//void deleteBookKamal(string file_name, string isbn_input)
-//{
-//	//Author Kamal
-//
-//	//What I'm Trying to do in this function
-//	// This function accepts an ISBN number as input
-//	// I am using two file Objects... 1 for the original file and one for 
-//	//the buffer file
-//	//While each line of text is input from original file into the object,
-//	//if the program matches the ISBN number then skip over that entire section
-//	//of text and pick up from the next spot after a blank line
-//	//In essence it will kind of jump over an entire book, meaning it won't be
-//	//copied into the buffer file. 
-//	//I am trying to achieve this somehow using counters... Like if
-//	//at line 10 ISBN matches, then skip to line 19 and continue input of text
-//
-//	//Declare local variables
-//	string line;
-//	int counter = 0;
-//	bool book_erased = false;
-//
-//	//Create ifstream and ofstream objects
-//	fstream origin_fileObject;
-//	ofstream destination_fileObject;
-//
-//	//Open origin file
-//	//NOTE: Opened for both input and output to preserve data in the original file
-//	origin_fileObject.open(file_name, ios::in);
-//
-//	//Open the destination file that the origin file will be copied into
-//	destination_fileObject.open("buffer.txt");
-//
-//	//Read in origin file line by line and overwrite book 
-//	//with blank strings if found
-//	while (getline(origin_fileObject, line))
-//	{
-//		//Increments letting us know what line we are on
-//		destination_fileObject << line << endl;
-//
-//		if (line == isbn_input)
-//		{
-//			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
-//			std::cout << "Book found" << endl;
-//
-//			while (getline(origin_fileObject, line))
-//			{
-//				if (line != "")
-//				{ 
-//					counter++;
-//				}
-//				else
-//				{
-//					counter++;
-//					break;
-//				}
-//					
-//					
-//			} //end inner while-loop
-//
-//		} //end if statement
-//
-//	} //End while loop
-//
-//	//Output data to second buffer/destination file TESTING TESTING TESTING
-//
-//	origin_fileObject.close();
-//	destination_fileObject.close();
-//
-//} //End function "deleteBookKamal"
-
-//} //End function "deleteBookKamal"
-
-//void deleteBook(string file_name, Inventory &bookData)
-//
-//void deleteBook(string file_name, Inventory &bookData)
-//{
-//	string read;
-//	ifstream origin;
-//	ofstream buffer;
-//	buffer.open("buffer.txt");
-//	
-//	origin.open(file_name);
-//	//getBook(book_name, file_name, );
-//	
-//	int counter = 0;
-//	//	string title = bookData.getTitle; delete -L
-//
-//	/*
-//	while (getline(origin, read))
-//	{
-//		if (read == bookData.getTitle || read == bookData.getISBN &&
-//			getline(origin, read) == bookData.getAuthor && getline(origin, read) && bookData.getPublisher &&
-//			getline(origin, read) == bookData.getDate_added && getline(origin, read) && bookData.getRetail_price &&
-//		getline(origin, read) == bookData.getWholesale_cost )
-//		{
-//		buffer << read <<endl;
-//		}             /////////////NEEDS FIXING////////////////////////////
-//		else
-//		{
-//		origin.clear();
-//		origin.ignore();
-//		}
-//		//	counter++;
-//	}
-//	*/
-//
-//	buffer.close();
-//	origin.close();
-//	remove(file_name.c_str());
-//	rename("buffer.txt", file_name.c_str());
-//}
-
-//void deleteBookLK(string fileName, string book, int by)
-//{
-//	Inventory *bookptr = new Inventory;
-//	getBook(bookData, book,fileName, by);
-//	 
-//	ifstream originalFile;
-//	originalFile.open(fileName);
-//	
-//	ifstream bufferfile;
-//	bufferfile.open("buffer.txt");
-//	
-//	while (!originalFile.eof())
-//	{
-//		cin >> bookData;
-//		cout << bookData;
-//	}
-//
-//
-//	delete bookptr;
-//}
-	 
-	
-// working delete book function
-
-/*
-void DeleteBook(string file_name, string isbn_title, int which)
-{
-	ifstream source;
-	source.open(file_name);
-	
-	ofstream buffer;
-	buffer.open("buffer.txt");
-	
-	Inventory* Book2delete = new Inventory;
-	getBook(*Book2delete, isbn_title, file_name, which); // check bool return from getBook
-	
-	cout << "Entered loop: " << endl << "Printing Book2delete: " <<endl<< *Book2delete << endl;
-	string holder;
-	
-	//string title = Book2delete->getTitle();
-	string wholesale;
-	wholesale = to_string(Book2delete->getWholesale_cost());
-	 
-	//Edit wholesale values so they can be matched as strings
-	
-	string modified_wholesale;
-	
-	for (int index = 0; index < wholesale.length(); index++)
-	{
-		if (wholesale[index] != '0')
-			modified_wholesale += wholesale[index];
-	}
-
-	cout << "wholesale after for loop: " << wholesale;
-		//cout << to_string(Book2delete->getWholesale_cost()) << "|" << to_string(Book2delete->getRetail_price()) << endl;
-	while (getline(source, holder))
-	{
-
-		if (holder == wholesale)
-	{
-			cout << "HOLDER == WHOLESALE" << endl;
-}
-		//cout << to_string(Book2delete->getWholesale_cost()) << endl;
-		//cout << "toString(WholesaleCost): " << to_string(Book2delete->getWholesale_cost()) << endl;
-		//cout << "|" << holder << "|" <<endl;
-	//	if (holder == to_string(Book2delete->getWholesale_cost()))
-	//	{
-	//		
-	//		cout << "getWholesale_cost is FOUND" << endl;
-	//	}
-	//	
-	//	if ( holder != Book2delete->getTitle()		 
-	//		&& holder != Book2delete->getISBN()       
-	//		&& holder != Book2delete->getAuthor()
-	//		&& holder != Book2delete->getPublisher() 
-	//		&& holder != Book2delete->getDate_added() 
-	//		&& holder != to_string(Book2delete->getQuantity_onHand()) 
-	//		&& holder != to_string(Book2delete->getWholesale_cost())
-	//		&& holder != to_string(Book2delete->getRetail_price()) )
-	//	{
-	//		buffer << holder <<endl;
-	//	}
-	//	
-	//	
-	//
-	//}
-	*/
-
 //REPORT MODULE FUNCTIONS
 int totalBook()   //this function counts how many books there are in the file for use on report functions
 {
@@ -1161,8 +1112,8 @@ void editABook(string file_name, string term2replace, string replace_with) // a 
 	temp.close();				
 
 	//Remove the original file and rename it to 
-	remove(file_name.c_str());
-	rename("temp.txt", file_name.c_str());
+	std::remove(file_name.c_str());
+	std::rename("temp.txt", file_name.c_str());
 } // needs work... get delete book to work first.... // needs work... get delete book to work first
 //needs.. work get delete book to work first
 void addBook(string fileName,string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice)
@@ -1174,69 +1125,3 @@ void addBook(string fileName,string isbn, string title, string author, string pu
 	delete newBook; //free up memory
 }
 
-bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
-{
-	//Declare variables
-	bool success = true;
-	string fileLine_input;
-	int counter = 0;
-
-	//Open 2 files
-	//Source file, and one temporary output file
-	ifstream fileSource;
-	ofstream buffer;
-
-
-	//Create 2 objects of Inventory Class
-	Inventory* copyObject = new Inventory;
-	Inventory* runnerObject = new Inventory;
-
-
-	//Open fileSource for input
-	fileSource.open(file_name);
-
-	if (fileSource.is_open())
-	{
-		cout << "TESTING file is open" << endl;
-
-		//Create buffer file
-		buffer.open("buffer.txt");
-
-		//If the file successfully opened for input(fileSource)
-		//Execute code in here
-
-		//Use getbook function to store book values into "copyObject"
-		if (true == getBook(*copyObject, inputISBN_Title, file_name, whichOne))
-		{
-			cout << "TESTING getbook = true" << endl;
-			cout << *copyObject;
-
-			//cout << "*runnerObject BELOW: " << endl << *runnerObject;
-			//While loop to read data goes BELOW
-			while (getline(fileSource, fileLine_input))
-			{
-				
-			}
-
-		}
-		else
-		{
-			//Have delete function return false
-			success = false;
-		}
-		
-	}
-	else
-	{
-		//Unable to execute delete function properly
-		success = false;
-	}
-
-	delete copyObject;
-	delete runnerObject;
-	
-	//Return wether the function was able to successfully 
-	//execute or not
-	return success;
-
-}
