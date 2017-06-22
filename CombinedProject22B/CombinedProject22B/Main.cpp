@@ -19,6 +19,9 @@ void editABook(string file_name, string term2replace, string with);// edit a boo
 void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
 bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne);
 
+void DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
+
+
 //Report Module Protoypes
 int totalBook();
 void getAllBook(std::string file_name, int total, Report object[]);
@@ -465,11 +468,12 @@ int main()
 			//DELETE A BOOK
 
 			//Get ISBN number from user TESTING TESTING TESTING
-			std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
-			getline(cin, book);
+			//std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
+			//getline(cin, book);
 			//deleteBookLK("Inventory.txt", book, 1);
+			DeleteBook("Inventory.txt", "9780385737951", 1);
 
-			deleteBookJune21("Inventory.txt", book, 1);
+			//deleteBookJune21("Inventory.txt", book, 1); // this was commented 
 
 			//Testing if Kamal delete book function works TESTING TESTING TESTING
 		//	deleteBookKamal("Inventory.txt", book);
@@ -745,27 +749,83 @@ bool getBook(Inventory &obj, string book, string file_name, int type)
 //	rename("buffer.txt", file_name.c_str());
 //}
 
-void deleteBookLK(string fileName, string book, int by)
-{
-	Inventory *bookptr = new Inventory;
-	getBook(bookData, book,fileName, by);
+//void deleteBookLK(string fileName, string book, int by)
+//{
+//	Inventory *bookptr = new Inventory;
+//	getBook(bookData, book,fileName, by);
+//	 
+//	ifstream originalFile;
+//	originalFile.open(fileName);
+//	
+//	ifstream bufferfile;
+//	bufferfile.open("buffer.txt");
+//	
+//	while (!originalFile.eof())
+//	{
+//		cin >> bookData;
+//		cout << bookData;
+//	}
+//
+//
+//	delete bookptr;
+//}
 	 
-	ifstream originalFile;
-	originalFile.open(fileName);
 	
-	ifstream bufferfile;
-	bufferfile.open("buffer.txt");
-	
-	while (!originalFile.eof())
+// working delete book function
+
+void DeleteBook(string file_name, string isbn_title, int which)
+{
+	ifstream source;
+	source.open(file_name);
+	ofstream buffer;
+	buffer.open("buffer.txt");
+	Inventory* Book2delete = new Inventory;
+	getBook(*Book2delete, isbn_title, file_name, which); // check bool return from getBook
+	cout << "Entered loop: " << endl << "Printing Book2delete: " <<endl<< *Book2delete << endl;
+	string holder;
+	//string title = Book2delete->getTitle();
+	string wholesale;
+	wholesale = to_string(Book2delete->getWholesale_cost());
+	for (int index = 0; index < wholesale.length(); index++)
 	{
-		cin >> bookData;
-		cout << bookData;
+		wholesale[]
+	}
+		//cout << to_string(Book2delete->getWholesale_cost()) << "|" << to_string(Book2delete->getRetail_price()) << endl;
+	while (getline(source, holder))
+	{
+	
+		if (holder == wholesale)
+	{
+			cout << "HOLDER == WHOLESALE" << endl;
+		}
+		//cout << to_string(Book2delete->getWholesale_cost()) << endl;
+		//cout << "toString(WholesaleCost): " << to_string(Book2delete->getWholesale_cost()) << endl;
+		//cout << "|" << holder << "|" <<endl;
+	//	if (holder == to_string(Book2delete->getWholesale_cost()))
+	//	{
+	//		
+	//		cout << "getWholesale_cost is FOUND" << endl;
+	//	}
+	//	
+	//	if (/* holder != Book2delete->getTitle()		 
+	//		&& holder != Book2delete->getISBN()       
+	//		&& holder != Book2delete->getAuthor()
+	//		&& holder != Book2delete->getPublisher() 
+	//		&& holder != Book2delete->getDate_added() 
+	//		&& holder != to_string(Book2delete->getQuantity_onHand()) 
+	//		&&*/ holder != to_string(Book2delete->getWholesale_cost())
+	//		&& holder != to_string(Book2delete->getRetail_price()) )
+	//	{
+	//		buffer << holder <<endl;
+	//	}
+	//	
+	//	
+	//
 	}
 
 
-	delete bookptr;
+	delete Book2delete;
 }
-
 //REPORT MODULE FUNCTIONS
 int totalBook()
 {
