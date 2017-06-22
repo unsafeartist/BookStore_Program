@@ -13,8 +13,15 @@ using namespace std;
 //Inventory Module Prototypes
 int search(string search_value, string file_name);
 void deleteBook(string book_name, string file_name); // function for deleting books
-bool getBook(string book, string file_name, int type); // function for extracting book
-void deleteBookKamal(string file_name, string isbn_input);
+bool getBook(Inventory &obj, string book, string file_name, int type); // function for extracting book
+//void deleteBookKamal(string file_name, string isbn_input);
+void deleteBookLK(string fileName, string book, int by);
+void editABook(string file_name, string term2replace, string with);// edit a book function
+void addBook(string fileName, string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice);
+bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne);
+
+bool DeleteBook(string file_name, string isbn_title, int which); // just another delete book :P
+
 
 //Report Module Protoypes
 int totalBook();
@@ -40,21 +47,49 @@ int main()
 	std::cout << "3) Report Module" << endl;
 	std::cout << "4) Exit" << endl;
 	std::cout << endl << "Please enter your choice: ";
-	cin >> main_choice;
+	std::cin >> main_choice;
 
 	//Validate main choice to be between 1-4 and numerical
+	while (std::cin.fail() || (main_choice < 1) || (main_choice > 4))
+	{
+		std::cout<<"Invalid input! Please enter a number between 1 and 4" << endl;
+		std::cin.clear();
+		std::cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+		std::cin >> main_choice;
+	} 
+	
 	//If user chooses report module then execute following code
 	if (main_choice == 3)
 	{
+		//REPORT MODULE CODE BELOW
 		//ALL CODE FOR REPORT MODULE BELOW
 		int total = totalBook();
 		Report testing[25];
 		getAllBook("Inventory.txt", total, testing);
 
+		//Display main Report menu to user and get their decision
 		int decide = 0;
-		std::cout << "enter the number of the report you would like? \n" << "1.list of all books	2.Report whole sale value\n3.Report Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
+		std::cout << "Report Module" << endl;
+		std::cout << "	1.List of All Books" << endl;
+		std::cout << "	2.Report Whole Sale" << endl;
+		std::cout << "	3.Report Retail Value" << endl;
+		std::cout << "	4.List by Quantity" << endl;
+		std::cout << "	5.List by Cost" << endl;
+		std::cout << "	6.List by Age" << endl;
+		std::cout << "	7.to exit" << endl;
+		std::cout << "Please enter your decision: ";
 		cin >> decide;
-		while (decide != 7)
+
+		// validation for decide ( checking to see if decision is between 0 and 7 )
+		while (std::cin.fail() || (decide < 1) || (decide > 7))
+		{
+			std::cout << "Invalid input! Please make sure your choice is a number between 1 and 7" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+			std::cin >> decide;
+		}
+		
+		while (decide != 7) //if the exit case is not true
 		{
 			if (decide == 1){
 				//std::cout << "ISBN\tTitle\tAuthor	Publisher	Date		Quantity	Whole Sale Cost	Retail Price" << std::endl;
@@ -62,9 +97,6 @@ int main()
 				{
 					testing[x].getList(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 2){
 				double temp = 0.0;
@@ -73,9 +105,6 @@ int main()
 					temp += testing[x].getWholeSaleValue(total, testing, x);
 				}
 				std::cout << "the total wholesale value is $" << temp << std::endl;
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 3){
 				double temp = 0.0;
@@ -84,38 +113,70 @@ int main()
 					temp += testing[x].getRetailValue(total, testing, x);
 				}
 				std::cout << "the total retail value is $" << temp << std::endl;
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 4){
 				for (int x = 0; x < total; x++)
 				{
 					testing[x].sortQuan(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 5){
 				for (int x = 0; x < total; x++)
 				{
 					testing[x].sortCost(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
 			if (decide == 6){
 				for (int x = 0; x < total; x++)
 				{
 					testing[x].sortAge(total, testing, x);
 				}
-				decide = 0;
-				std::cout << "enter the number of the next report you want \n" << "1.list of all books	2.Report of whole sale value\n3.Report of Retail Value	4.List by Quantity\n5.List by Cost	6.List by Age	7.to exit \n";
-				cin >> decide;
 			}
+
+
+			//Skip lines for aesthetics
+			cout << endl << endl;
+
+			//Ask user if they would like to run the Report Module again
+			string reportAgain_choice;
+			cout << "Would you like to run the report module again? ('y' = yes, 'n' = no)" << endl;
+			cout << "Please enter your choice: " << endl;
+			cin >> reportAgain_choice;
+
+			//Validate user choice
+			while (reportAgain_choice != "y" && reportAgain_choice != "n")
+			{
+				cout << "Error! Invalid entry. Your choice can either be a lowercase 'y' for yes, or 'n' for no" << endl;
+				cout << "Please re-enter your choice: ";
+				cin >> reportAgain_choice;
+			}
+
+			if (reportAgain_choice == "y")
+			{
+				//Re-Display Report menu to user if they elect to re-run report
+				std::cout << "Report Module" << endl;
+				std::cout << "	1.List of All Books" << endl;
+				std::cout << "	2.Report Whole Sale" << endl;
+				std::cout << "	3.Report Retail Value" << endl;
+				std::cout << "	4.List by Quantity" << endl;
+				std::cout << "	5.List by Cost" << endl;
+				std::cout << "	6.List by Age" << endl;
+				std::cout << "	7.to exit" << endl;
+				std::cout << "Please enter your decision: ";
+				cin >> decide;
+
+				//Exit if user chooses to exit
+				if (decide == 7)
+					break;
+			}
+			else
+			{
+				//This will break loop if user elects not to re-run report module
+				break;
 		}
+				
+		}//end outer-while loop
+
 	} //End of if statement for report module
 
 
@@ -123,6 +184,7 @@ int main()
 	//If user chooses inventory database module... Execute this code
 	if (main_choice == 2)
 	{
+		//INVENTORY MODULE CODE BELOW
 		//ALL CODE FOR INVENTORY MODULE BELOW
 		//Declare variables
 		string book; //  variable used for extracting book
@@ -130,13 +192,13 @@ int main()
 		int counter = 0;
 		string search_value; //Used for Title of book or ISBN number when LOOK UP book
 		string input;
-		string bookName; //for deleting book (book name variable)
+		string Book2Delete; //for deleting book (book name variable)
 		//int search_input; //Used for edit a book
 		bool again = false; //for look up a book 
 		char do_again; //for look up a book
 
 		//Create inventory object
-		Inventory object;
+		Inventory object; // delete once add book works
 
 		//Variables for add a book
 		string ISBN;
@@ -145,7 +207,10 @@ int main()
 		double wholesale_cost, retail_price;
 
 		//Create file object for ADD BOOK functionality
-		fstream fileObject;
+		//fstream fileObject;
+
+		//Open the file
+		//fileObject.open("Inventory.txt", ios::out | ios::in | ios::app);
 
 		//USER MENU CHOICE FOR INVENTORY MODULE
 		std::cout << "Boring Booksellers Inventory Database" << endl;
@@ -209,12 +274,12 @@ int main()
 
 					//SEARCH BY ISBN
 					std::cout << "Please enter the ISBN number of the book you're looking for: ";
-					cin.ignore();
-					getline(cin, search_value);
+					std::cin.ignore();
+					getline(std::cin, search_value);
 
 					//Search for book using ISBN
 					//Last parameter is 1, because choice 1 = search by value
-					bookFound = getBook(search_value, "Inventory.txt", 1);
+					bookFound = getBook(bookData, search_value, "Inventory.txt", 1);
 
 					if (bookFound != false)
 					{
@@ -241,7 +306,7 @@ int main()
 
 					//Find book using "getBook" function
 					//A choice of 2(last parameter in function) allows for a search by Title of book
-					bookFound = getBook(search_value, "Inventory.txt", 2);
+					bookFound = getBook(bookData, search_value, "Inventory.txt", 2);
 
 					if (bookFound != false)
 					{
@@ -281,6 +346,7 @@ int main()
 		case 2:
 			//ADD A BOOK
 
+			//bound checking
 			//User input "ISBN"
 			std::cout << "ISBN-10 or ISBN-13: ";
 			getline(cin, ISBN);
@@ -369,64 +435,75 @@ int main()
 			}
 
 			//Store information into object
-			object = { ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price };
-
+			/*object = { ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price };*/ //delete once add book works
+			addBook("Inventory.txt", ISBN, title, author, publisher, date_added, quantity_onHand, wholesale_cost, retail_price);//this will write the book to file
 			//Output the entire object(book) into file
-			fileObject << endl; //add space between books
-			fileObject << object; //Operator overloading allows us to ouput entire object
+			//fileObject << endl; //add space between books
+			//fileObject << object; //Operator overloading allows us to ouput entire object
 
 			break;
 		case 3:
 			//EDIT A BOOK
 
 			//Display menu for user
-			std::cout << "How would you like to search for the book to edit?" << endl;
-			std::cout << "    1)ISBN" << endl;
-			std::cout << "    2)Title" << endl;
+			std::cout << "How would you like to search for a book to edit?" << endl;
+			std::cout << "	1)ISBN" << endl;
+			std::cout << "	2)Title" << endl;
 			std::cout << "Enter your choice: ";
 			cin >> search_choice;
 
 			//Validate the choice to be numeric values of 1 or 2
-			//NOTE: If isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
+			//Note: if isdigit returns a value of 0, that means that the character passed to it is not numeric && isdigit(search_choice) == 0
 			while ((search_choice[0] != '1' && search_choice[0] != '2') && (search_choice.length() > 1))
 			{
 				std::cout << "Invalid Entry! Value must either be 1 or 2. Please re-enter: ";
 				cin >> search_choice;
 			}
 
-			//Convert string into integer
-			if (stoi(search_choice) == 1)
-			{
-				std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
-				cin.ignore();
-				getline(cin, book);
-
-				getBook(book, "Inventory.txt", 1);
 
 
-			}
-			else
-			{
-				std::cout << "Please enter the Title of the book you want to edit: ";
-				cin.ignore();
-				getline(cin, book);
-
-				getBook(book, "Inventory.txt", 2);
-
-			}
-
+			editABook("Inventory.txt", "Camino Island", "TEST TEST TEST Camino Island");
 
 			break;
 		case 4:
-			//Delete a Book
+			//DELETE A BOOK
+			int user_choiceDeleteBook;
+			//Display menu for user
+			std::cout << "How would you like to search for a book to delete?" << endl;
+			std::cout << "    1)ISBN" << endl;
+			std::cout << "    2)Title" << endl;
+			std::cout << "Enter your choice: ";
+			cin >> user_choiceDeleteBook;
 
-			//Get ISBN number from user TESTING TESTING TESTING
-			std::cout << "Please enter the ISBN-10 or ISBN-13 of the book you want to edit: ";
-			getline(cin, book);
+			//Validation for user input
+			while (cin.fail() || (user_choiceDeleteBook < 1) || (user_choiceDeleteBook > 2))
+			{
+				cout << "Error! Invalid Choice. Choice must be either 1 or 2. Please re-enter: ";
+				cin.clear(); // clears the fail state for cin.fail()
+				cin.ignore(numeric_limits < streamsize > ::max(), '\n');
+				cin >> user_choiceDeleteBook;
+			}
 
+			//User input for title or isbn
+			cout << "Please enter it: ";
+			cin.ignore();
+			getline(cin, Book2Delete);
+
+			//If delete book was succesful, then print success message
+			//otherwise output error message
+			if (DeleteBook("Inventory.txt", Book2Delete, user_choiceDeleteBook)){
+				cout << "Book Successfully Deleted!" << endl;
+			}
+			else
+			{
+				cout << "Error! The Book Could Not Be Deleted." << endl;
+			}
+			
+
+			//deleteBookJune21("Inventory.txt", book, 1); // this was commented 
 
 			//Testing if Kamal delete book function works TESTING TESTING TESTING
-			deleteBookKamal("Inventory.txt", book);
+		//	deleteBookKamal("Inventory.txt", book);
 
 
 			//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -455,11 +532,12 @@ int main()
 		std::cout << endl;
 
 		//Close file 
-		/*fileObject.close();*/
+		//fileObject.close();
 
 	}//End if statement for Inventory Module
 
-	
+	//Display terminating program message
+	cout << "Terminating program..." << endl;
 
 	system("PAUSE");
 	return 0;
@@ -512,7 +590,7 @@ int search(string search_value, string file_name)
 }
 
 
-bool getBook(string book, string file_name, int type)
+bool getBook(Inventory &obj, string book, string file_name, int type)
 {
 	//Author Leander
 	//This Function extracts book data from a file 
@@ -539,38 +617,38 @@ bool getBook(string book, string file_name, int type)
 		{
 			if (lineNo == counter)
 			{
-				bookData.setISBN(holder);         //set ISBN
+				obj.setISBN(holder);         //set ISBN
 			}
 			if (lineNo + 1 == counter)
 			{
-				bookData.setTitle(holder);        //set Title
+				obj.setTitle(holder);        //set Title
 			}
 			if (lineNo + 2 == counter)
 			{
-				bookData.setAuthor(holder);       //setAuthor
+				obj.setAuthor(holder);       //setAuthor
 			}
 			if (lineNo + 3 == counter)
 			{
-				bookData.setPublisher(holder);    //set Publisher
+				obj.setPublisher(holder);    //set Publisher
 			}
 			if (lineNo + 4 == counter)
 			{
-				bookData.setDate_added(holder);   //set Date
+				obj.setDate_added(holder);   //set Date
 			}
 			if (lineNo + 5 == counter)
 			{
 				int quant = stoi(holder);
-				bookData.setQuatity_onHand(quant);   //set quantity after converting string to int 
+				obj.setQuatity_onHand(quant);   //set quantity after converting string to int 
 			}
 			if (lineNo + 6 == counter)
 			{
 				double Wcost = atof(holder.c_str());
-				bookData.setWholesale_cost(Wcost);   //set wholesail cost after converting string to char array and then double
+				obj.setWholesale_cost(Wcost);   //set wholesail cost after converting string to char array and then double
 			}
 			if (lineNo + 7 == counter)
 			{
 				double price = atof(holder.c_str());
-				bookData.setRetail_price(price);     //set retail price after converting string to int
+				obj.setRetail_price(price);     //set retail price after converting string to int
 			}
 			counter++; // incrementing counter
 		}
@@ -583,119 +661,287 @@ bool getBook(string book, string file_name, int type)
 
 	return bookFound;
 	
-} //end function "getBook"
+} //end function "getBook" // have get book accept and object or return Inventory class object
 
-
-void deleteBookKamal(string file_name, string isbn_input)
+bool DeleteBook(string file_name, string isbn_title, int which)
 {
-	//Author Kamal
+	//Leander and Kamal
 
-	//What I'm Trying to do in this function
-	// This function accepts an ISBN number as input
-	// I am using two file Objects... 1 for the original file and one for 
-	//the buffer file
-	//While each line of text is input from original file into the object,
-	//if the program matches the ISBN number then skip over that entire section
-	//of text and pick up from the next spot after a blank line
-	//In essence it will kind of jump over an entire book, meaning it won't be
-	//copied into the buffer file. 
-	//I am trying to achieve this somehow using counters... Like if
-	//at line 10 ISBN matches, then skip to line 19 and continue input of text
+	//This function accepts 3 parameters file_name of file to be read,
+	//isbn or title of book as string input, "which" = user selection to 
+	//delete by title or isbn
+	//This function will return false if: input file is unable to open & 
+	//if book is not found
+	//Function is reliant on "search" function, because it needs the line number
+	//of book object in source file
 
 	//Declare local variables
-	string line;
-	int counter = 0;
-	bool book_erased = false;
+	string holder;
+	int counter = 1; //counter = 1 because we start counting at 1
 
-	//Create ifstream and ofstream objects
-	fstream origin_fileObject;
-	ofstream destination_fileObject;
+	//Open file for input
+	ifstream source;
+	source.open(file_name);
 
-	//Open origin file
-	//NOTE: Opened for both input and output to preserve data in the original file
-	origin_fileObject.open(file_name, ios::in);
-
-	//Open the destination file that the origin file will be copied into
-	destination_fileObject.open("buffer.txt");
-
-	//Read in origin file line by line and overwrite book 
-	//with blank strings if found
-	while (getline(origin_fileObject, line))
+	//if file fails to open return false
+	if (source.fail())
 	{
-		//Increments letting us know what line we are on
-		destination_fileObject << line << endl;
+		return false;
+	}
 
-		if (line == isbn_input)
+	//create temporary buffer file
+	//That stores original source file without delted book
+	ofstream buffer;
+	buffer.open("buffer.txt");
+	int lineNo;
+	//get line number of the book and modify it according to search by title ot isbn
+	if ((search(isbn_title, "Inventory.txt")) != -1)
+	{
+		lineNo = (search(isbn_title, "Inventory.txt")) + 1 - which;
+	}
+	else
+	{
+		return false;
+	}
+	//If user elects to search_by Title then subtract 1 from the line number to account for 
+
+	//if line number = -1 that means the search function could not find the book and so we return false
+	//if (lineNo == -1)
+	//{
+	//	return false;
+	//}
+
+
+	//iterate through the file line by line and increment the counter 
+	//if counter value is not equal to the line number of the book
+	//write the value of the line (read into holder) to the output (buffer file)
+	while (getline(source, holder))
+	{
+		if (counter != lineNo	  &&
+			counter != lineNo + 1 &&
+			counter != lineNo + 2 &&
+			counter != lineNo + 3 &&
+			counter != lineNo + 4 &&
+			counter != lineNo + 5 &&
+			counter != lineNo + 6 &&
+			counter != lineNo + 7 &&
+			counter != lineNo + 8)
 		{
-			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
-			std::cout << "Book found" << endl;
+			buffer << holder << endl;
+		}
+		counter++;
+	}
 
-			while (getline(origin_fileObject, line))
-			{
-				if (line != "")
-				{ 
-					counter++;
-				}
-				else
-				{
-					counter++;
-					break;
-				}
-					
-					
-			} //end inner while-loop
+	//close both source and buffer files
+	source.close();
+	buffer.close();
 
-		} //end if statement
+	//remove the source file and rename the buffer file
+	remove(file_name.c_str());
+	rename("buffer.txt", file_name.c_str());
 
-	} //End while loop
+	//If all goes according to plan then return true
+	return true;
+}
+//void deleteBookKamal(string file_name, string isbn_input)
+//{
+//	//Author Kamal
+//
+//	//What I'm Trying to do in this function
+//	// This function accepts an ISBN number as input
+//	// I am using two file Objects... 1 for the original file and one for 
+//	//the buffer file
+//	//While each line of text is input from original file into the object,
+//	//if the program matches the ISBN number then skip over that entire section
+//	//of text and pick up from the next spot after a blank line
+//	//In essence it will kind of jump over an entire book, meaning it won't be
+//	//copied into the buffer file. 
+//	//I am trying to achieve this somehow using counters... Like if
+//	//at line 10 ISBN matches, then skip to line 19 and continue input of text
+//
+//	//Declare local variables
+//	string line;
+//	int counter = 0;
+//	bool book_erased = false;
+//
+//	//Create ifstream and ofstream objects
+//	fstream origin_fileObject;
+//	ofstream destination_fileObject;
+//
+//	//Open origin file
+//	//NOTE: Opened for both input and output to preserve data in the original file
+//	origin_fileObject.open(file_name, ios::in);
+//
+//	//Open the destination file that the origin file will be copied into
+//	destination_fileObject.open("buffer.txt");
+//
+//	//Read in origin file line by line and overwrite book 
+//	//with blank strings if found
+//	while (getline(origin_fileObject, line))
+//	{
+//		//Increments letting us know what line we are on
+//		destination_fileObject << line << endl;
+//
+//		if (line == isbn_input)
+//		{
+//			//TESTING TESTING TESTING Display output to see if program enters into if statement TESTING TESTING TESTING
+//			std::cout << "Book found" << endl;
+//
+//			while (getline(origin_fileObject, line))
+//			{
+//				if (line != "")
+//				{ 
+//					counter++;
+//				}
+//				else
+//				{
+//					counter++;
+//					break;
+//				}
+//					
+//					
+//			} //end inner while-loop
+//
+//		} //end if statement
+//
+//	} //End while loop
+//
+//	//Output data to second buffer/destination file TESTING TESTING TESTING
+//
+//	origin_fileObject.close();
+//	destination_fileObject.close();
+//
+//} //End function "deleteBookKamal"
 
-	//Output data to second buffer/destination file TESTING TESTING TESTING
+//} //End function "deleteBookKamal"
 
-	origin_fileObject.close();
-	destination_fileObject.close();
+//void deleteBook(string file_name, Inventory &bookData)
+//
+//void deleteBook(string file_name, Inventory &bookData)
+//{
+//	string read;
+//	ifstream origin;
+//	ofstream buffer;
+//	buffer.open("buffer.txt");
+//	
+//	origin.open(file_name);
+//	//getBook(book_name, file_name, );
+//	
+//	int counter = 0;
+//	//	string title = bookData.getTitle; delete -L
+//
+//	/*
+//	while (getline(origin, read))
+//	{
+//		if (read == bookData.getTitle || read == bookData.getISBN &&
+//			getline(origin, read) == bookData.getAuthor && getline(origin, read) && bookData.getPublisher &&
+//			getline(origin, read) == bookData.getDate_added && getline(origin, read) && bookData.getRetail_price &&
+//		getline(origin, read) == bookData.getWholesale_cost )
+//		{
+//		buffer << read <<endl;
+//		}             /////////////NEEDS FIXING////////////////////////////
+//		else
+//		{
+//		origin.clear();
+//		origin.ignore();
+//		}
+//		//	counter++;
+//	}
+//	*/
+//
+//	buffer.close();
+//	origin.close();
+//	remove(file_name.c_str());
+//	rename("buffer.txt", file_name.c_str());
+//}
 
-} //End function "deleteBookKamal"
+//void deleteBookLK(string fileName, string book, int by)
+//{
+//	Inventory *bookptr = new Inventory;
+//	getBook(bookData, book,fileName, by);
+//	 
+//	ifstream originalFile;
+//	originalFile.open(fileName);
+//	
+//	ifstream bufferfile;
+//	bufferfile.open("buffer.txt");
+//	
+//	while (!originalFile.eof())
+//	{
+//		cin >> bookData;
+//		cout << bookData;
+//	}
+//
+//
+//	delete bookptr;
+//}
+	 
+	
+// working delete book function
 
-
-void deleteBook(string file_name, Inventory &bookData)
+/*
+void DeleteBook(string file_name, string isbn_title, int which)
 {
-	string read;
-	ifstream origin;
+	ifstream source;
+	source.open(file_name);
+	
 	ofstream buffer;
 	buffer.open("buffer.txt");
 	
-	origin.open(file_name);
-	//getBook(book_name, file_name, );
+	Inventory* Book2delete = new Inventory;
+	getBook(*Book2delete, isbn_title, file_name, which); // check bool return from getBook
 	
-	int counter = 0;
-	//	string title = bookData.getTitle; delete -L
+	cout << "Entered loop: " << endl << "Printing Book2delete: " <<endl<< *Book2delete << endl;
+	string holder;
+	
+	//string title = Book2delete->getTitle();
+	string wholesale;
+	wholesale = to_string(Book2delete->getWholesale_cost());
 
-	/*
-	while (getline(origin, read))
+	//Edit wholesale values so they can be matched as strings
+
+	string modified_wholesale;
+	
+	for (int index = 0; index < wholesale.length(); index++)
 	{
-		if (getline(origin, read) == bookData.getTitle && getline(origin, read) && bookData.getISBN &&
-			getline(origin, read) == bookData.getAuthor && getline(origin, read) && bookData.getPublisher &&
-			getline(origin, read) == bookData.getDate_added && getline(origin, read) && bookData.getRetail_price &&
-		getline(origin, read) == bookData.getWholesale_cost )
-		{
-		buffer << read <<endl;
-		}             /////////////NEEDS FIXING////////////////////////////
-		else
-		{
-		origin.clear();
-		origin.ignore();
-		}
-		//	counter++;
+		if (wholesale[index] != '0')
+			modified_wholesale += wholesale[index];
 	}
+
+	cout << "wholesale after for loop: " << wholesale;
+		//cout << to_string(Book2delete->getWholesale_cost()) << "|" << to_string(Book2delete->getRetail_price()) << endl;
+	while (getline(source, holder))
+	{
+	
+		if (holder == wholesale)
+	{
+			cout << "HOLDER == WHOLESALE" << endl;
+		}
+		//cout << to_string(Book2delete->getWholesale_cost()) << endl;
+		//cout << "toString(WholesaleCost): " << to_string(Book2delete->getWholesale_cost()) << endl;
+		//cout << "|" << holder << "|" <<endl;
+	//	if (holder == to_string(Book2delete->getWholesale_cost()))
+	//	{
+	//		
+	//		cout << "getWholesale_cost is FOUND" << endl;
+	//	}
+	//	
+	//	if ( holder != Book2delete->getTitle()		 
+	//		&& holder != Book2delete->getISBN()       
+	//		&& holder != Book2delete->getAuthor()
+	//		&& holder != Book2delete->getPublisher() 
+	//		&& holder != Book2delete->getDate_added() 
+	//		&& holder != to_string(Book2delete->getQuantity_onHand()) 
+	//		&& holder != to_string(Book2delete->getWholesale_cost())
+	//		&& holder != to_string(Book2delete->getRetail_price()) )
+	//	{
+	//		buffer << holder <<endl;
+	//	}
+	//	
+	//	
+	//
+	//}
 	*/
-
-	buffer.close();
-	origin.close();
-	remove(file_name.c_str());
-	rename("buffer.txt", file_name.c_str());
-}
-
-
 
 //REPORT MODULE FUNCTIONS
 int totalBook()
@@ -741,6 +987,7 @@ void getAllBook(std::string file_name, int total, Report object[])
 
 	for (int x = 0; x < total; x++)
 	{
+		
 		getline(fileObject, holder);      //set ISBN
 		object[x].setISBN(holder);
 
@@ -767,6 +1014,128 @@ void getAllBook(std::string file_name, int total, Report object[])
 		getline(fileObject, holder);
 		object[x].setRetail_price(stod(holder));				//set retail price
 
-		fileObject >> holder;						//last line
+		getline(fileObject, holder);						//last line
 	}
+}
+
+void editABook(string file_name, string term2replace, string replace_with) // a function that replaces a certain parameter 
+{
+	//Authors Leander and Kamal
+
+	//This function works with two files
+	//It reads input from original file and if
+	//a string is matched to replace with, it replaces it with the "with" parameter passed to this function
+	//And output to 
+
+	//Open original file
+	ifstream inventoryfile;			
+	inventoryfile.open(file_name); 
+	
+	//Open temp file
+	ofstream temp;					
+	temp.open("temp.txt");
+
+	//Variable for storing input
+	string input;					
+
+	//Read the file line by line
+	while (getline(inventoryfile, input)) 
+	{
+		//If "input" is equal to the term2replace
+		//then replace it with user entered parameter("replace_with")
+		if (input == term2replace)
+		{
+			temp << replace_with <<endl;
+		}
+		else
+		{
+			//Else write data from original file as it is
+			temp << input <<endl; 
+
+		}
+	}
+
+	//Close both temp and source files
+	inventoryfile.close(); 
+	temp.close();				
+
+	//Remove the original file and rename it to 
+	remove(file_name.c_str());
+	rename("temp.txt", file_name.c_str());
+} // needs work... get delete book to work first.... // needs work... get delete book to work first
+//needs.. work get delete book to work first
+void addBook(string fileName,string isbn, string title, string author, string publisher, string date_added, int quantity, double wholesaleCost, double retailPrice)
+{
+	fstream write(fileName, ios::out | ios::app); //open file for writing with pointer at the end
+	Inventory *newBook = new Inventory(isbn, title, author, publisher, date_added, quantity, wholesaleCost, retailPrice); // dynamicaly creating book
+	write << *newBook <<endl; //write book to file 
+	write.close(); //close fstream object
+	delete newBook; //free up memory
+}
+
+bool deleteBookJune21(string file_name, string inputISBN_Title, int whichOne)
+{
+	//Declare variables
+	bool success = true;
+	string fileLine_input;
+	int counter = 0;
+
+	//Open 2 files
+	//Source file, and one temporary output file
+	ifstream fileSource;
+	ofstream buffer;
+
+
+	//Create 2 objects of Inventory Class
+	Inventory* copyObject = new Inventory;
+	Inventory* runnerObject = new Inventory;
+
+
+	//Open fileSource for input
+	fileSource.open(file_name);
+
+	if (fileSource.is_open())
+	{
+		cout << "TESTING file is open" << endl;
+
+		//Create buffer file
+		buffer.open("buffer.txt");
+
+		//If the file successfully opened for input(fileSource)
+		//Execute code in here
+
+		//Use getbook function to store book values into "copyObject"
+		if (true == getBook(*copyObject, inputISBN_Title, file_name, whichOne))
+		{
+			cout << "TESTING getbook = true" << endl;
+			cout << *copyObject;
+
+			//cout << "*runnerObject BELOW: " << endl << *runnerObject;
+			//While loop to read data goes BELOW
+			while (getline(fileSource, fileLine_input))
+			{
+				
+			}
+
+		}
+		else
+		{
+			//Have delete function return false
+			success = false;
+		}
+		
+	}
+	else
+	{
+		//Unable to execute delete function properly
+		success = false;
+	}
+
+	delete copyObject;
+	delete runnerObject;
+	
+	//Return wether the function was able to successfully 
+	//execute or not
+	return success;
+
 }

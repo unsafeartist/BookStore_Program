@@ -40,6 +40,14 @@ class Inventory
 		//I am able to print an entire object using "cout << object"
 		//P.S - Not a member function
 		friend std::ostream& operator<< (std::ostream &stream, Inventory &object1);
+
+		//Operator overload for istream operator
+		friend std::istream& operator>> (std::istream &stream, Inventory &object1);
+
+		//Operator overload for ==
+		friend bool operator== (Inventory &object1, Inventory &object2);
+
+
 };
 
 #endif

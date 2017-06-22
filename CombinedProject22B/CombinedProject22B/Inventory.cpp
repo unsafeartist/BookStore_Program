@@ -24,7 +24,7 @@ Inventory::Inventory(std::string ISBN_input, std::string title_input, std::strin
 	retail_price = retail_priceInput;
 }
 
-//Not a member function!This is a friend function of class Inventory
+//Not member functions!These are friend functions of class Inventory
 std::ostream& operator<< (std::ostream &stream, Inventory &object1)
 {
 	stream << object1.ISBN << std::endl;
@@ -38,6 +38,28 @@ std::ostream& operator<< (std::ostream &stream, Inventory &object1)
 
 	return stream;
 }
+
+std::istream& operator>> (std::istream &stream, Inventory &object1)
+{
+	stream >> object1.ISBN;
+	stream >> object1.title;
+	stream >> object1.author;
+	stream >> object1.publisher;
+	stream >> object1.date_added;
+	stream >> object1.quantity_onHand;
+	stream >> object1.wholesale_cost;
+	stream >> object1.retail_price;
+
+	return stream;
+}
+
+bool operator== (Inventory &object1, Inventory &object2)
+{
+	return (object1.ISBN == object2.ISBN && object1.title == object2.title && object1.author == object2.author && 
+		object1.publisher == object2.publisher && object1.date_added == object2.date_added && object1.quantity_onHand == object2.quantity_onHand 
+		&& object1.wholesale_cost == object2.wholesale_cost && object1.retail_price == object2.retail_price);
+}
+
 
 void Inventory::setISBN(std::string input)
 {
