@@ -1,12 +1,3 @@
-9780385737951
-The Maze Runner
-James Dashner
-Delacorte Press
-08/24/2010
-12
-2.39
-6.49
-
 9780826328090
 The Education of Little Tree
 Forrest Carter
@@ -15,24 +6,6 @@ Univeristy of New Mexico Press
 5
 5.67
 10.78
-
-0385543026
-Camino Island
-John Grisham
-Doubleday
-06/06/2017
-10
-8.32
-14.99
-
-1250123070
-Come Sundown
-Nora Roberts
-St. Martin's Press
-05/30/2017
-12
-9.65
-16.75
 
 0553447084
 Shattered: Inside Hillary Clinton's Doomed Campaign
@@ -204,12 +177,23 @@ New York Sellers
 9
 15.25
 21.99
-9780439023528
-Hunger Games SUCKS!
-Suzanne Collins
-Scholastic Press
 
-49
-49
-7.49
+0385543026
+Kamina Island
+John Grisham
+Doubleday
+06/06/2017
+10
+8.32
+14.99
+
+
+1250123070
+Come Sundown edit
+Nora Roberts
+St. Martin's Press
+05/30/2017
+12
+9.65
+16.75
 
