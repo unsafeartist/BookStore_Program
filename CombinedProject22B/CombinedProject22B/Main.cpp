@@ -597,21 +597,25 @@ while (inventory_again == 'y' || inventory_again == 'Y')
 			if (whichBook2edit == 5)
 			{
 				cout << "The current Date added is: " << bookData.getDate_added() << endl << "Please enter the new date: ";
+				//
 				cin.ignore();
 				getline(cin, date_added);
-
-				while (date_added.length() != 10 || !(isdigit(date_added[0])) || !(isdigit(date_added[1])) || !(isdigit(date_added[3])) ||
-					!(isdigit(date_added[4])) || !(isdigit(date_added[6])) || !(isdigit(date_added[7])) || !(isdigit(date_added[8])) ||
-					!(isdigit(date_added[9]))) // if possible limit the numbers here to make sure date is correct
-				{
-					std::cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
-					cin.ignore();
-					getline(cin, date_added);
-				}
+				
+			}
+				//while (date_added.length() != 10 || !(isdigit(date_added[0])) || !(isdigit(date_added[1])) || !(isdigit(date_added[3])) ||
+				//	!(isdigit(date_added[4])) || !(isdigit(date_added[6])) || !(isdigit(date_added[7])) || !(isdigit(date_added[8])) ||
+				//	!(isdigit(date_added[9]))) // if possible limit the numbers here to make sure date is correct
+				//{
+				//	//cin.clear();
+				//	std::cout << "Error, date format is incorrect. Please, re-enter(Example: June 10, 2017 would be entered as 06/10/2017): ";
+				//	cin.ignore(numeric_limits<streamsize>::max());
+				//	getline(cin, date_added);
+				//	//cin.ignore();
+				//}
 				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
 				//bookData.setISBN(ISBN);
 				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), date_added, bookData.getQuantity_onHand(), bookData.getWholesale_cost(), bookData.getRetail_price());
-			}
+			
 			//-----------------------------------------------------------
 			if (whichBook2edit == 6)
 			{
@@ -629,7 +633,8 @@ while (inventory_again == 'y' || inventory_again == 'Y')
 				DeleteBook("Inventory.txt", bookData.getISBN(), 1);
 				//bookData.setISBN(ISBN);
 				addBook("Inventory.txt", bookData.getISBN(), bookData.getTitle(), bookData.getAuthor(), bookData.getPublisher(), bookData.getDate_added(), quantity_onHand, bookData.getWholesale_cost(), bookData.getRetail_price());
-			}
+			
+}
 			//-----------------------------------------------------------
 			if (whichBook2edit == 7)
 			{
@@ -742,6 +747,7 @@ while (inventory_again == 'y' || inventory_again == 'Y')
 
 		if (inventory_again != 'y')
 				{
+					cout << endl;
 					cout << "Would you like to re-run the INVENTORY DATABASE MODULE? ('y' for yes, 'n' for no)" << endl;
 					cout << "Please enter choice: ";
 		/*	cin.clear();
