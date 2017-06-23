@@ -34,7 +34,9 @@ Inventory bookData;
 
 int main()
 {
+	//Change the color of the GUI window(command prompt) for user
 	system("color 3F");
+
 	//NOTE: std::cout just because compiler complains about cout being ambigous
 
 	//Variable for if they want to run the entire program again
