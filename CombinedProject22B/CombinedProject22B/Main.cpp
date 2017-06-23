@@ -766,9 +766,9 @@ while (inventory_again == 'y' || inventory_again == 'Y')
 						cin >> inventory_again;
 						cout << endl; //for aesthetics
 					}
-				//}
-
 				}
+
+		}
 
 		//Print 
 		std::cout << endl;
