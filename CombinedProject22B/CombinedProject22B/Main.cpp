@@ -34,7 +34,7 @@ Inventory bookData;
 
 int main()
 {
-	system("color f0");
+	system("color 3F");
 	//NOTE: std::cout just because compiler complains about cout being ambigous
 
 	//Variable for if they want to run the entire program again
@@ -527,8 +527,9 @@ while (inventory_again == 'y' || inventory_again == 'Y')
 			{
 				cout << "Error! Book could not be found, Please re-enter the search term: " << endl;
 				cin.clear();
-				cin.ignore();
+				//cin.ignore();
 				getline(cin, Book2Edit);
+				cout << "they Entered: " << Book2Edit;
 			}
 
 			cout << "Book Information: " << endl << bookData << endl;
